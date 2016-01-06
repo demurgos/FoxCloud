@@ -1,0 +1,29 @@
+{
+  "name": "foxcounteraggregator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Innovisite/FoxCounterAggregator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Innovisite/FoxCounterAggregator/issues"
+  },
+  "homepage": "https://github.com/Innovisite/FoxCounterAggregator#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-concat-css": "^2.2.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-duration": "0.0.0"
+  },
+  "dependencies": {
+    "adminlte": "https://github.com/Innovisite/AdminLTE.git"
+  }
+}
