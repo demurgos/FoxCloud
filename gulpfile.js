@@ -5,21 +5,18 @@ var concat_js = require('gulp-concat');
 var minify_css = require('gulp-cssmin');
 var minify_js = require("gulp-uglify");
 var duration = require('gulp-duration');
+var mkdirp = require('mkdirp');
 
 var adminlteRoot = 'node_modules/admin-lte/';
 
+mkdirp('wwwroot/fonts');
+mkdirp('wwwroot/build');
+
 gulp.task('build', ['prepare-adminlte-css', 'prepare-adminlte-assets', 'prepare-adminlte-js']);
 
-if(!fs.existsSync('wwwroot/build')) {
-    fs.mkdirSync('wwwroot/build');
-}
-
-if(!fs.existsSync('wwwroot/fonts')) {
-    fs.mkdirSync('wwwroot/fonts');
-}
-
 gulp.task('prepare-adminlte-css', function() {
-    return gulp.src([ adminlteRoot + "bootstrap/css/bootstrap.min.css",
+    return gulp.src([ adminlteRoot + "node_modules/font-awesome/css/font-awesome.min.css",
+		      adminlteRoot + "node_modules/bootstrap/dist/css/bootstrap.min.css",
 		      adminlteRoot + "dist/css/AdminLTE.min.css",
 		      adminlteRoot + "dist/css/skins/_all-skins.min.css",
 		      adminlteRoot + "plugins/iCheck/flat/blue.css",
@@ -35,7 +32,8 @@ gulp.task('prepare-adminlte-css', function() {
 });
 
 gulp.task('prepare-adminlte-assets', function() {
-    return gulp.src( adminlteRoot + "bootstrap/fonts/glyphicons*")
+    return gulp.src([ adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
+		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/fonts/'));
 });
@@ -45,7 +43,7 @@ gulp.task('prepare-adminlte-js', function() {
 		      adminlteRoot + 'node_modules/raphael/raphael-min.js',
 		      adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
 		      adminlteRoot + 'plugins/jQueryUI/jquery-ui.min.js',
-		      adminlteRoot + 'bootstrap/js/bootstrap.min.js',
+		      adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.min.js',
 		      adminlteRoot + 'plugins/morris/morris.min.js',
 		      adminlteRoot + 'plugins/sparkline/jquery.sparkline.min.js',
 		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
