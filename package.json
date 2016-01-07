@@ -21,9 +21,10 @@
     "gulp-concat": "^2.6.0",
     "gulp-concat-css": "^2.2.0",
     "gulp-cssmin": "^0.1.7",
-    "gulp-duration": "0.0.0"
+    "gulp-duration": "0.0.0",
+    "gulp-uglify": "^1.5.1"
   },
   "dependencies": {
-    "adminlte": "https://github.com/Innovisite/AdminLTE.git"
+    "adminlte": "https://github.com/Innovisite/AdminLTE.git#dev"
   }
 }
