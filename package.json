@@ -28,6 +28,6 @@
     "mkdirp": "^0.5.1"
   },
   "dependencies": {
-    "adminlte": "https://github.com/Innovisite/AdminLTE.git#dev"
+    "admin-lte": "https://github.com/Innovisite/AdminLTE.git#dev"
   }
 }
