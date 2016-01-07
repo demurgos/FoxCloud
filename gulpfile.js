@@ -2,21 +2,25 @@ var fs = require('fs');
 var gulp = require('gulp');
 var concat_css = require('gulp-concat-css');
 var concat_js = require('gulp-concat');
-var minify_css = require('gulp-cssmin');
+var minify_css = require('gulp-cssnano');
+var less = require('gulp-less');
+var LessPluginCleanCSS = require('less-plugin-clean-css');
 var minify_js = require("gulp-uglify");
 var duration = require('gulp-duration');
 var mkdirp = require('mkdirp');
-
 var adminlteRoot = 'node_modules/admin-lte/';
+var cleancss = new LessPluginCleanCSS({ advanced: true });
 
-mkdirp('wwwroot/fonts');
-mkdirp('wwwroot/build');
+mkdirp('wwwroot/build/fonts');
+mkdirp('wwwroot/build/js');
+mkdirp('wwwroot/build/css');
 
-gulp.task('build', ['prepare-adminlte-css', 'prepare-adminlte-assets', 'prepare-adminlte-js']);
+gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js']);
 
-gulp.task('prepare-adminlte-css', function() {
-    return gulp.src([ adminlteRoot + "node_modules/font-awesome/css/font-awesome.min.css",
-		      adminlteRoot + "node_modules/bootstrap/dist/css/bootstrap.min.css",
+gulp.task('prepare-css', function() {
+    return gulp.src([ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
+		      adminlteRoot + "node_modules/font-awesome/css/font-awesome.min.css",
+		      adminlteRoot + "node_modules/bootstrap/dist/css/bootstrap.css",
 		      adminlteRoot + "dist/css/AdminLTE.min.css",
 		      adminlteRoot + "dist/css/skins/_all-skins.min.css",
 		      adminlteRoot + "plugins/iCheck/flat/blue.css",
@@ -24,21 +28,25 @@ gulp.task('prepare-adminlte-css', function() {
 		      adminlteRoot + "plugins/jvectormap/jquery-jvectormap-1.2.2.css",
 		      adminlteRoot + "plugins/datepicker/datepicker3.css",
 		      adminlteRoot + "plugins/daterangepicker/daterangepicker-bs3.css",
-		      adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" ])
+		      adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
+		      "lib/Styles/*.css" ])
+	.pipe(less({plugins: [cleancss]}))
         .pipe(minify_css())
-	.pipe(concat_css('style.min.css'))
+	.pipe(concat_css('style.min.css',
+			 { rebaseUrls: false }))
 	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/'));
+	.pipe(gulp.dest('wwwroot/build/css/'));
 });
 
-gulp.task('prepare-adminlte-assets', function() {
-    return gulp.src([ adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
+gulp.task('prepare-assets', function() {
+    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
+		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
 		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
 	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/fonts/'));
+	.pipe(gulp.dest('wwwroot/build/fonts/'));
 });
 
-gulp.task('prepare-adminlte-js', function() {
+gulp.task('prepare-js', function() {
     return gulp.src([ adminlteRoot + 'node_modules/moment/moment.js',
 		      adminlteRoot + 'node_modules/raphael/raphael-min.js',
 		      adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
@@ -60,5 +68,5 @@ gulp.task('prepare-adminlte-js', function() {
 	.pipe(concat_js('lib.min.js'))
 	.pipe(minify_js())
 	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/'));    
+	.pipe(gulp.dest('wwwroot/build/js/'));    
 });
