@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>Audience / Overview - FoxCounterAggregator</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Theme style -->
@@ -350,14 +350,14 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Overall <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="fa fa-share"></i> Overall <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-circle-o"></i> User management</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Site management</a></li>
               </ul>
             </li>
             <li>
-              <a href="#"><i class="fa fa-circle-o"></i> Per site <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="fa fa-share"></i> Per site <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-circle-o"></i> Cameras</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Users</a></li>
@@ -384,14 +384,35 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Dashboard
-        <small>Control panel</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
+      <nav class="navbar">
+	<div class="pull-left">
+	  <h3><i class="fa fa-pie-chart"></i><span> Audience / Overview</h3>
+	</div>
+	  <div class="navbar-custom-menu pull-right">
+	    <ul class="nav navbar-nav">
+	      <li><a class="btn btn-default" href="#">Email</a></li>
+	      <li class="dropdown">
+		<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+		  Export <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+		  <li>
+		    <a href="#"><i class="fa fa-file-text-o"></i> CSV</a>
+		  </li>
+		  <li>
+		    <a href="#"><i class="fa fa-file-image-o"></i> PNG</a>
+		  </li>
+		  <li>
+		    <a href="#"><i class="fa fa-file-excel-o"></i> Excel</a>
+		  </li>
+		  <li><a href="#"><i class="fa fa-file-pdf-o"></i> PDF</a>
+		  </li>
+		</ul>
+	      </li>
+	      <li><a href="#" class="btn btn-default"><i class="fa fa-calendar"></i></a></li>
+	    </ul>
+	  </div>
+	</nav>
     </section>
 
     <!-- Main content -->
@@ -402,9 +423,9 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>150</h3>
+              <h3>450</h3>
 
-              <p>New Orders</p>
+              <p>Traffic</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -419,7 +440,7 @@
             <div class="inner">
               <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-              <p>Bounce Rate</p>
+              <p>Occupancy max</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -434,7 +455,7 @@
             <div class="inner">
               <h3>44</h3>
 
-              <p>User Registrations</p>
+              <p>Occupancy mean</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -449,7 +470,7 @@
             <div class="inner">
               <h3>65</h3>
 
-              <p>Unique Visitors</p>
+              <p>Occupancy min</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
