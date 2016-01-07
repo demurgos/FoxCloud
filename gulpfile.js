@@ -30,6 +30,7 @@ gulp.task('prepare-adminlte-css', function() {
 
 gulp.task('prepare-adminlte-js', function() {
     return gulp.src([ adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
+		      adminlteRoot + 'plugins/jQueryUI/jquery-ui.min.js',
 		      adminlteRoot + 'bootstrap/js/bootstrap.min.js',
 		      adminlteRoot + 'plugins/morris/morris.min.js',
 		      adminlteRoot + 'plugins/sparkline/jquery.sparkline.min.js',
