@@ -55,7 +55,7 @@ gulp.task('prepare-js', function() {
 		      adminlteRoot + 'plugins/morris/morris.min.js',
 		      adminlteRoot + 'plugins/sparkline/jquery.sparkline.min.js',
 		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
-		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
 		      adminlteRoot + 'plugins/knob/jquery.knob.js',
 		      adminlteRoot + 'plugins/daterangepicker/daterangepicker.js',
 		      adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
@@ -63,8 +63,8 @@ gulp.task('prepare-js', function() {
 		      adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
 		      adminlteRoot + 'plugins/fastclick/fastclick.js',
 		      adminlteRoot + 'dist/js/app.min.js',
-		      adminlteRoot + 'dist/js/pages/dashboard.js',
-		      adminlteRoot + 'dist/js/demo.js' ])
+		      adminlteRoot + 'dist/js/demo.js',
+		      "lib/js/*.js" ])
 	.pipe(concat_js('lib.min.js'))
 	.pipe(minify_js())
 	.pipe(duration('Execution Time: '))
