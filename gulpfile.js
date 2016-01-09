@@ -14,8 +14,9 @@ var cleancss = new LessPluginCleanCSS({ advanced: true });
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
 mkdirp('wwwroot/build/css');
+mkdirp('wwwroot/build/html');
 
-gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js']);
+gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
 
 gulp.task('prepare-css', function() {
     return gulp.src([ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
@@ -49,6 +50,8 @@ gulp.task('prepare-assets', function() {
 gulp.task('prepare-js', function() {
     return gulp.src([ adminlteRoot + 'node_modules/moment/moment.js',
 		      adminlteRoot + 'node_modules/raphael/raphael-min.js',
+		      adminlteRoot + 'node_modules/angular/angular.min.js',
+		      adminlteRoot + 'node_modules/angular-route/angular-route.min.js',
 		      adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
 		      adminlteRoot + 'plugins/jQueryUI/jquery-ui.min.js',
 		      adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -64,9 +67,18 @@ gulp.task('prepare-js', function() {
 		      adminlteRoot + 'plugins/fastclick/fastclick.js',
 		      adminlteRoot + 'dist/js/app.min.js',
 		      adminlteRoot + 'dist/js/demo.js',
+		  	  "app/app.js",
+		  	  "app/components/dashboard/dashboardController.js",
 		      "lib/js/*.js" ])
 	.pipe(concat_js('lib.min.js'))
 	.pipe(minify_js())
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/js/'));    
+});
+
+
+gulp.task('prepare-html', function() {
+    return gulp.src([ "app/components/dashboard/dashboardView.html" ])
+	.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/html/'));
 });
