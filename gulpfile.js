@@ -51,6 +51,8 @@ gulp.task('prepare-js', function() {
 		      adminlteRoot + 'node_modules/raphael/raphael-min.js',
 		      adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
 		      adminlteRoot + 'plugins/jQueryUI/jquery-ui.min.js',
+		      adminlteRoot + 'plugins/datatables/jquery.dataTables.min.js',
+		      adminlteRoot + 'plugins/datatables/dataTables.bootstrap.min.js',
 		      adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.min.js',
 		      adminlteRoot + 'plugins/morris/morris.min.js',
 		      adminlteRoot + 'plugins/sparkline/jquery.sparkline.min.js',
