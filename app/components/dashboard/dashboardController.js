@@ -1,14 +1,11 @@
 /*
- * Author: Abdullah A Almsaeed
- * Date: 4 Jan 2014
- * Description:
- *      This is a demo file used only for the main dashboard (index.html)
+ * Manage the dashboard data
  **/
 
-$(function () {
+(function(){
 
-  "use strict";
-
+  angular.module('FSCounterAggregatorApp').controller('DashboardController', [function(){
+ 
   //Make the dashboard widgets sortable Using jquery UI
   $(".connectedSortable").sortable({
     placeholder: "sort-highlight",
@@ -165,6 +162,8 @@ $(function () {
     }
   });
 
-  $("#example1").DataTable();
+      $("#example1").DataTable();
 
-});
+  }]);
+
+}());
