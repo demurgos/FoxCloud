@@ -3,7 +3,7 @@
  **/
 
 (function(){
-
+    
   angular.module('FSCounterAggregatorApp').controller('DashboardController', [function(){
  
   //Make the dashboard widgets sortable Using jquery UI
@@ -162,7 +162,7 @@
     }
   });
 
-      $("#example1").DataTable();
+  $("#example1").DataTable();
 
   }]);
 
