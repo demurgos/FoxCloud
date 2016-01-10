@@ -36,11 +36,11 @@
               <!-- Messages: style can be found in dropdown.less-->
               <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
+                  <i class="fa fa-bookmark-o"></i>
                   <span class="label label-success">4</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 4 messages</li>
+                  <li class="header">Bookmark <i class="fa fa-plus"></i></li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
@@ -117,7 +117,7 @@
                   <span class="label label-warning">10</span>
 		</a>
 		<ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header">Alarms</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
@@ -159,7 +159,7 @@
                   <span class="label label-danger">9</span>
 		</a>
 		<ul class="dropdown-menu">
-                  <li class="header">You have 9 tasks</li>
+                  <li class="header">SLAs</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
@@ -314,14 +314,6 @@
 	    </li>
 	    <li class="treeview">
 	      <a href="#">
-		<i class="fa fa-exchange"></i><span>Acquisition</span><i class="fa fa-angle-left pull-right"></i>
-	      </a>
-	      <ul class="treeview-menu">
-		<li><a href="#"><i class="fa fa-circle-o"></i> Overview</a></li>
-	      </ul>
-	    </li>
-	    <li class="treeview">
-	      <a href="#">
 		<i class="fa fa-pie-chart"></i>
 		<span>Counters</span>
 		<i class="fa fa-angle-left pull-right"></i>
@@ -329,8 +321,6 @@
 	      <ul class="treeview-menu">
 		<li><a href="#"><i class="fa fa-circle-o"></i> Sites Overview</a></li>
 	      </ul>
-
-
 	      <ul class="treeview-menu">
 		<li>
 		  <a href="#"><i class="fa fa-share"></i> Comparisons <i class="fa fa-angle-left pull-right"></i></a>
@@ -340,8 +330,6 @@
 		  </ul>
 		</li>
 	      </ul>
-
-
 	    </li>
 	    <li class="treeview">
 	      <a href="#">
@@ -350,7 +338,18 @@
 		<i class="fa fa-angle-left pull-right"></i>
 	      </a>
 	      <ul class="treeview-menu">
+		<li><a href="#"><i class="fa fa-circle-o"></i> SLAs</a></li>
+		<li><a href="#"><i class="fa fa-circle-o"></i> Alarms</a></li>
+	      </ul>
+	    </li>
+	    <li class="treeview">
+	      <a href="#">
+		<i class="fa fa-exchange"></i><span>Monitoring</span><i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
 		<li><a href="#"><i class="fa fa-circle-o"></i> Overview</a></li>
+		<li><a href="#"><i class="fa fa-circle-o"></i> Acquisition</a></li>
+		<li><a href="#"><i class="fa fa-circle-o"></i> Storage</a></li>
 	      </ul>
 	    </li>
 	    <li class="treeview">
@@ -377,12 +376,13 @@
 	    </li>
 	    <li class="treeview">
 	      <a href="#">
-		<i class="fa fa-book"></i><span>Documentation</span><i class="fa fa-angle-left pull-right"></i>
+		<i class="fa fa-book"></i><span>Help</span><i class="fa fa-angle-left pull-right"></i>
 	      </a>
 	      <ul class="treeview-menu">
-		<li><a href="#"><i class="fa fa-book"></i> Main guide</a></li>
+		<li><a href="#"><i class="fa fa-book"></i> Documentation</a></li>
 		<li><a href="#"><i class="fa fa-book"></i> FAQ</a></li>
 		<li><a href="#"><i class="fa fa-book"></i> HOWTOs</a></li>
+		<li><a href="#"><i class="fa fa-book"></i> Support</a></li>
 	      </ul>
 	    </li>
 	  </ul>
@@ -415,87 +415,71 @@
 	    <h3 class="control-sidebar-heading">Main menu</h3>
 	    <ul class="control-sidebar-menu">
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 		  <div class="menu-info">
 		    <h4 class="control-sidebar-subheading">Dashboards</h4>
-		    <p>Data visualisation</p>
 		  </div>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <i class="menu-icon fa fa-user bg-yellow"></i>
 		  <div class="menu-info">
 		    <h4 class="control-sidebar-subheading">User settings</h4>
-		    <p>New phone +1(800)555-1234</p>
 		  </div>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
 		  <div class="menu-info">
 		    <h4 class="control-sidebar-subheading">Admin panel</h4>
-		    <p>nora@example.com</p>
 		  </div>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <i class="menu-icon fa fa-file-code-o bg-green"></i>
 		  <div class="menu-info">
 		    <h4 class="control-sidebar-subheading">Documentation</h4>
-		    <p>Execution time 5 seconds</p>
 		  </div>
 		</a>
 	      </li>
 	    </ul>
 	    <!-- /.control-sidebar-menu -->
-	    <h3 class="control-sidebar-heading">Recent activity</h3>
+	    <h3 class="control-sidebar-heading">History</h3>
 	    <ul class="control-sidebar-menu">
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <h4 class="control-sidebar-subheading">
 		    Counters / Sites Overview
-		    <span class="label label-danger pull-right">70%</span>
 		  </h4>
-		  <div class="progress progress-xxs">
-		    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-		  </div>
+		  <p><small><i class="fa fa-clock-o"></i>2 mins</small></p>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <h4 class="control-sidebar-subheading">
 		    Admin Panel / Site Users
-		    <span class="label label-success pull-right">95%</span>
 		  </h4>
-		  <div class="progress progress-xxs">
-		    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-		  </div>
+		  <p><small><i class="fa fa-clock-o"></i>3 hours</small></p>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <h4 class="control-sidebar-subheading">
 		    Documentation / HOWTOs
-		    <span class="label label-warning pull-right">50%</span>
 		  </h4>
-		  <div class="progress progress-xxs">
-		    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-		  </div>
+		  <p><small><i class="fa fa-clock-o"></i>yesterday</small></p>
 		</a>
 	      </li>
 	      <li>
-		<a href="javascript::;">
+		<a href="#">
 		  <h4 class="control-sidebar-subheading">
 		    Counters / Comparisons
-		    <span class="label label-primary pull-right">68%</span>
 		  </h4>
-		  <div class="progress progress-xxs">
-		    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-		  </div>
+		  <p><small><i class="fa fa-clock-o"></i>last week</small></p>
 		</a>
 	      </li>
 	    </ul>
