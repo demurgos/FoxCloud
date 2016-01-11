@@ -16,14 +16,6 @@
   });
   $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
 
-  //jQuery UI sortable for the todo list
-  $(".todo-list").sortable({
-    placeholder: "sort-highlight",
-    handle: ".handle",
-    forcePlaceholderSize: true,
-    zIndex: 999999
-  });
-
   //bootstrap WYSIHTML5 - text editor
   $(".textarea").wysihtml5();
 
@@ -39,26 +31,11 @@
     startDate: moment().subtract(29, 'days'),
     endDate: moment()
   }, function (start, end) {
-    window.alert("You chose: " + start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
   });
 
   /* jQueryKnob */
   $(".knob").knob();
 
-  //jvectormap data
-  var visitorsData = {
-    "US": 398, //USA
-    "SA": 400, //Saudi Arabia
-    "CA": 1000, //Canada
-    "DE": 500, //Germany
-    "FR": 760, //France
-    "CN": 300, //China
-    "AU": 700, //Australia
-    "BR": 600, //Brazil
-    "IN": 800, //India
-    "GB": 320, //Great Britain
-    "RU": 3000 //Russia
-  };
   //World map by jvectormap
   $('#world-map').vectorMap({
     map: 'us_mill',
@@ -72,9 +49,8 @@
         "stroke-opacity": 1
       }
     },
-    series: {
+      series: {
       regions: [{
-        values: visitorsData,
         scale: ["#92c1dc", "#ebf4f9"],
         normalizeFunction: 'polynomial'
       }]
@@ -83,11 +59,7 @@
       {latLng: [25.764257, -80.204416], name: 'Foxstream Miami (In 32)'},
       {latLng: [37.748330, -122.443437], name: 'San Francisco Airport (In 3019)'},
       {latLng: [33.437340, -112.007252], name: 'Phoenix Airport (In 1458)'}
-    ],
-    onRegionLabelShow: function (e, el, code) {
-      if (typeof visitorsData[code] != "undefined")
-        el.html(el.html());
-    }
+    ]
   });
 
   //Sparkline charts
@@ -97,7 +69,7 @@
     lineColor: '#92c1dc',
     fillColor: "#ebf4f9",
     height: '28px',
-    width: '170px'
+    width: '100%'
   });
   myvalues = [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921];
   $('#sparkline-2').sparkline(myvalues, {
@@ -105,7 +77,7 @@
     lineColor: '#92c1dc',
     fillColor: "#ebf4f9",
     height: '50',
-    width: '170px'
+    width: '100%'
   });
   myvalues = [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21];
   $('#sparkline-3').sparkline(myvalues, {
@@ -113,7 +85,7 @@
     lineColor: '#92c1dc',
     fillColor: "#ebf4f9",
     height: '50',
-    width: '170px'
+    width: '100%'
   });
 
   //The Calender
@@ -151,20 +123,6 @@
   //Fix for charts under tabs
   $('.box ul.nav a').on('shown.bs.tab', function () {
     area.redraw();
-    donut.redraw();
-    line.redraw();
-  });
-
-  /* The todo list plugin */
-  $(".todo-list").todolist({
-    onCheck: function (ele) {
-      window.console.log("The element has been checked");
-      return ele;
-    },
-    onUncheck: function (ele) {
-      window.console.log("The element has been unchecked");
-      return ele;
-    }
   });
 
   $("#example1").DataTable();
