@@ -11,6 +11,44 @@ var mkdirp = require('mkdirp');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 
+var cssSources = [ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
+		   adminlteRoot + "node_modules/font-awesome/css/font-awesome.css",
+		   adminlteRoot + "node_modules/bootstrap/dist/css/bootstrap.css",
+		   adminlteRoot + "dist/css/AdminLTE.css",
+		   adminlteRoot + "dist/css/skins/_all-skins.css",
+		   adminlteRoot + "plugins/iCheck/flat/blue.css",
+		   adminlteRoot + "plugins/morris/morris.css",
+		   adminlteRoot + "plugins/jvectormap/jquery-jvectormap-1.2.2.css",
+		   adminlteRoot + "plugins/datepicker/datepicker3.css",
+		   adminlteRoot + "plugins/daterangepicker/daterangepicker-bs3.css",
+		   adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.css",
+		   "lib/Styles/*.css",
+		   "app/assets/css/*.css" ];
+
+var jsSources = [ adminlteRoot + 'node_modules/moment/moment.js',
+		  adminlteRoot + 'node_modules/raphael/raphael.js',
+		  adminlteRoot + 'node_modules/angular/angular.js',
+		  adminlteRoot + 'node_modules/angular-route/angular-route.js',
+		  adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.js',
+		  adminlteRoot + 'plugins/jQueryUI/jquery-ui.js',
+		  adminlteRoot + 'plugins/datatables/jquery.dataTables.js',
+		  adminlteRoot + 'plugins/datatables/dataTables.bootstrap.js',
+		  adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.js',
+		  adminlteRoot + 'plugins/morris/morris.js',
+		  adminlteRoot + 'plugins/sparkline/jquery.sparkline.js',
+		  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
+		  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
+		  adminlteRoot + 'plugins/knob/jquery.knob.js',
+		  adminlteRoot + 'plugins/daterangepicker/daterangepicker.js',
+		  adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
+		  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
+		  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
+		  adminlteRoot + 'plugins/fastclick/fastclick.js',
+		  adminlteRoot + 'dist/js/app.js',
+		  "app/app.js",
+		  "app/components/dashboard/dashboardController.js",
+		  "lib/js/*.js" ];
+
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
 mkdirp('wwwroot/build/css');
@@ -19,66 +57,49 @@ mkdirp('wwwroot/build/img');
 
 gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
 
+gulp.task('release', ['prepare-css-release', 'prepare-assets', 'prepare-js-release', 'prepare-html']);
+
 gulp.task('prepare-css', function() {
-    return gulp.src([ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
-		      adminlteRoot + "node_modules/font-awesome/css/font-awesome.min.css",
-		      adminlteRoot + "node_modules/bootstrap/dist/css/bootstrap.css",
-		      adminlteRoot + "dist/css/AdminLTE.min.css",
-		      adminlteRoot + "dist/css/skins/_all-skins.min.css",
-		      adminlteRoot + "plugins/iCheck/flat/blue.css",
-		      adminlteRoot + "plugins/morris/morris.css",
-		      adminlteRoot + "plugins/jvectormap/jquery-jvectormap-1.2.2.css",
-		      adminlteRoot + "plugins/datepicker/datepicker3.css",
-		      adminlteRoot + "plugins/daterangepicker/daterangepicker-bs3.css",
-		      adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
-		      "lib/Styles/*.css",
-		      "app/assets/css/*.css"])
+    return gulp.src(cssSources)
 	.pipe(less({plugins: [cleancss]}))
-        .pipe(minify_css({zindex: false}))
 	.pipe(concat_css('style.min.css',
 			 { rebaseUrls: false }))
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/css/'));
 });
 
+gulp.task('prepare-css-release', function() {
+    return gulp.src(cssSources)
+	.pipe(less({plugins: [cleancss]}))
+	.pipe(concat_css('style.min.css',
+			 { rebaseUrls: false }))
+        .pipe(minify_css({zindex: false}))
+	.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/css/'));
+});
+
 gulp.task('prepare-assets', function() {
-	return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
-		      	adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
-		      	adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
-				.pipe(duration('Execution Time: '))
-				.pipe(gulp.dest('wwwroot/build/fonts/'));
+    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
+		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
+		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
+	.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/fonts/'));
 });
 
 gulp.task('prepare-js', function() {
-    return gulp.src([ adminlteRoot + 'node_modules/moment/moment.js',
-		      adminlteRoot + 'node_modules/raphael/raphael-min.js',
-		      adminlteRoot + 'node_modules/angular/angular.min.js',
-		      adminlteRoot + 'node_modules/angular-route/angular-route.min.js',
-		      adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.min.js',
-		      adminlteRoot + 'plugins/jQueryUI/jquery-ui.min.js',
-		      adminlteRoot + 'plugins/datatables/jquery.dataTables.min.js',
-		      adminlteRoot + 'plugins/datatables/dataTables.bootstrap.min.js',
-		      adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.min.js',
-		      adminlteRoot + 'plugins/morris/morris.min.js',
-		      adminlteRoot + 'plugins/sparkline/jquery.sparkline.min.js',
-		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
-		      adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
-		      adminlteRoot + 'plugins/knob/jquery.knob.js',
-		      adminlteRoot + 'plugins/daterangepicker/daterangepicker.js',
-		      adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
-		      adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.min.js',
-		      adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
-		      adminlteRoot + 'plugins/fastclick/fastclick.js',
-		      adminlteRoot + 'dist/js/app.js',
-		  	  "app/app.js",
-		  	  "app/components/dashboard/dashboardController.js",
-		      "lib/js/*.js" ])
+    return gulp.src(jsSources)
+	.pipe(concat_js('lib.min.js'))
+	.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/js/'));    
+});
+
+gulp.task('prepare-js-release', function() {
+    return gulp.src(jsSources)
 	.pipe(concat_js('lib.min.js'))
 	.pipe(minify_js())
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/js/'));    
 });
-
 
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/dashboardView.html" ])

@@ -80,9 +80,9 @@
       }]
     }, 
     markers: [
-      {latLng: [25.764257, -80.204416], name: 'Foxstream Miami (Occupancy 3)'},
-      {latLng: [37.748330, -122.443437], name: 'San Francisco Airport (Occupancy 30191)'},
-      {latLng: [33.437340, -112.007252], name: 'Phoenix Airport (Occupancy 14580)'}
+      {latLng: [25.764257, -80.204416], name: 'Foxstream Miami (In 32)'},
+      {latLng: [37.748330, -122.443437], name: 'San Francisco Airport (In 3019)'},
+      {latLng: [33.437340, -112.007252], name: 'Phoenix Airport (In 1458)'}
     ],
     onRegionLabelShow: function (e, el, code) {
       if (typeof visitorsData[code] != "undefined")
