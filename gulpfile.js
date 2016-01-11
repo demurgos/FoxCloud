@@ -34,7 +34,7 @@ gulp.task('prepare-css', function() {
 		      "lib/Styles/*.css",
 		      "app/assets/css/*.css"])
 	.pipe(less({plugins: [cleancss]}))
-        .pipe(minify_css())
+        .pipe(minify_css({zindex: false}))
 	.pipe(concat_css('style.min.css',
 			 { rebaseUrls: false }))
 	.pipe(duration('Execution Time: '))
