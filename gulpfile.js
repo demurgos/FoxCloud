@@ -15,6 +15,7 @@ mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
 mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
+mkdirp('wwwroot/build/img');
 
 gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
 
@@ -30,7 +31,8 @@ gulp.task('prepare-css', function() {
 		      adminlteRoot + "plugins/datepicker/datepicker3.css",
 		      adminlteRoot + "plugins/daterangepicker/daterangepicker-bs3.css",
 		      adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
-		      "lib/Styles/*.css" ])
+		      "lib/Styles/*.css",
+		      "app/assets/css/*.css"])
 	.pipe(less({plugins: [cleancss]}))
         .pipe(minify_css())
 	.pipe(concat_css('style.min.css',
@@ -40,11 +42,11 @@ gulp.task('prepare-css', function() {
 });
 
 gulp.task('prepare-assets', function() {
-    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
-		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
-		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/fonts/'));
+	return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
+		      	adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
+		      	adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
+				.pipe(duration('Execution Time: '))
+				.pipe(gulp.dest('wwwroot/build/fonts/'));
 });
 
 gulp.task('prepare-js', function() {
@@ -67,8 +69,7 @@ gulp.task('prepare-js', function() {
 		      adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.min.js',
 		      adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
 		      adminlteRoot + 'plugins/fastclick/fastclick.js',
-		      adminlteRoot + 'dist/js/app.min.js',
-		      adminlteRoot + 'dist/js/demo.js',
+		      adminlteRoot + 'dist/js/app.js',
 		  	  "app/app.js",
 		  	  "app/components/dashboard/dashboardController.js",
 		      "lib/js/*.js" ])

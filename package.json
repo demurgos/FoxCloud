@@ -28,6 +28,7 @@
     "mkdirp": "^0.5.1"
   },
   "dependencies": {
-    "admin-lte": "https://github.com/Innovisite/AdminLTE.git#dev"
+    "admin-lte": "https://github.com/Innovisite/AdminLTE.git#dev",
+    "event-stream": "^3.3.2"
   }
 }
