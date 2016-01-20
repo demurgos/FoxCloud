@@ -1,4 +1,7 @@
 wwwroot/build
 node_modules
 .DS_Store
+dist
+npm-debug.log
+
 
