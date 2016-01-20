@@ -1,0 +1,321 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="DashboardController">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <nav class="navbar">
+      <div class="pull-left">
+        <h3><i class="fa fa-pie-chart"></i><span> Counters / Sites Overview</span></h3>
+      </div>
+      <div class="navbar-custom-menu pull-right">
+        <ul class="nav navbar-nav">
+          
+          <li><a class="btn btn-default" href="#">Email</a></li>
+          
+          <li class="dropdown export-menu">
+            <a id="exportLabel" class="btn btn-default" role="button" data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Export <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="exportLabel">
+              <li>
+                <a href="#"><i class="fa fa-file-text-o"></i> CSV</a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-file-image-o"></i> PNG</a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-file-excel-o"></i> Excel</a>
+              </li>
+              <li><a href="#"><i class="fa fa-file-pdf-o"></i> PDF</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="btn btn-default daterange pull-right" data-toggle="dropdown" href="#">
+            12 déc. 2015 - 1 jan. 2016 <i class="fa fa-calendar"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</section>
+<!-- Main content -->
+<section class="content">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>450</h3>
+          <p>Total In</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-download"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>65</h3>
+          <p>Mean Occupancy</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>12h</h3>
+          <p>Max period</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-clock"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>53<sup style="font-size: 20px">%</sup></h3>
+          <p>Foxstream France</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+  </div>
+  <!-- /.row -->
+  <!-- row -->
+  <div class="row">
+    <section class="col-md-12 connectedSortable">
+      <div class="box">
+        <div class="box-header with-border">
+          <div class="box-tools pull-right">
+            <div class="btn-group" data-toogle="btn-toggle">
+              <button type="button" class="btn btn-default btn-sm">Minutes</button>
+              <button type="button" class="btn btn-default btn-sm">Hourly</button>
+              <button type="button" class="btn btn-default btn-sm">Day</button>
+              <button type="button" class="btn btn-default btn-sm">Week</button>
+              <button type="button" class="btn btn-default btn-sm active">Month</button>
+            </div>
+          </div>
+          <i class="fa fa-inbox"></i>
+          <h3 class="box-title">
+          Foxstream France vs <a href="#">select a site</a>
+          </h3>
+        </div>
+        <div class="box-body">
+          <nav class="navbar">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a class="btn btn-default" role="button" data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  In <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#"><i class="fa fa-file-text-o"></i> Out</a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-file-text-o"></i> Occupancy</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <div class="text-center">
+            <h4> <strong>Total: 230</strong></h4>
+          </div>
+	  <div class="chart">
+	    <canvas id="counting-chart" style="height: 300px;"></canvas>
+	  </div>
+        </div>
+        <div class="box-footer no-border">
+          <div class="row">
+            <div class="col-xs-4" style="border-right: 1px solid #f4f4f4">
+	      <div class="box">
+		<div class="box-header">
+		  <h3 class="box-title">BEV 180</h3>
+		</div>
+		<div class="box-body">
+		  <div class="chart">
+		    <canvas id="sparkline-1" style="height: 28px;"></canvas>
+		  </div>
+		</div>
+              </div>
+	    </div>
+            <div class="col-xs-4" style="border-right: 1px solid #f4f4f4">
+	      <div class="box">
+		<div class="box-header">
+		  <h3 class="box-title">Vaulx-en-velin 380</h3>
+		</div>
+		<div class="box-body">
+		  <div class="chart">
+		    <canvas id="sparkline-2" style="height: 28px;"></canvas>
+		  </div>
+		</div>
+	      </div>
+	    </div>
+            <div class="col-xs-4">
+	      <div class="box">
+		<div class="box-header">
+		  <h3 class="box-title">Foxstream Miami 510</h3>
+		</div>
+		<div class="box-body">
+		  <div class="chart">
+		    <canvas id="sparkline-3" style="height: 28px;"></canvas>
+		  </div>
+		</div>
+	      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- /.row -->
+  <!-- row -->
+  <div class="row">
+    <!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-lg-6 connectedSortable">
+      <!-- Map box -->
+      <div class="box box-solid bg-light-blue-gradient">
+        <div class="box-header">
+          <!-- tools box -->
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range">
+            <i class="fa fa-calendar"></i></button>
+            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
+            <i class="fa fa-minus"></i></button>
+          </div>
+          <!-- /. tools -->
+          <i class="fa fa-map-marker"></i>
+          <h3 class="box-title">
+	    All Sites / In
+          </h3>
+        </div>
+        <div class="box-body">
+          <div id="world-map" style="height: 250px; width: 100%;"></div>
+        </div>
+        <!-- /.box-body-->
+        <div class="box-footer no-border">
+          <div class="row">
+            <div class="col-sm-3 col-xs-6">
+	      <div class="description-block border-right" style="color: #333">
+		<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 5%</span>
+		<h5 class="description-header">28456</h5>
+		<span class="description-text">WORLD</span>
+              </div>
+	    </div>
+            <div class="col-sm-3 col-xs-6">
+	      <div class="description-block border-right" style="color: #333">
+		<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+		<h5 class="description-header">12040</h5>
+		<span class="description-text">EUROPE</span>
+              </div>
+	    </div>
+            <div class="col-sm-3 col-xs-6">
+	      <div class="description-block border-right" style="color: #333">
+		<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 8%</span>
+		<h5 class="description-header">6368</h5>
+		<span class="description-text">WEST COAST</span>
+              </div>
+	    </div>
+            <div class="col-sm-3 col-xs-6">
+	      <div class="description-block" style="color: #333">
+		<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 4%</span>
+		<h5 class="description-header">5980</h5>
+		<span class="description-text">EAST COAST</span>
+              </div>
+	    </div>
+          <!-- /.row -->
+        </div>
+      </div>
+      <!-- /.box -->
+    </section>
+    <section class="col-lg-6 connectedSortable">
+      <!-- solid sales graph -->
+      <div class="box">
+        <div class="box-header">
+          <i class="fa fa-th"></i>
+          
+          <h3 class="box-title">All Sites</h3>
+          
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-sm btn-default" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-default daterange pull-right" title="Date range"><i class="fa fa-calendar"></i>
+            </button>
+          </div>
+        </div>
+        <div class="box-body border-radius-none">
+          
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Site name</th>
+                <th>In</th>
+                <th>Out</th>
+                <th>Occupancy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Foxstream France</td>
+                <td>81</td>
+                <td>55</td>
+                <td>26</td>
+              </tr>
+              <tr>
+                <td>BEV</td>
+                <td>150</td>
+                <td>70</td>
+                <td>80</td>
+              </tr>
+              <tr>
+                <td>Vaulx-en-velin</td>
+                <td>43</td>
+                <td>31</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>Foxstream Miami</td>
+                <td>32</td>
+                <td>29</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <th>Total</th>
+              <th>306</th>
+              <th>185</th>
+              <th>121</th>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </section>
+    <!-- right col -->
+  </div>
+  <!-- /.row (main row) -->
+</section>
+<!-- /.content -->
+</div>
