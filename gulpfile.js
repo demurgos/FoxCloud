@@ -49,6 +49,7 @@ var jsSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 		  "app/components/dashboard/*.js",
 		  "app/components/topbar/topBarController.js",
 		  "app/components/mainmenu/mainMenuController.js",
+		  "app/components/widgets/*.js",
 		  "lib/js/*.js" ];
 
 mkdirp('wwwroot/build/fonts');
@@ -106,7 +107,9 @@ gulp.task('prepare-js-release', function() {
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/*.html",
 		      "app/components/topbar/topBarView.html",
-		      "app/components/mainmenu/mainMenuView.html" ])
+		      "app/components/mainmenu/mainMenuView.html",
+		      "app/components/widgets/*.html"
+		    ])
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/html/'));
 });
