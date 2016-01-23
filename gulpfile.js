@@ -46,7 +46,9 @@ var jsSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 		  adminlteRoot + 'plugins/fastclick/fastclick.js',
 		  adminlteRoot + 'dist/js/app.js',
 		  "app/app.js",
-		  "app/components/dashboard/dashboardController.js",
+		  "app/components/dashboard/*.js",
+		  "app/components/topbar/topBarController.js",
+		  "app/components/mainmenu/mainMenuController.js",
 		  "lib/js/*.js" ];
 
 mkdirp('wwwroot/build/fonts');
@@ -102,7 +104,9 @@ gulp.task('prepare-js-release', function() {
 });
 
 gulp.task('prepare-html', function() {
-    return gulp.src([ "app/components/dashboard/dashboardView.html" ])
+    return gulp.src([ "app/components/dashboard/*.html",
+		      "app/components/topbar/topBarView.html",
+		      "app/components/mainmenu/mainMenuView.html" ])
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/html/'));
 });
