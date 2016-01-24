@@ -50,6 +50,7 @@ var jsSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 		  "app/components/topbar/topBarController.js",
 		  "app/components/mainmenu/mainMenuController.js",
 		  "app/components/widgets/*.js",
+		  "app/components/services/*.js",
 		  "lib/js/*.js" ];
 
 mkdirp('wwwroot/build/fonts');

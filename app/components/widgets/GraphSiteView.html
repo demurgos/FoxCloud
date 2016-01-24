@@ -19,18 +19,12 @@
       <nav class="navbar">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a class="btn btn-default" role="button" data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              In <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="#"><i class="fa fa-file-text-o"></i> Out</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-file-text-o"></i> Occupancy</a>
-              </li>
-            </ul>
-          </li>
+	    <select class="form-control"
+		    ng-model="indicatorSelect.selected"
+		    ng-options="option.name for option in indicatorSelect.options track by option.id"
+		    ng-change="update()">
+	    </select>
+	  </li>
         </ul>
       </nav>
       <div class="text-center">
