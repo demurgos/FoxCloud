@@ -38,7 +38,7 @@
      this.split = function(data) {
 	 var res = {};
 	 for(var i = 0; i < data.length; ++i) {
-	     for(key in data[i]) {
+	     for(var key in data[i]) {
 		 if(res.key === undefined) {
 		     res.key = [ data[i].key ];
 		 } else {

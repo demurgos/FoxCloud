@@ -4,6 +4,7 @@ var concat_css = require('gulp-concat-css');
 var concat_js = require('gulp-concat');
 var minify_css = require('gulp-cssnano');
 var less = require('gulp-less');
+var jshint = require('gulp-jshint');
 var LessPluginCleanCSS = require('less-plugin-clean-css');
 var minify_js = require("gulp-uglify");
 var duration = require('gulp-duration');
@@ -25,33 +26,36 @@ var cssSources = [ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
 		   "lib/Styles/*.css",
 		   "app/assets/css/*.css" ];
 
-var jsSources = [ adminlteRoot + 'node_modules/moment/moment.js',
-		  adminlteRoot + 'node_modules/raphael/raphael.js',
-		  adminlteRoot + 'node_modules/angular/angular.js',
-		  adminlteRoot + 'node_modules/angular-route/angular-route.js',
-		  adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.js',
-		  adminlteRoot + 'plugins/jQueryUI/jquery-ui.js',
-		  adminlteRoot + 'plugins/datatables/jquery.dataTables.js',
-		  adminlteRoot + 'plugins/datatables/dataTables.bootstrap.js',
-		  adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.js',
-		  adminlteRoot + 'plugins/chartjs/Chart.js',
-		  adminlteRoot + 'plugins/sparkline/jquery.sparkline.js',
-		  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
-		  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
-		  adminlteRoot + 'plugins/knob/jquery.knob.js',
-		  adminlteRoot + 'plugins/daterangepicker/daterangepicker.js',
-		  adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
-		  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
-		  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
-		  adminlteRoot + 'plugins/fastclick/fastclick.js',
-		  adminlteRoot + 'dist/js/app.js',
-		  "app/app.js",
-		  "app/components/dashboard/*.js",
-		  "app/components/topbar/topBarController.js",
-		  "app/components/mainmenu/mainMenuController.js",
-		  "app/components/widgets/*.js",
-		  "app/components/services/*.js",
-		  "lib/js/*.js" ];
+var localJSSources = [ "app/app.js",
+		       "app/components/dashboard/*.js",
+		       "app/components/topbar/topBarController.js",
+		       "app/components/mainmenu/mainMenuController.js",
+		       "app/components/widgets/*.js",
+		       "app/components/services/*.js",
+		       "lib/js/*.js" ];
+
+var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
+			  adminlteRoot + 'node_modules/raphael/raphael.js',
+			  adminlteRoot + 'node_modules/angular/angular.js',
+			  adminlteRoot + 'node_modules/angular-route/angular-route.js',
+			  adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.js',
+			  adminlteRoot + 'plugins/jQueryUI/jquery-ui.js',
+			  adminlteRoot + 'plugins/datatables/jquery.dataTables.js',
+			  adminlteRoot + 'plugins/datatables/dataTables.bootstrap.js',
+			  adminlteRoot + 'node_modules/bootstrap/dist/js/bootstrap.js',
+			  adminlteRoot + 'plugins/chartjs/Chart.js',
+			  adminlteRoot + 'plugins/sparkline/jquery.sparkline.js',
+			  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
+			  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
+			  adminlteRoot + 'plugins/knob/jquery.knob.js',
+			  adminlteRoot + 'plugins/daterangepicker/daterangepicker.js',
+			  adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
+			  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
+			  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
+			  adminlteRoot + 'plugins/fastclick/fastclick.js',
+			  adminlteRoot + 'dist/js/app.js' ];
+
+var jsSources = externalJSSources.concat(localJSSources);
 
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
@@ -59,9 +63,16 @@ mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
 mkdirp('wwwroot/build/img');
 
-gulp.task('build', ['prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
+gulp.task('build', [ 'lint', 'prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
 
-gulp.task('release', ['prepare-css-release', 'prepare-assets', 'prepare-js-release', 'prepare-html']);
+gulp.task('release', ['lint', 'prepare-css-release', 'prepare-assets', 'prepare-js-release', 'prepare-html']);
+
+gulp.task('lint', function() {
+    return gulp.src(localJSSources)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
+});
 
 gulp.task('prepare-css', function() {
     return gulp.src(cssSources)

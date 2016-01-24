@@ -16,7 +16,7 @@
 	    ) {
 
 		var countingChart;
-		var countingChartLine = undefined;
+		var countingChartLine;
 
 		var countingChartData = {
 		    labels: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
@@ -78,6 +78,15 @@
 		    selected: { id: 'in', name: 'In' },
 		    options: [ { id: 'in', name: 'In' },
 			       { id: 'out', name: 'Out' } ]
+		};
+
+		$scope.rangeSelect = {
+		    selected: { id: 'hours', name: 'Hourly' },
+		    options: [ { id: '15min', name: 'Minutes' },
+			       { id: 'hours', name: 'Hourly' },
+			       { id: 'days', name: 'Day' },
+			       { id: 'week', name: 'Week' },
+			       { id: 'month', name: 'Month' } ]
 		};
 
 		$scope.range = 'hours';
