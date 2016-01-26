@@ -1,11 +1,18 @@
-/*
- * A set of numerical methods 
- **/
+/**
+ * @class ComputeService
+ * @memberOf FSCounterAggregatorApp
+ * @description A set of numerical methods
+ */
 
 (function() {
 
  angular.module('FSCounterAggregatorApp').service('ComputeService', function() {
      
+     /**
+      * @function fillIndex
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description create new index
+      */
      this.fillIndex = function(data, index, idxFunc) {
 	 for(var i = 0; i < data.length; ++i) {
 	     var idx = idxFunc(data[i]);
@@ -22,6 +29,11 @@
 	 return index;
      };
 
+     /**
+      * @function aggregate
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description generic function to merge data regarding indexes list
+      */
      this.aggregate = function(data, index, cumulFunc) {
 	 var res = [];
 	 for(var i = 0; i < index.length; ++i) {
@@ -35,6 +47,11 @@
 	 return res;
      };    
 
+     /**
+      * @function split
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description transpose a javascript array into a javascript object
+      */
      this.split = function(data) {
 	 var res = {};
 	 for(var i = 0; i < data.length; ++i) {
@@ -49,6 +66,11 @@
 	 return res;
      };
 
+     /**
+      * @function merge
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description transpose a javascript object into a javascript array
+      */
      this.merge = function(data) {
      };
 

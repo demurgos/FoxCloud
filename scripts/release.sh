@@ -5,9 +5,7 @@ VERSION=$(node --eval "console.log(require('./package.json').version);")
 NAME=$(node --eval "console.log(require('./package.json').name);")
 
 # build and test
-npm test || exit 1
-
-./node_modules/.bin/gulp release
+./node_modules/.bin/gulp docs release
 
 # checkout temp branch for release
 git checkout -b gh-release
@@ -22,7 +20,7 @@ git push origin gh-release
 mkdir -p dist
 # clean previous archives
 (cd dist ; rm -f *.zip )
-( zip -r dist/$NAME-v$VERSION.zip wwwroot --exclude '*.git*' --exclude '*node_modules*' --exclude '*~')
+( zip -r dist/$NAME-v$VERSION.zip docs wwwroot --exclude '*.git*' --exclude '*node_modules*' --exclude '*~')
 
 # run gh-release to create the tag and push release to github
 ./node_modules/.bin/gh-release --assets dist/$NAME-v$VERSION.zip

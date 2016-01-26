@@ -1,3 +1,7 @@
+/**
+ * @namespace FSCounterAggregatorApp
+ */
+
 (function(){
 
 	// Defining a new app: FSCounterAggregator

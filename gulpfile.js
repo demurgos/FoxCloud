@@ -9,6 +9,7 @@ var LessPluginCleanCSS = require('less-plugin-clean-css');
 var minify_js = require("gulp-uglify");
 var duration = require('gulp-duration');
 var mkdirp = require('mkdirp');
+var jsdoc = require('gulp-jsdoc');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 
@@ -34,6 +35,8 @@ var localJSSources = [ "app/app.js",
 		       "app/components/services/*.js",
 		       "lib/js/*.js" ];
 
+//var specsJSSources = [ "test/src/*.js" ];
+
 var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 			  adminlteRoot + 'node_modules/raphael/raphael.js',
 			  adminlteRoot + 'node_modules/angular/angular.js',
@@ -57,63 +60,29 @@ var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 
 var jsSources = externalJSSources.concat(localJSSources);
 
+mkdirp('docs');
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
 mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
 mkdirp('wwwroot/build/img');
 
-gulp.task('build', [ 'lint', 'prepare-css', 'prepare-assets', 'prepare-js', 'prepare-html']);
+gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
 
-gulp.task('release', ['lint', 'prepare-css-release', 'prepare-assets', 'prepare-js-release', 'prepare-html']);
+gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release' ]);
+
+gulp.task('common', [ 'lint', 'prepare-assets', 'prepare-html' ]);
+
+gulp.task('docs', function() {
+    return gulp.src(localJSSources.concat(['README.md']))
+	.pipe(jsdoc('./docs'));
+});
 
 gulp.task('lint', function() {
     return gulp.src(localJSSources)
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('prepare-css', function() {
-    return gulp.src(cssSources)
-	.pipe(less({plugins: [cleancss]}))
-	.pipe(concat_css('style.min.css',
-			 { rebaseUrls: false }))
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/css/'));
-});
-
-gulp.task('prepare-css-release', function() {
-    return gulp.src(cssSources)
-	.pipe(less({plugins: [cleancss]}))
-	.pipe(concat_css('style.min.css',
-			 { rebaseUrls: false }))
-        .pipe(minify_css({zindex: false}))
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/css/'));
-});
-
-gulp.task('prepare-assets', function() {
-    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
-		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
-		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/fonts/'));
-});
-
-gulp.task('prepare-js', function() {
-    return gulp.src(jsSources)
-	.pipe(concat_js('lib.min.js'))
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/js/'));    
-});
-
-gulp.task('prepare-js-release', function() {
-    return gulp.src(jsSources)
-	.pipe(concat_js('lib.min.js'))
-	.pipe(minify_js())
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/js/'));    
 });
 
 gulp.task('prepare-html', function() {
@@ -125,3 +94,54 @@ gulp.task('prepare-html', function() {
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/html/'));
 });
+
+gulp.task('prepare-assets', function() {
+    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
+		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
+		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
+	.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/fonts/'));
+});
+
+function buildCSS(files, minify) {
+    var g = gulp.src(files)
+	.pipe(less({plugins: [cleancss]}))
+	.pipe(concat_css('style.min.css',
+			 { rebaseUrls: false }));
+    if(minify) {
+	g = g.pipe(minify_css({zindex: false}));
+    }
+    return g.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest('wwwroot/build/css/'));
+}
+
+function buildJS(files, destName, destDir, minify) {
+    var g = gulp.src(files)
+	.pipe(concat_js(destName)); 
+    if(minify) {
+	g = g.pipe(minify_js());
+    }
+    return g.pipe(duration('Execution Time: '))
+	.pipe(gulp.dest(destDir));
+}
+
+gulp.task('prepare-js', function() {
+    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', false);
+});
+
+gulp.task('prepare-js-release', function() {
+    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', true);
+});
+
+//gulp.task('prepare-specs', function() {
+//    return buildJS(specsJSSources, 'specs.js', 'test/build/', false);
+//});
+
+gulp.task('prepare-css', function() {
+    return buildCSS(cssSources, false);
+});
+
+gulp.task('prepare-css-release', function() {
+    return buildCSS(cssSources, true);
+});
+

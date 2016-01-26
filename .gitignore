@@ -1,4 +1,8 @@
 wwwroot/build
+test/unit_out.xml
+docs
+tmp
+PhantomJS_*/
 node_modules
 .DS_Store
 dist
