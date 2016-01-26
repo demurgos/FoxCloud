@@ -53,8 +53,7 @@ var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 			  adminlteRoot + 'plugins/datepicker/bootstrap-datepicker.js',
 			  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
 			  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
-			  adminlteRoot + 'plugins/fastclick/fastclick.js',
-			  adminlteRoot + 'dist/js/app.js' ];
+			  adminlteRoot + 'plugins/fastclick/fastclick.js'];
 
 var jsSources = externalJSSources.concat(localJSSources);
 
