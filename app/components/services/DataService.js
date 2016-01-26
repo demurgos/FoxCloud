@@ -14,7 +14,7 @@
       * @description retrieve a set of camera counting data from a date range
       */
      this.getRawDataForCameraInInterval = function(cameraId, intervalBegin, intervalEnd) {	 
-	 return $http.get("http://localhost/Innovisite/FoxCounterAggregator/test/data/counter1day.json");
+	 return $http.get("assets/counter1day.json");
      };
      
  }]);

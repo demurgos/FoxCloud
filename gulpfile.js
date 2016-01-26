@@ -35,8 +35,6 @@ var localJSSources = [ "app/app.js",
 		       "app/components/services/*.js",
 		       "lib/js/*.js" ];
 
-//var specsJSSources = [ "test/src/*.js" ];
-
 var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 			  adminlteRoot + 'node_modules/raphael/raphael.js',
 			  adminlteRoot + 'node_modules/angular/angular.js',
@@ -132,10 +130,6 @@ gulp.task('prepare-js', function() {
 gulp.task('prepare-js-release', function() {
     return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', true);
 });
-
-//gulp.task('prepare-specs', function() {
-//    return buildJS(specsJSSources, 'specs.js', 'test/build/', false);
-//});
 
 gulp.task('prepare-css', function() {
     return buildCSS(cssSources, false);
