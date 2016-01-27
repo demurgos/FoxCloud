@@ -4,7 +4,11 @@
 
 (function() {
 
-    var app = angular.module('FSCounterAggregatorApp',['ngRoute','ui.bootstrap','adminLTE']);
+    var app = angular.module('FSCounterAggregatorApp',[
+	'ngRoute',
+	'ui.bootstrap',
+	'daterangepicker',
+	'adminLTE']);
     
     // Configure routes
     app.config(['$routeProvider',

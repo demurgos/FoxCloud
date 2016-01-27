@@ -30,9 +30,12 @@
           </ul>
         </li>
         <li>
-          <a class="btn btn-default daterange pull-right" data-toggle="dropdown" href="#">
-            12 déc. 2015 - 1 jan. 2016 <i class="fa fa-calendar"></i>
-          </a>
+	  <input date-range-picker="date-range-picker" 
+		 class="btn btn-default daterange pull-right" 
+		 type="text" 
+		 ng-model="period" 
+		 options="periodOpts"></input>
+	  <i class="fa fa-calendar"></i>
         </li>
       </ul>
     </div>

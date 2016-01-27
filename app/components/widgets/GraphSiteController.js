@@ -9,14 +9,19 @@
 	    '$scope', 
 	    'DataService',
 	    'ComputeService',
+	    'DashboardParamsService',
 	    function(
 		$scope, 
 		DataService,
-		ComputeService
+		ComputeService,
+		DashboardParamsService
 	    ) {
 
-		$scope.period = { timeStart: 0,
-				  timeEnd: 86400 };
+		$scope.period = DashboardParamsService.getPeriod();
+
+		$scope.$watch('period', function() {
+		    console.log($scope.period);
+		});
 
 		var countingChart;
 		var countingChartLine;
@@ -111,8 +116,8 @@
 		    
 		    DataService.getRawDataForCameraInInterval(0, 10, 10).
 			then(function(data) {
-			    var timeIndex = ComputeService.createTimeIndex($scope.period.timeStart, 
-									    $scope.period.timeEnd, 
+			    var timeIndex = ComputeService.createTimeIndex($scope.period.startDate.unix(), 
+									    $scope.period.endDate.unix(), 
 									    rangeFunc[$scope.rangeSelected].timeStep,
 									   function() { return undefined; });
 				
@@ -131,8 +136,8 @@
 				countingChartLine.destroy();
 			    }
 
-			    countingChartData.labels = ComputeService.createTimeIndex($scope.period.timeStart,
-										      $scope.period.timeEnd,
+			    countingChartData.labels = ComputeService.createTimeIndex($scope.period.startDate.unix(),
+										      $scope.period.endDate.unix(),
 										      rangeFunc[$scope.rangeSelected].timeStep,
 										      function(i) { return i; });										      
 			    countingChartData.datasets[0].data = tdata;
