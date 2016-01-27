@@ -15,12 +15,14 @@
 		ComputeService
 	    ) {
 
+		$scope.period = { timeStart: 0,
+				  timeEnd: 86400 };
+
 		var countingChart;
 		var countingChartLine;
 
 		var countingChartData = {
-		    labels: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-			      18, 19, 20, 21, 22, 23 ],
+		    labels: [],
 		    datasets: [
 			{
 			    label: "In",
@@ -30,7 +32,7 @@
 			    pointStrokeColor: "#fff",
 			    pointHighlightFill: "#fff",
 			    pointHighlightStroke: "rgba(151,187,205,1)",
-			    data: [ ]
+			    data: []
 			}
 		    ]
 		};
@@ -80,32 +82,46 @@
 			       { id: 'out', name: 'Out' } ]
 		};
 
-		$scope.rangeSelect = {
-		    selected: { id: 'hours', name: 'Hourly' },
-		    options: [ { id: '15min', name: 'Minutes' },
-			       { id: 'hours', name: 'Hourly' },
-			       { id: 'days', name: 'Day' },
-			       { id: 'week', name: 'Week' },
-			       { id: 'month', name: 'Month' } ]
-		};
+		$scope.rangeOptions = [ { id: '15min', name: 'Minutes' },
+					{ id: 'hours', name: 'Hourly' },
+					{ id: 'days', name: 'Day' },
+					{ id: 'week', name: 'Week' },
+					{ id: 'month', name: 'Month' } ];
 
-		$scope.range = 'hours';
+		$scope.rangeSelected = 'hours';
+
+		var rangeFunc = { '15min' : { timeStep: 900,
+					      cb: function(elt) {
+						  var d = new Date(elt.time * 1000);
+						  return (d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds()) / 900;
+					      }},
+				  'hours' : { timeStep: 3600, 
+					      cb: function(elt) {
+						  var d = new Date(elt.time * 1000);
+						  return d.getHours();
+					      }}
+				};
+
+		$scope.setRange = function(r) {
+		    $scope.rangeSelected = r;
+		    $scope.update();
+		};
 
 		$scope.update = function() {
 		    
 		    DataService.getRawDataForCameraInInterval(0, 10, 10).
 			then(function(data) {
-
-			    var hoursIndex = new Array(24);
-			    hoursIndex.fill(undefined);
-			    hoursIndex = ComputeService.fillIndex(data.data,
-								  hoursIndex,
-								  function(elt) {
-								      var d = new Date(elt.time * 1000);
-								      return d.getHours();
-								  });
+			    var timeIndex = ComputeService.createTimeIndex($scope.period.timeStart, 
+									    $scope.period.timeEnd, 
+									    rangeFunc[$scope.rangeSelected].timeStep,
+									   function() { return undefined; });
+				
+			    timeIndex = ComputeService.fillIndex(data.data,
+								  timeIndex,
+								 rangeFunc[$scope.rangeSelected].cb
+								);
 			    var tdata = ComputeService.aggregate(data.data, 
-								 hoursIndex,
+								 timeIndex,
 								 function(elt, curCumul) {
 								     return elt !== undefined ? 
 									 curCumul + elt[$scope.indicatorSelect.selected.id] : 0;
@@ -115,6 +131,10 @@
 				countingChartLine.destroy();
 			    }
 
+			    countingChartData.labels = ComputeService.createTimeIndex($scope.period.timeStart,
+										      $scope.period.timeEnd,
+										      rangeFunc[$scope.rangeSelected].timeStep,
+										      function(i) { return i; });										      
 			    countingChartData.datasets[0].data = tdata;
 			    countingChartLine = countingChart.Line(countingChartData, countingChartOptions);
 			});		  

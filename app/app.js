@@ -5,7 +5,7 @@
 (function(){
 
 	// Defining a new app: FSCounterAggregator
-	var app = angular.module('FSCounterAggregatorApp',['ngRoute']);
+	var app = angular.module('FSCounterAggregatorApp',['ngRoute','ui.bootstrap']);
 
 	// Configure routes
 	app.config(['$routeProvider',

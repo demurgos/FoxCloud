@@ -8,6 +8,15 @@
 
  angular.module('FSCounterAggregatorApp').service('ComputeService', function() {
      
+
+     this.createTimeIndex = function(timeStart, timeEnd, step, idxFuncValue) {
+	 var index = [];
+	 for(var i = 0; timeStart < timeEnd; timeStart += step, ++i) {
+	     index.push(idxFuncValue(i, timeStart));
+	 }
+	 return index;
+     };
+
      /**
       * @function fillIndex
       * @memberOf FSCounterAggregatorApp.ComputeService
