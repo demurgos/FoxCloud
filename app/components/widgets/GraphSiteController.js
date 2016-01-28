@@ -96,38 +96,6 @@
 
 		$scope.rangeSelected = 'hours';
 
-		var rangeFunc = { '15min': { step: function(time) { return time + ComputeService.NSEC_15MIN; },
-					     dist: function(elt) {
-						 return ComputeService.getTimeIndex(elt.time, 
-										    $scope.params.period.startDate.unix(),
-										    ComputeService.NSEC_15MIN);
-					     }},
-				  'hours': { step: function(time) { return time + ComputeService.NSEC_HOUR; },
-					     dist: function(elt) {
-						 return ComputeService.getTimeIndex(elt.time,
-										    $scope.params.period.startDate.unix(),
-										    ComputeService.NSEC_HOUR);
-					     }},
-				  'days': { step: function(time) { return time + ComputeService.NSEC_DAY; },
-					    dist: function(elt) {
-						return ComputeService.getTimeIndex(elt.time,
-										   $scope.params.period.startDate.unix(),
-										   ComputeService.NSEC_DAY);
-					    }},
-				  'week': { step: function(time) { return time + ComputeService.NSEC_WEEK; },
-					    dist: function(elt) {
-						return ComputeService.getTimeIndex(elt.time,
-										   $scope.params.period.startDate.unix(),
-										   ComputeService.NSEC_WEEK);
-					    }},
-				  'month': { step: function(time) { return moment(time).add(1, 'M').unix(); },
-					     dist: function(elt) {
-						 var m = moment(elt.time);
-						 return (m.year()*12 + m.month()) - 
-						     ($scope.params.period.startDate.year()*12 + $scope.params.period.startDatemonth());
-					     }}
-				};
-
 		$scope.setRange = function(r) {
 		    $scope.rangeSelected = r;
 		    $scope.update();
@@ -135,32 +103,21 @@
 
 		$scope.update = function() {
 		    
-		    DataService.getRawDataForCameraInInterval(0, 10, 10).
+		    DataService.getRawDataForCameraInInterval(0, $scope.params.period).
 			then(function(data) {
-			    var timeIndex = ComputeService.createTimeIndex($scope.params.period.startDate.unix(), 
-									    $scope.params.period.endDate.unix(), 
-									    rangeFunc[$scope.rangeSelected].step,
-									   function() { return undefined; });
-				
-			    timeIndex = ComputeService.fillIndex(data.data,
-								  timeIndex,
-								 rangeFunc[$scope.rangeSelected].dist
-								);
-			    var tdata = ComputeService.aggregate(data.data, 
-								 timeIndex,
-								 function(elt, curCumul) {
-								     return elt !== undefined ? 
-									 curCumul + elt[$scope.indicatorSelect.selected.id] : 0;
-								 });
+
+			    var tdata = ComputeService.cSumForPeriod(data, 
+								     $scope.params.period, 
+								     $scope.rangeSelected, 
+								     $scope.indicatorSelect.selected.id);
 
 			    if(countingChartLine !== undefined) {
 				countingChartLine.destroy();
 			    }
 
-			    countingChartData.labels = ComputeService.createTimeIndex($scope.params.period.startDate.unix(),
-										      $scope.params.period.endDate.unix(),
-										      rangeFunc[$scope.rangeSelected].step,
-										      function(i) { return i; });										      
+			    countingChartData.labels = ComputeService.createTimeIndex($scope.params.period,
+										      ComputeService.getTimeIterator($scope.rangeSelected),
+										      function(i) { return i; });				      
 			    countingChartData.datasets[0].data = tdata;
 			    countingChartLine = countingChart.Line(countingChartData, countingChartOptions);
 			});		  
