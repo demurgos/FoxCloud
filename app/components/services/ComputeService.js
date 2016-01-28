@@ -7,12 +7,21 @@
 (function() {
 
  angular.module('FSCounterAggregatorApp').service('ComputeService', function() {
-     
 
-     this.createTimeIndex = function(timeStart, timeEnd, step, idxFuncValue) {
+     this.NSEC_15MIN = 900;
+     this.NSEC_HOUR = 3600;
+     this.NSEC_DAY = 86400;
+     this.NSEC_WEEK = 604800;
+
+     this.getTimeIndex = function(time, timeStart, step) {
+	 return Math.floor(time - timeStart) / step;
+     };    
+
+     this.createTimeIndex = function(timeStart, timeEnd, stepFunc, idxFuncValue) {
 	 var index = [];
-	 for(var i = 0; timeStart < timeEnd; timeStart += step, ++i) {
+	 for(var i = 0; timeStart < timeEnd; ++i) {
 	     index.push(idxFuncValue(i, timeStart));
+	     timeStart = stepFunc(timeStart);
 	 }
 	 return index;
      };
@@ -48,8 +57,10 @@
 	 for(var i = 0; i < index.length; ++i) {
 	     var cumul = cumulFunc();
 	     var curIndex = index[i];
-	     for(var j = 0; j < curIndex.length; ++j) {
-		 cumul = cumulFunc(data[curIndex[j]], cumul);
+	     if(curIndex !== undefined) {
+		 for(var j = 0; j < curIndex.length; ++j) {
+		     cumul = cumulFunc(data[curIndex[j]], cumul);
+		 }
 	     }
 	     res.push(cumul);
 	 }

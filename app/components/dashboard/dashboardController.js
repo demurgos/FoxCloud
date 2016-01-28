@@ -11,11 +11,8 @@
 	    $scope,
 	    DashboardParamsService
 	) {	   
-	    //$scope.period = DashboardParamsService.getPeriod();
+	    $scope.params = DashboardParamsService;
  
-	    $scope.period = { startDate: moment(), 
-			      endDate: moment() };
-
 	    //Make the dashboard widgets sortable Using jquery UI
 	    $(".connectedSortable").sortable({
 		placeholder: "sort-highlight",
@@ -42,20 +39,6 @@
 		    format: 'MMM D,YYYY'
 		}
 	    };
-
-	    $scope.$watch('period', function(newPeriod) {
-		//console.log(newPeriod);
-		DashboardParamsService.setPeriod(newPeriod);
-	    });
-
-//		startDate: moment().subtract(29, 'days'),
-//		endDate: moment()
-//	    }, function (start, end) {
-//		$scope.period = { timeStart: moment(start), 
-//				  timeEnd: moment(end) };
-//		//DashboardParamsService.setPeriod(moment(start), moment(end));
-//		$scope.$apply();
-//	    });
 
 	    /* jQueryKnob */
 	    $(".knob").knob();

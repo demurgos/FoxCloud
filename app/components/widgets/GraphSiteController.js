@@ -16,11 +16,12 @@
 		ComputeService,
 		DashboardParamsService
 	    ) {
+		$scope.params = DashboardParamsService;
 
-		$scope.period = DashboardParamsService.getPeriod();
-
-		$scope.$watch('period', function() {
-		    console.log($scope.period);
+		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
+		    if(newPeriod !== oldPeriod) {
+			$scope.update();
+		    }
 		});
 
 		var countingChart;
@@ -95,16 +96,36 @@
 
 		$scope.rangeSelected = 'hours';
 
-		var rangeFunc = { '15min' : { timeStep: 900,
-					      cb: function(elt) {
-						  var d = new Date(elt.time * 1000);
-						  return (d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds()) / 900;
-					      }},
-				  'hours' : { timeStep: 3600, 
-					      cb: function(elt) {
-						  var d = new Date(elt.time * 1000);
-						  return d.getHours();
-					      }}
+		var rangeFunc = { '15min': { step: function(time) { return time + ComputeService.NSEC_15MIN; },
+					     dist: function(elt) {
+						 return ComputeService.getTimeIndex(elt.time, 
+										    $scope.params.period.startDate.unix(),
+										    ComputeService.NSEC_15MIN);
+					     }},
+				  'hours': { step: function(time) { return time + ComputeService.NSEC_HOUR; },
+					     dist: function(elt) {
+						 return ComputeService.getTimeIndex(elt.time,
+										    $scope.params.period.startDate.unix(),
+										    ComputeService.NSEC_HOUR);
+					     }},
+				  'days': { step: function(time) { return time + ComputeService.NSEC_DAY; },
+					    dist: function(elt) {
+						return ComputeService.getTimeIndex(elt.time,
+										   $scope.params.period.startDate.unix(),
+										   ComputeService.NSEC_DAY);
+					    }},
+				  'week': { step: function(time) { return time + ComputeService.NSEC_WEEK; },
+					    dist: function(elt) {
+						return ComputeService.getTimeIndex(elt.time,
+										   $scope.params.period.startDate.unix(),
+										   ComputeService.NSEC_WEEK);
+					    }},
+				  'month': { step: function(time) { return moment(time).add(1, 'M').unix(); },
+					     dist: function(elt) {
+						 var m = moment(elt.time);
+						 return (m.year()*12 + m.month()) - 
+						     ($scope.params.period.startDate.year()*12 + $scope.params.period.startDatemonth());
+					     }}
 				};
 
 		$scope.setRange = function(r) {
@@ -116,14 +137,14 @@
 		    
 		    DataService.getRawDataForCameraInInterval(0, 10, 10).
 			then(function(data) {
-			    var timeIndex = ComputeService.createTimeIndex($scope.period.startDate.unix(), 
-									    $scope.period.endDate.unix(), 
-									    rangeFunc[$scope.rangeSelected].timeStep,
+			    var timeIndex = ComputeService.createTimeIndex($scope.params.period.startDate.unix(), 
+									    $scope.params.period.endDate.unix(), 
+									    rangeFunc[$scope.rangeSelected].step,
 									   function() { return undefined; });
 				
 			    timeIndex = ComputeService.fillIndex(data.data,
 								  timeIndex,
-								 rangeFunc[$scope.rangeSelected].cb
+								 rangeFunc[$scope.rangeSelected].dist
 								);
 			    var tdata = ComputeService.aggregate(data.data, 
 								 timeIndex,
@@ -136,9 +157,9 @@
 				countingChartLine.destroy();
 			    }
 
-			    countingChartData.labels = ComputeService.createTimeIndex($scope.period.startDate.unix(),
-										      $scope.period.endDate.unix(),
-										      rangeFunc[$scope.rangeSelected].timeStep,
+			    countingChartData.labels = ComputeService.createTimeIndex($scope.params.period.startDate.unix(),
+										      $scope.params.period.endDate.unix(),
+										      rangeFunc[$scope.rangeSelected].step,
 										      function(i) { return i; });										      
 			    countingChartData.datasets[0].data = tdata;
 			    countingChartLine = countingChart.Line(countingChartData, countingChartOptions);
