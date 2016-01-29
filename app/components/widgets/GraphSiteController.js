@@ -212,6 +212,14 @@
 		    sparkline.Line(sparklineData, sparklineOptions);
 		};    
 
-	    }]);
+	    }])
+    .directive('fcaGraphSite', function() {
+	return {
+	    link: function(scope, element, attr) {
+		scope.createWidget();
+	    },
+	    templateUrl: 'build/html/GraphSiteView.html'
+	};
+    });
 
 }());

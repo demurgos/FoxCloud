@@ -4,7 +4,13 @@
 
 (function() {
 
- angular.module('FSCounterAggregatorApp').controller('TopBarController', [function() {
-     }]);
-
+    angular.module('FSCounterAggregatorApp')
+	.controller('TopBarController', [function() {
+	}])
+	.directive('fcaTopBar', function() {
+	    return {
+		templateUrl: 'build/html/topBarView.html'
+	    };
+	});
+    
 }());

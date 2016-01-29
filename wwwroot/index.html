@@ -19,11 +19,15 @@
 	<![endif]-->
   </head>
   <body class="hold-transition skin-foxstream sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper">      
 
-      <div ng-controller="TopBarController" ng-include="'build/html/topbarView.html'"></div>
+      <div ng-controller="TopBarController">
+	<div fca-top-bar></div>
+      </div>
 
-      <div ng-controller="SideMenuController" ng-include="'build/html/sideMenuView.html'"></div>
+      <div ng-controller="SideMenuController">
+	<div fca-side-menu></div>
+      </div>
 
       <!-- Dynamic view -->
       <ng-view></ng-view>
@@ -37,7 +41,9 @@
 	reserved.
       </footer>
 
-      <div ng-controller="MainMenuController" ng-include="'build/html/mainMenuView.html'" onload="createControl()"></div>
+      <div ng-controller="MainMenuController">
+	<div fca-main-menu></div>
+      </div>
 
       <!-- Add the sidebar's background. This div must be placed
 	   immediately after the control sidebar -->
