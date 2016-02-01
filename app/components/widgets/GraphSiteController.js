@@ -20,6 +20,8 @@
 
 		$scope.params = DashboardParamsService;
 
+		$scope.siteSelected = $scope.params.sites[0];
+
 		$scope.style = undefined;
 		$scope.countingChartOptions = undefined;
 		$scope.countingChartData = undefined;
@@ -36,11 +38,12 @@
 		$scope.countingChart = undefined;
 		var countingChartLine;
 
-		$scope.indicatorSelect = {
-		    selected: { id: 'in', name: 'In' },
-		    options: [ { id: 'in', name: 'In' },
-			       { id: 'out', name: 'Out' } ]
-		};
+		$scope.indicatorOptions = [
+		    { id: 'in', name: 'In' },
+		    { id: 'out', name: 'Out' }
+		];
+
+		$scope.indicatorSelected = $scope.indicatorOptions[0];
 
 		$scope.rangeOptions = [ { id: '15min', name: 'Minutes' },
 					{ id: 'hours', name: 'Hourly' },
@@ -48,7 +51,7 @@
 					{ id: 'week', name: 'Week' },
 					{ id: 'month', name: 'Month' } ];
 
-		$scope.rangeSelected = 'hours';
+		$scope.rangeSelected = $scope.rangeOptions[0].id;
 
 		$scope.setRange = function(r) {
 		    $scope.rangeSelected = r;
@@ -60,13 +63,14 @@
 		    KPI.getSiteCountingPeriod({ id: 0,
 						period: $scope.params.period,
 						groupBy: $scope.rangeSelected,
-						indicator: $scope.indicatorSelect.selected.id })
+						indicator: $scope.indicatorSelected.id })
 		    .then(function(res) {
 
 			    if(countingChartLine !== undefined) {
 				countingChartLine.destroy();
 			    }
-
+			
+			$scope.total = res.total;
 			$scope.countingChartData.labels = res.labels;
 			    $scope.countingChartData.datasets[0].data = res.data;
 			countingChartLine = $scope.countingChart.Line($scope.countingChartData, 

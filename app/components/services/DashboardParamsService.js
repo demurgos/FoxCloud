@@ -16,13 +16,13 @@
 
 	    this.sites = [
 		{ id: 0, 
-		  oname: "Foxstream France" },
+		  name: "Foxstream France" },
 		{ id: 1,
-		  oname: "BEV" },
+		  name: "BEV" },
 		{ id: 2, 
-		  oname: "Vaulx-en-velin" },
+		  name: "Vaulx-en-velin" },
 		{ id: 3,
-		  oname: "Foxstream Miami" }
+		  name: "Foxstream Miami" }
 	    ];
 	});
 }());
