@@ -60,7 +60,7 @@
 
 		$scope.update = function() {
 
-		    KPI.getSiteCountingPeriod({ id: 0,
+		    KPI.getSiteCountingPeriod({ id: $scope.siteSelected.id,
 						period: $scope.params.period,
 						groupBy: $scope.rangeSelected,
 						indicator: $scope.indicatorSelected.id })

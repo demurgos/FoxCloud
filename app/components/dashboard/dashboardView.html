@@ -30,12 +30,12 @@
           </ul>
         </li>
         <li>
-	  <input date-range-picker="date-range-picker" 
+	  <a date-range-picker="date-range-picker" 
 		 class="btn btn-default daterange pull-right" 
 		 type="text" 
 		 ng-model="params.period" 
-		 options="periodOpts"></input>
-	  <i class="fa fa-calendar"></i>
+		 options="periodOpts">
+	  {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D, YYYY')}} <i class="fa fa-calendar"></i></a>
         </li>
       </ul>
     </div>
