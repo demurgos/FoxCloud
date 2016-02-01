@@ -46,23 +46,24 @@
 		$scope.indicatorSelected = $scope.indicatorOptions[0];
 
 		$scope.rangeOptions = [ { id: '15min', name: 'Minutes' },
-					{ id: 'hours', name: 'Hourly' },
-					{ id: 'days', name: 'Day' },
+					{ id: 'hours', name: 'Hours' },
+					{ id: 'days', name: 'Days' },
 					{ id: 'week', name: 'Week' },
 					{ id: 'month', name: 'Month' } ];
 
-		$scope.rangeSelected = $scope.rangeOptions[0].id;
+		$scope.rangeSelected = $scope.rangeOptions[0];
 
-		$scope.setRange = function(r) {
-		    $scope.rangeSelected = r;
-		    $scope.update();
-		};
+		$scope.$watch('rangeSelected.id', function(oldId, newId) {
+		    if(oldId !== newId) {
+			$scope.update();
+		    }
+		});
 
 		$scope.update = function() {
 
 		    KPI.getSiteCountingPeriod({ id: $scope.siteSelected.id,
 						period: $scope.params.period,
-						groupBy: $scope.rangeSelected,
+						groupBy: $scope.rangeSelected.id,
 						indicator: $scope.indicatorSelected.id })
 		    .then(function(res) {
 

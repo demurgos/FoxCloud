@@ -4,8 +4,8 @@
       <div class="box-tools pull-right">
 	<div class="btn-group">
           <button type="button" ng-repeat="range in rangeOptions" class="btn btn-default btn-sm" 
-		  ng-model="rangeSelected" 
-		  btn-radio="range.id" ng-click="setRange(range.id)">{{range.name}}</button>
+		  ng-model="rangeSelected.id" 
+		  uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
 	</div>
       </div>
       <i class="fa fa-inbox"></i>
