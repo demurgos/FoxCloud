@@ -7,15 +7,13 @@
     angular.module('FSCounterAggregatorApp').
 	controller('GraphSiteController', [ 
 	    '$scope', 
-	    'DataService',
 	    'WidgetStyleService',
-	    'ComputeService',
+	    'KPI',
 	    'DashboardParamsService',
 	    function(
 		$scope, 
-		DataService,
 		WidgetStyleService,
-		ComputeService,
+		KPI,
 		DashboardParamsService
 	    ) {
 		$scope.widgetId = "GraphSiteWidget";
@@ -26,6 +24,8 @@
 		$scope.countingChartOptions = undefined;
 		$scope.countingChartData = undefined;
 		$scope.sparklines = [];
+
+		$scope.total = 0;
 
 		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
 		    if(newPeriod !== oldPeriod) {
@@ -56,29 +56,23 @@
 		};
 
 		$scope.update = function() {
-		    
-		    DataService.getRawDataForCameraInInterval(0, $scope.params.period).
-			then(function(data) {
 
-			    var tdata = ComputeService.cSumForPeriod(data, 
-								     $scope.params.period, 
-								     $scope.rangeSelected, 
-								     $scope.indicatorSelect.selected.id);
+		    KPI.getSiteCountingPeriod({ id: 0,
+						period: $scope.params.period,
+						groupBy: $scope.rangeSelected,
+						indicator: $scope.indicatorSelect.selected.id })
+		    .then(function(res) {
 
 			    if(countingChartLine !== undefined) {
 				countingChartLine.destroy();
 			    }
 
-			    $scope.countingChartData.labels = ComputeService.createTimeIndex($scope.params.period,
-											     ComputeService.getTimeIterator($scope.rangeSelected),
-											     function(i) { return i; });				      
-			    $scope.countingChartData.datasets[0].data = tdata;
-			    countingChartLine = $scope.countingChart.Line($scope.countingChartData, 
-									  $scope.countingChartOptions);
-			});		  
-
+			$scope.countingChartData.labels = res.labels;
+			    $scope.countingChartData.datasets[0].data = res.data;
+			countingChartLine = $scope.countingChart.Line($scope.countingChartData, 
+								      $scope.countingChartOptions);
+		    });
 		};
-
 		
 		$scope.createWidget = function() {
 		    
@@ -123,12 +117,13 @@
 	    link: function(scope, element, attr) {
 
 		// Counting chart
-		var countingChartCanvas = $("#counting-chart").get(0).getContext("2d");
+		var countingChartCanvas = $(element).find("#counting-chart").get(0).getContext("2d");
+
 		scope.countingChart = new Chart(countingChartCanvas);
 
-		scope.sparklines.push(new Chart($("#sparkline-1").get(0).getContext("2d")));
-		scope.sparklines.push(new Chart($("#sparkline-2").get(0).getContext("2d")));
-		scope.sparklines.push(new Chart($("#sparkline-3").get(0).getContext("2d")));
+		scope.sparklines.push(new Chart($(element).find("#sparkline-1").get(0).getContext("2d")));
+		scope.sparklines.push(new Chart($(element).find("#sparkline-2").get(0).getContext("2d")));
+		scope.sparklines.push(new Chart($(element).find("#sparkline-3").get(0).getContext("2d")));
 
 		scope.createWidget();
 	    },

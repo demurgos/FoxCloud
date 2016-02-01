@@ -52,7 +52,7 @@
       * @description returns the number of step interval between 2 values
       */
      this.getTimeIndex = function(time, timeStart, step) {
-	 return Math.floor(time - timeStart) / step;
+	 return Math.floor((time - timeStart) / step);
      };    
 
      /**
@@ -146,6 +146,34 @@
      this.merge = function(data) {
      };
 
+     /**
+      * @function IdentityFunc
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description f(x) = x
+      */
+     this.identityFunc = function(x) {
+	 return x;
+     };
+
+     
+     /**
+      * @function sum
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description Simply returns the sum off all elements in a array
+      */
+     this.cSum = function(data) {
+	 var s = 0;
+	 for(var i = 0; i < data.length; ++i) {
+	     s += data[i];
+	 }
+	 return s;
+     };
+
+     /**
+      * @function cSumForPeriod
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description aggregate id counting data on a period grouped by step duration
+      */
      this.cSumForPeriod = function(data, period, step, id) {
 	 
 	 var that = this;

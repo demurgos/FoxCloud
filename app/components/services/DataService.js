@@ -9,14 +9,14 @@
  angular.module('FSCounterAggregatorApp').service('DataService', ["$http", "$q", function($http, $q) {
      
      /**
-      * @function getRawDataForCameraInInterval
+      * @function getRawDataForSiteInInterval
       * @memberOf FSCounterAggregatorApp.DataService
-      * @description retrieve a set of camera counting data from a date range
+      * @description retrieve a set of site counting data from a date range
       */
-     this.getRawDataForCameraInInterval = function(cameraId, period) {	 
+     this.getRawDataForSiteInInterval = function(siteId, period) {	 
 
 	 var deferred = $q.defer();
-
+	 
 	 $http.get("assets/counter1day.json").
 	     success(function(data, status) {
 		 deferred.resolve(data);
