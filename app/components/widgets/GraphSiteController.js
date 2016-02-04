@@ -87,7 +87,7 @@
 			    $scope.countingChartOptions = $scope.style.graph.options;
 			    $scope.countingChartData = {
 				datasets: [ $scope.style.graph.datasets["in"] ] };
-			    $scope.update();
+			    //$scope.update();
 
 			    //Sparkline charts
 			    var sparklineLabels = ["January", "February", "March", "April", "May", "June", "July",
