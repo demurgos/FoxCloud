@@ -27,17 +27,6 @@
 		$scope.countingChartData = undefined;
 		$scope.sparklines = [];
 
-		$scope.total = 0;
-
-		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
-		    if(newPeriod !== oldPeriod) {
-			$scope.update();
-		    }
-		});
-
-		$scope.countingChart = undefined;
-		var countingChartLine;
-
 		$scope.indicatorOptions = [
 		    { id: 'in', name: 'In' },
 		    { id: 'out', name: 'Out' }
@@ -45,13 +34,20 @@
 
 		$scope.indicatorSelected = $scope.indicatorOptions[0];
 
-		$scope.rangeOptions = [ { id: '15min', name: 'Minutes' },
-					{ id: 'hours', name: 'Hours' },
-					{ id: 'days', name: 'Days' },
-					{ id: 'week', name: 'Week' },
-					{ id: 'month', name: 'Month' } ];
+		$scope.rangeOptions = WidgetStyleService.rangeOptions;
 
-		$scope.rangeSelected = $scope.rangeOptions[0];
+		$scope.rangeSelected = angular.extend({}, $scope.rangeOptions[0]);
+
+		$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
+									   $scope.rangeSelected);
+
+		$scope.total = 0;
+
+		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
+		    if(newPeriod !== oldPeriod) {
+			$scope.update();
+		    }
+		});
 
 		$scope.$watch('rangeSelected.id', function(oldId, newId) {
 		    if(oldId !== newId) {
@@ -67,15 +63,13 @@
 						indicator: $scope.indicatorSelected.id })
 		    .then(function(res) {
 
-			    if(countingChartLine !== undefined) {
-				countingChartLine.destroy();
-			    }
-			
 			$scope.total = res.total;
-			$scope.countingChartData.labels = res.labels;
-			    $scope.countingChartData.datasets[0].data = res.data;
-			countingChartLine = $scope.countingChart.Line($scope.countingChartData, 
-								      $scope.countingChartOptions);
+			$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
+										   $scope.rangeSelected.id);			
+			$scope.countingChartData = [
+			    { key: $scope.indicatorSelected.name,
+			      values: res.data,
+			      area: true } ];
 		    });
 		};
 		
@@ -84,10 +78,19 @@
 		    WidgetStyleService.getStyle($scope.widgetId).
 			then(function(data) {
 			    $scope.style = data.json;
-			    $scope.countingChartOptions = $scope.style.graph.options;
-			    $scope.countingChartData = {
-				datasets: [ $scope.style.graph.datasets["in"] ] };
-			    //$scope.update();
+			    $scope.style.nvd3.chart.xAxis.tickFormat = function(d) {
+				return moment(d).format($scope.periodTimeFormat);
+			    };
+			    $scope.style.nvd3.chart.yAxis.tickFormat = function(d) {
+				return d3.format('d')(d);
+			    };
+			    $scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
+				return $scope.rangeSelected.label(d);
+			    };
+			    $scope.countingChartOptions = $scope.style.nvd3;
+			    $scope.countingChartData = [];
+			    
+			    $scope.update();
 
 			    //Sparkline charts
 			    var sparklineLabels = ["January", "February", "March", "April", "May", "June", "July",
@@ -120,11 +123,6 @@
     .directive('fcaGraphSite', function() {
 	return {
 	    link: function(scope, element, attr) {
-
-		// Counting chart
-		var countingChartCanvas = $(element).find("#counting-chart").get(0).getContext("2d");
-
-		scope.countingChart = new Chart(countingChartCanvas);
 
 		scope.sparklines.push(new Chart($(element).find("#sparkline-1").get(0).getContext("2d")));
 		scope.sparklines.push(new Chart($(element).find("#sparkline-2").get(0).getContext("2d")));

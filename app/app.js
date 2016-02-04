@@ -8,6 +8,7 @@
 	'ngRoute',
 	'ui.bootstrap',
 	'daterangepicker',
+	'nvd3',
 	'adminLTE']);
     
     // Configure routes

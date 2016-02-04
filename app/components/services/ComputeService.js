@@ -72,7 +72,7 @@
 	 var index = [];
 	 var ts = period.startDate.clone();
 	 for(var i = 0; ts.unix() < period.endDate.unix(); ++i) {
-	     index.push(idxFuncValue(i, ts));
+	     index.push({ x: ts.clone(), y: idxFuncValue(i, ts) });
 	     ts = stepFunc(ts);
 	 }
 	 return index;
@@ -89,10 +89,10 @@
 	     if(idx !== undefined && 
 		idx >= 0 &&
 		idx < index.length) {
-		 if(index[idx] === undefined) {
-		     index[idx] = [ i ];
+		 if(index[idx].y === undefined) {
+		     index[idx].y = [ i ];
 		 } else {
-		     index[idx].push(i);
+		     index[idx].y.push(i);
 		 }
 	     }
 	 }
@@ -107,11 +107,11 @@
      this.aggregate = function(data, index, cumulFunc) {
 	 var res = [];
 	 for(var i = 0; i < index.length; ++i) {
-	     var cumul = cumulFunc();
 	     var curIndex = index[i];
-	     if(curIndex !== undefined) {
-		 for(var j = 0; j < curIndex.length; ++j) {
-		     cumul = cumulFunc(data[curIndex[j]], cumul);
+	     var cumul = { x: curIndex.x, y: cumulFunc() };
+	     if(curIndex.y !== undefined) {
+		 for(var j = 0; j < curIndex.y.length; ++j) {
+		     cumul.y = cumulFunc(data[curIndex.y[j]], cumul.y);
 		 }
 	     }
 	     res.push(cumul);
@@ -161,10 +161,10 @@
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description Simply returns the sum off all elements in a array
       */
-     this.cSum = function(data) {
+     this.cSum = function(data, fsum) {
 	 var s = 0;
 	 for(var i = 0; i < data.length; ++i) {
-	     s += data[i];
+	     s += fsum(data[i]);
 	 }
 	 return s;
      };
@@ -180,7 +180,7 @@
 
 	 var timeIndex = this.createTimeIndex(period,
 					      that.rangeFunc[step].step,
-					      function() { return undefined; });				
+					      function() { return undefined; });
 	 timeIndex = this.fillIndex(data,
 				    timeIndex,
 				    function(elt) {
@@ -191,7 +191,7 @@
 	 var tdata = this.aggregate(data, 
 				    timeIndex,
 				    function(elt, curCumul) {
-					return elt !== undefined ? 
+					return curCumul !== undefined ? 
 					    curCumul + elt[id] : 0;
 				    });
 	 return tdata;

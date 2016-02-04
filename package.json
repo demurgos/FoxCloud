@@ -43,12 +43,15 @@
     "admin-lte": "https://github.com/Innovisite/AdminLTE.git#dev",
     "angular": "^1.4.9",
     "angular-daterangepicker": "^0.2.2",
+    "angular-nvd3": "^1.0.5",
     "angular-route": "^1.4.9",
     "angular-ui-bootstrap": "^1.1.1",
     "bootstrap": "^3.3.6",
     "bootstrap-daterangepicker": "^2.1.17",
+    "d3": "^3.5.14",
     "daterangepicker": "0.0.3",
     "event-stream": "^3.3.2",
-    "gh-release": "^2.0.2"
+    "gh-release": "^2.0.2",
+    "nvd3": "^1.8.2"
   }
 }

@@ -24,6 +24,7 @@ var cssSources = [ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
 		   adminlteRoot + "plugins/datepicker/datepicker3.css",
 		   "node_modules/daterangepicker/daterangepicker-bs3.css",
 		   adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.css",
+		   "node_modules/nvd3/build/nv.d3.css",
 		   "lib/Styles/*.css",
 		   "app/assets/css/*.css" ];
 
@@ -53,6 +54,9 @@ var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
 			  'node_modules/daterangepicker/daterangepicker.js',
 			  'node_modules/bootstrap-daterangepicker/daterangepicker.js',
 			  'node_modules/angular-daterangepicker/js/angular-daterangepicker.js',
+			  'node_modules/d3/d3.js',
+			  'node_modules/nvd3/build/nv.d3.js',
+			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
 			  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
 			  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
 			  adminlteRoot + 'plugins/fastclick/fastclick.js'];

@@ -35,12 +35,7 @@
 								    query.period,
 								    query.groupBy,
 								    query.indicator);
-			    res.total = ComputeService.cSum(res.data);
-			    res.labels = ComputeService.createTimeIndex(query.period,
-									ComputeService.
-									getTimeIterator(query.groupBy),
-									ComputeService.
-									identityFunc);
+			    res.total = ComputeService.cSum(res.data, function(elt) { return elt.y; });
 			    deferred.resolve(res);
 			});
 		    return deferred.promise;

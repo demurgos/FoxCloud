@@ -1,4 +1,18 @@
 {
+    "nvd3": {
+	"chart": {
+	    "type": "lineChart",
+	    "height": 300,
+	    "tooltip": {
+	    },
+	    "xAxis": {
+	    },
+	    "yAxis": {
+	    },
+	    "forceY": [ 0, 1 ]		
+	}
+    },
+
     "graph": {
 	"datasets": {
 	    "in": {
