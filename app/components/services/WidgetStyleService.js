@@ -50,6 +50,15 @@
 		    }
 		};
 
+		this.indicatorParams = {
+		    'in': { 
+			name: 'In' 
+		    },
+		    'out': {
+			name: 'Out' 
+		    }
+		};
+
 		this.widgetStyles = {
 		    "GraphSiteWidget": {
 			"json": "assets/graphsite.json",
@@ -57,8 +66,12 @@
 		    }
 		};
 
-		this.getDefaultRangeOptions = function() {
+		this.getDefaultRangeId = function() {
 		    return '15min';
+		};
+
+		this.getDefaultIndicatorId = function() {
+		    return 'in';
 		};
 
 		this.getRangeParams = function(id) {
@@ -96,6 +109,10 @@
 
 		this.getRangeTimeFormat = function(rangeId) {
 		    return this.getRangeParams(rangeId).label;
+		};
+
+		this.getIndicatorName = function(indicatorId) {
+		    return this.indicatorParams[indicatorId].name;
 		};
 
 	    }]);    

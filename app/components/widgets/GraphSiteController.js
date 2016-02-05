@@ -20,21 +20,20 @@
 
 		$scope.params = DashboardParamsService;
 
-		$scope.siteSelected = $scope.params.sites[0];
+		$scope.siteSelected = undefined; 
+		DashboardParamsService.loadParams().then(function() {
+		    $scope.siteSelected = $scope.params.sites[0];
+		    $scope.update();
+		});
 
 		$scope.style = undefined;
 		$scope.countingChartOptions = undefined;
 		$scope.countingChartData = undefined;
 		$scope.sparklines = [];
 
-		$scope.indicatorOptions = [
-		    { id: 'in', name: 'In' },
-		    { id: 'out', name: 'Out' }
-		];
+		$scope.indicatorSelected = { id: WidgetStyleService.getDefaultIndicatorId() };
 
-		$scope.indicatorSelected = $scope.indicatorOptions[0];
-
-		$scope.rangeSelected = { id: WidgetStyleService.getDefaultRangeOptions() };
+		$scope.rangeSelected = { id: WidgetStyleService.getDefaultRangeId() };
 
 		$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
 									   $scope.rangeSelected.id);
@@ -65,7 +64,7 @@
 			$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
 										   $scope.rangeSelected.id);
 			$scope.countingChartData = [
-			    { key: $scope.indicatorSelected.name,
+			    { key: WidgetStyleService.getIndicatorName($scope.indicatorSelected.id),
 			      values: res.data,
 			      area: true } ];
 		    });
@@ -88,8 +87,6 @@
 			    $scope.countingChartOptions = $scope.style.nvd3;
 			    $scope.countingChartData = [];
 			    
-			    $scope.update();
-
 			    //Sparkline charts
 			    var sparklineLabels = ["January", "February", "March", "April", "May", "June", "July",
 						   "August", "September", "October", "November", "December"];

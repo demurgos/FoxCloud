@@ -24,7 +24,7 @@
 					<li class="dropdown">
 						<select class="form-control"
 							ng-model="indicatorSelected"
-							ng-options="option.name for option in indicatorOptions track by option.id"
+							ng-options="option.name for option in params.indicatorOptions track by option.id"
 							ng-change="update()">
 						</select>
 					</li>
