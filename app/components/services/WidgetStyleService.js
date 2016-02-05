@@ -23,7 +23,7 @@
 		    'hours': {
 		      hourMode: true,
 		      label: function(d, p) {
-			  return moment(d).format("dddd, MMMM Do YYYY, HH");
+			  return moment(d).format("dddd, MMMM Do YYYY, HH:00");
 		      }
 		    },
 		    'days': {
@@ -35,7 +35,7 @@
 		    'week': {
 		      hourMode: false,
 		      label: function(d, p) {
-			  return moment(d).format("MMM DD YYYY").concat(
+			  return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
 			      moment.min(moment(d).add(1, "w"), 
 					 p.endDate).format(" - MMM DD YYYY"));
 		      }
@@ -43,7 +43,7 @@
 		    'month': {
 		      hourMode: false,
 		      label: function(d, p) {
-			  return moment(d).format("MMM DD YYYY").concat(
+			  return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
 			      moment.min(moment(d).add(1, "M"), 
 					 p.endDate).format(" - MMM DD YYYY"));
 		      }

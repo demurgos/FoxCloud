@@ -15,36 +15,60 @@
      this.NSEC_DAY = 86400;
      this.NSEC_WEEK = 604800;
 
-     this.rangeFunc = { '15min': { step: function(date) { return date.add(15,"m"); },
-				   dist: function(date, dateStart) {
-				       return that.getTimeIndex(date.unix(),
-								dateStart.unix(),
-								that.NSEC_15MIN);
-				   }},
-			'hours': { step: function(date) { return date.add(1, "h"); },
-				   dist: function(date, dateStart) {
-				       return that.getTimeIndex(date.unix(),
-								dateStart.unix(),
-								that.NSEC_HOUR);
-				   }},
-			'days': { step: function(date) { return date.add(1, "d"); },
-				  dist: function(date, dateStart) {
-				      return that.getTimeIndex(date.unix(),
-							       dateStart.unix(),
-							       that.NSEC_DAY);
-				  }},
-			'week': { step: function(date) { return date.add(1, "w"); },
-				  dist: function(date, dateStart) {
-				      return that.getTimeIndex(date.unix(),
-							       dateStart.unix(),
-							       that.NSEC_WEEK);
-				  }},
-			'month': { step: function(date) { return date.add(1,"M"); },
-				   dist: function(date, dateStart) {
-				       return (date.year()*12 + date.month()) - 
-					   (dateStart.year()*12 + dateStart.month());
-				   }}
-		      };
+     this.rangeFunc = { 
+	 '15min': { 
+	     init: function(date) {
+		 return date.minute(Math.floor(date.minute() / 15) * 15);
+	     },
+	     step: function(date) { 
+		 return date.add(15,"m"); 
+	     },
+	     dist: function(date, dateStart) {
+		 return that.getTimeIndex(date.unix(),
+					  dateStart.unix(),
+					  that.NSEC_15MIN);
+	     }},
+	 'hours': { 
+	     init: function(date) {
+		 return date.minute(0);
+	     },
+	     step: function(date) { return date.add(1, "h"); },
+	     dist: function(date, dateStart) {
+		 return that.getTimeIndex(date.unix(),
+					  dateStart.unix(),
+					  that.NSEC_HOUR);
+	     }},
+	 'days': { 
+	     init: function(date) {
+		 return date.minute(0).hour(0);
+	     },
+	     step: function(date) { return date.add(1, "d"); },
+	     dist: function(date, dateStart) {
+		 return that.getTimeIndex(date.unix(),
+					  dateStart.unix(),
+					  that.NSEC_DAY);
+	     }},
+	 'week': { 
+	     init: function(date) {
+		 return date.day(1);
+	     },
+	     step: function(date) { return date.add(1, "w"); },
+	     dist: function(date, dateStart) {
+		 return that.getTimeIndex(date.unix(),
+					  dateStart.unix(),
+					  that.NSEC_WEEK);
+	     }},
+	 'month': { 
+	     init: function(date) {
+		 return date.date(1);
+	     },
+	     step: function(date) { return date.add(1,"M"); },
+	     dist: function(date, dateStart) {
+		 //return date.diff(dateStart, "months");
+		 return (date.year()*12 + date.month()) - 
+		     (dateStart.year()*12 + dateStart.month());
+	     }}
+     };
 
      /**
       * @function getTimeIndex
@@ -68,9 +92,9 @@
       * @function createTimeIndex
       * @memberOf FSCounterAggregatorApp.ComputeService
       */
-     this.createTimeIndex = function(period, stepFunc, idxFuncValue) {
+     this.createTimeIndex = function(period, initFunc, stepFunc, idxFuncValue) {
 	 var index = [];
-	 var ts = period.startDate.clone();
+	 var ts = initFunc(period.startDate.clone());
 	 for(var i = 0; ts.unix() < period.endDate.unix(); ++i) {
 	     index.push({ x: ts.clone(), y: idxFuncValue(i, ts) });
 	     ts = stepFunc(ts);
@@ -179,6 +203,7 @@
 	 var that = this;
 
 	 var timeIndex = this.createTimeIndex(period,
+					      that.rangeFunc[step].init,
 					      that.rangeFunc[step].step,
 					      function() { return undefined; });
 	 timeIndex = this.fillIndex(data,

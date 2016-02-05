@@ -24,7 +24,6 @@
 		    var res = { 
 			query: query,
 			data: undefined,
-			labels: undefined,			
 			total: 0
 		    };
 				
