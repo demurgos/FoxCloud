@@ -14,6 +14,14 @@
 			  };
 
 
+	    this.rangeOptions = [
+		{ id: '15min', name: 'Minutes' },
+		{ id: 'hours', name: 'Hours' },
+		{ id: 'days', name: 'Days' },
+		{ id: 'week', name: 'Week' },
+		{ id: 'month', name: 'Month' }
+	    ];
+
 	    this.sites = [
 		{ id: 0, 
 		  name: "Foxstream France" },

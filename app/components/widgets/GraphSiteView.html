@@ -3,7 +3,7 @@
 		<div class="box-header with-border">
 			<div class="box-tools pull-right">
 				<div class="btn-group">
-					<button type="button" ng-repeat="range in rangeOptions" class="btn btn-default btn-sm"
+					<button type="button" ng-repeat="range in params.rangeOptions" class="btn btn-default btn-sm"
 					ng-model="rangeSelected.id"
 					uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
 				</div>

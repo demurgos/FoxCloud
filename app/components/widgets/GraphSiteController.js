@@ -34,12 +34,10 @@
 
 		$scope.indicatorSelected = $scope.indicatorOptions[0];
 
-		$scope.rangeOptions = WidgetStyleService.rangeOptions;
-
-		$scope.rangeSelected = angular.extend({}, $scope.rangeOptions[0]);
+		$scope.rangeSelected = { id: WidgetStyleService.getDefaultRangeOptions() };
 
 		$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
-									   $scope.rangeSelected);
+									   $scope.rangeSelected.id);
 
 		$scope.total = 0;
 
@@ -65,7 +63,7 @@
 
 			$scope.total = res.total;
 			$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
-										   $scope.rangeSelected.id);			
+										   $scope.rangeSelected.id);
 			$scope.countingChartData = [
 			    { key: $scope.indicatorSelected.name,
 			      values: res.data,
@@ -85,7 +83,7 @@
 				return d3.format('d')(d);
 			    };
 			    $scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
-				return $scope.rangeSelected.label(d);
+				return WidgetStyleService.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 			    };
 			    $scope.countingChartOptions = $scope.style.nvd3;
 			    $scope.countingChartData = [];
