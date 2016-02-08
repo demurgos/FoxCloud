@@ -16,8 +16,18 @@
 				ng-change="update()">
 			</select>
 			</h3>
-			<h3 class="box-title">vs <a href="#" >select a site </a></h3>
-		</div>
+			<h3 class="box-title">vs <a ng-click="toggleSiteComparison(true)" ng-show="siteComparisonSelected == null" href="">select a site </a></h3>
+            <div class="box-title" ng-show="siteComparisonSelected != null">
+                <h3 class="box-title">
+                    <select class="form-control"
+                            ng-model="siteSelected"
+                            ng-options="option.name for option in params.sites track by option.id"
+                            ng-change="update()">
+                    </select>
+                </h3>
+                <i class="fa fa-times-circle" ng-click="toggleSiteComparison(false)"></i>
+            </div>
+        </div>
 		<div class="box-body">
 			<nav class="navbar">
 				<ul class="nav navbar-nav">

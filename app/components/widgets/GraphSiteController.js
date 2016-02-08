@@ -26,6 +26,8 @@
 		    $scope.update();
 		});
 
+        $scope.siteComparisonSelected = undefined;
+
 		$scope.style = undefined;
 		$scope.countingChartOptions = undefined;
 		$scope.countingChartData = undefined;
@@ -39,6 +41,11 @@
 									   $scope.rangeSelected.id);
 
 		$scope.total = 0;
+
+        $scope.toggleSiteComparison = function(open) {
+
+           $scope.siteComparisonSelected = (open ? $scope.params.sites[0] : undefined);
+        };
 
 		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
 		    if(newPeriod !== oldPeriod) {
