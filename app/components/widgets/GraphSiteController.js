@@ -21,12 +21,13 @@
 		$scope.params = DashboardParamsService;
 
 		$scope.siteSelected = undefined; 
+
 		DashboardParamsService.loadParams().then(function() {
 		    $scope.siteSelected = $scope.params.sites[0];
 		    $scope.update();
 		});
 
-        $scope.siteComparisonSelected = undefined;
+		$scope.siteComparisonSelected = undefined;
 
 		$scope.style = undefined;
 		$scope.countingChartOptions = undefined;
@@ -42,10 +43,10 @@
 
 		$scope.total = 0;
 
-        $scope.toggleSiteComparison = function(open) {
-
-           $scope.siteComparisonSelected = (open ? $scope.params.sites[0] : undefined);
-        };
+		$scope.toggleSiteComparison = function(open) {
+		    $scope.siteComparisonSelected = (open ? ($scope.params.sites[0].id !== $scope.siteSelected.id ? 
+							     $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
+		};
 
 		$scope.$watch('params.period', function(oldPeriod, newPeriod) {
 		    if(newPeriod !== oldPeriod) {
