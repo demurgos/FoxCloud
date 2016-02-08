@@ -11,6 +11,11 @@
   z-index: 13;
 }
 
+.fa-times-circle:hover {
+    color: #717171;
+    cursor:pointer;
+}
+
 .skin-foxstream .main-header .navbar {
   background-color: #dd4b39;
 }
