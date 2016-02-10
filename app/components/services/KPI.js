@@ -45,6 +45,34 @@
 		    return deferred.promise;
 		};
 
+		/**
+		 * @function getAllSitesTotalCountingPeriod
+		 * @memberOf FSCounterAggregatorApp.KPI
+		 * @description Returns a promise that compute the total
+		 * of all site counting data within a period of time
+		 */
+		this.getAllSitesTotalCountingPeriod = function(query) {
+		    var deferred = $q.defer();
+		    
+		    var res = { 
+			query: query,
+			data: undefined,
+			total: 0
+		    };
+				
+		    DataService.getRawDataForSiteInInterval(null,
+							    query.period)
+			.then(function(data) {
+			    res.total = ComputeService.cSum(data, 
+							    function(elt) { 
+								return elt[query.indicator]; 
+							    });
+			    deferred.resolve(res);
+			});
+
+		    return deferred.promise;		    
+		};
+
 	    }]);
 }());
 	

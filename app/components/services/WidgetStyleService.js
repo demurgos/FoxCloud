@@ -62,6 +62,10 @@
 		    "GraphSiteWidget": {
 			"json": "assets/graphsite.json",
 			"css": undefined
+		    },
+		    "StatBoxWidget": {
+			"json": "assets/statbox.json",
+			"css": undefined
 		    }
 		};
 
