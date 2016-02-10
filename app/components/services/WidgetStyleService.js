@@ -3,7 +3,6 @@
  * @memberOf FSCounterAggregatorApp
  * @description Retrieve rendering style information for widgets
  */
-
 (function() {
     
     angular.module('FSCounterAggregatorApp').
@@ -66,14 +65,29 @@
 		    }
 		};
 
+		/**
+		 * @function getDefaultRangeId
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description returns the default selected period range
+		 */
 		this.getDefaultRangeId = function() {
 		    return '15min';
 		};
 
+		/**
+		 * @function getDefaultIndicatorId
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description returns the default selected indicator
+		 */
 		this.getDefaultIndicatorId = function() {
 		    return 'in';
 		};
 
+		/**
+		 * @function getRangeParams
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description returns the parameters for a specific period id
+		 */
 		this.getRangeParams = function(id) {
 		    return this.rangeParams[id];
 		};
@@ -97,6 +111,11 @@
 		    return deferred.promise;
 		};		
 
+		/**
+		 * @function getTimeFormat
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description retrieve style information for a specific period range
+		 */
 		this.getTimeFormat = function(period, rangeId) {
 		    if(period.endDate.diff(period.startDate, "weeks") > 8) {
 			return "MMMM YYYY";
@@ -107,10 +126,20 @@
 		    }
 		};
 
+		/**
+		 * @function getRangeTimeFormat
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description returns the appropriate function which set the date format
+		 */
 		this.getRangeTimeFormat = function(rangeId) {
 		    return this.getRangeParams(rangeId).label;
 		};
 
+		/**
+		 * @function getIndicatorName
+		 * @memberOf FSCounterAggregator.WidgetStyleService
+		 * @description returns the displayed indicator label
+		 */
 		this.getIndicatorName = function(indicatorId) {
 		    return this.indicatorParams[indicatorId].name;
 		};

@@ -3,7 +3,6 @@
  * @memberOf FSCounterAggregatorApp
  * @description A set of numerical methods
  */
-
 (function() {
 
  angular.module('FSCounterAggregatorApp').service('ComputeService', function() {
@@ -80,7 +79,7 @@
      };    
 
      /**
-      * @function getTimeIndex
+      * @function getTimeIterator
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description returns the function with iterate over a specific time range
       */
@@ -91,6 +90,7 @@
      /**
       * @function createTimeIndex
       * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description returns an array of index elements for a period range
       */
      this.createTimeIndex = function(period, initFunc, stepFunc, idxFuncValue) {
 	 var index = [];
@@ -181,7 +181,7 @@
 
      
      /**
-      * @function sum
+      * @function cSum
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description Simply returns the sum off all elements in a array
       */
@@ -196,7 +196,7 @@
      /**
       * @function cSumForPeriod
       * @memberOf FSCounterAggregatorApp.ComputeService
-      * @description aggregate id counting data on a period grouped by step duration
+      * @description aggregate data on a period grouped by step duration
       */
      this.cSumForPeriod = function(data, period, step, id) {
 	 

@@ -1,7 +1,8 @@
-/*
- * Widget implementation for displaying site data on a graph
+/**
+ * @class GraphSiteController
+ * @memberof FSCounterAggregatorApp
+ * @description Widget implementation for displaying site data on a graph
  **/
-
 (function() {
 
     angular.module('FSCounterAggregatorApp').

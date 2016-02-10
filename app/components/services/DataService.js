@@ -3,7 +3,6 @@
  * @memberOf FSCounterAggregatorApp
  * @description Get Data from server
  */
-
 (function() {
 
  angular.module('FSCounterAggregatorApp').service('DataService', ["$http", "$q", function($http, $q) {

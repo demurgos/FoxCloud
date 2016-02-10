@@ -3,7 +3,6 @@
  * @memberOf FSCounterAggregatorApp
  * @description A set of data indicators
  */
-
 (function() {
     
     angular.module('FSCounterAggregatorApp').
@@ -16,7 +15,13 @@
 		DataService,
 		ComputeService
 	    ) {
-		
+
+		/**
+		 * @function getSiteCountingPeriod
+		 * @memberOf FSCounterAggregatorApp.KPI
+		 * @description Returns a promise that compute the sums of 
+		 * counting for each ranges within a period of time
+		 */
 		this.getSiteCountingPeriod = function(query) {
 		    
 		    var deferred = $q.defer();
