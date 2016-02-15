@@ -1,92 +1,54 @@
 <section class="col-md-12 connectedSortable">
-	<div class="box">
-		<div class="box-header with-border row">
-			<div class="col-md-7 col-xs-12 bottom15">
-                <i class="fa fa-inbox box-title"></i>
-                <h3 class="box-title">
-                <select class="form-control"
-                    ng-model="siteSelected"
-                    ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in params.sites track by option.id"
+  <div class="box">
+    <div class="box-header with-border row">
+      <div class="col-md-7 col-xs-12 bottom15">
+        <i class="fa fa-inbox box-title"></i>
+        <h3 class="box-title">
+          <select class="form-control"
+                  ng-model="siteSelected"
+                  ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in params.sites track by option.id"
+                  ng-change="update()">
+          </select>
+        </h3>
+        <h3 class="box-title">vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
+                                    ng-show="params.sites.length > 1 && siteComparisonSelected == null"
+                                    href="">select a site </a></h3>
+        <div class="box-title" ng-show="siteComparisonSelected != null">
+          <h3 class="box-title">
+            <select class="form-control"
+                    ng-model="siteComparisonSelected"
+                    ng-options="option.name disable when option.id == siteSelected.id for option in params.sites track by option.id"
                     ng-change="update()">
-                </select>
-                </h3>
-                <h3 class="box-title">vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
-                                ng-show="params.sites.length > 1 && siteComparisonSelected == null"
-                                href="">select a site </a></h3>
-                <div class="box-title" ng-show="siteComparisonSelected != null">
-                  <h3 class="box-title">
-                    <select class="form-control"
-                        ng-model="siteComparisonSelected"
-                        ng-options="option.name disable when option.id == siteSelected.id for option in params.sites track by option.id"
-                        ng-change="update()">
-                    </select>
-                  </h3>
-                  <i class="fa fa-times-circle" ng-click="toggleSiteComparison(false)"></i>
-                </div>
-            </div>
-            <div class="col-md-5 col-xs-12 text-right">
-                <div class="btn-group">
-                    <button type="button" ng-repeat="range in params.rangeOptions" class="btn btn-default btn-sm"
-                            ng-model="rangeSelected.id"
-                            uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
-                </div>
-            </div>
-		</div>
-		<div class="box-body">
-			<nav class="navbar">
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<select class="form-control"
-							ng-model="indicatorSelected"
-							ng-options="option.name for option in params.indicatorOptions track by option.id"
-							ng-change="update()">
-						</select>
-					</li>
-				</ul>
-			</nav>
-			<div class="text-center">
-				<h4><strong>Total: {{total}}</strong></h4>
-			</div>
-			 <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
-		</div>
-		<div class="box-footer no-border">
-			<div class="row">
-				<div class="col-xs-4" style="border-right: 1px solid #f4f4f4">
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">BEV 180</h3>
-						</div>
-						<div class="box-body">
-							<div class="chart">
-								<canvas id="sparkline-1" style="height: 28px;"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-4" style="border-right: 1px solid #f4f4f4">
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">Vaulx-en-velin 380</h3>
-						</div>
-						<div class="box-body">
-							<div class="chart">
-								<canvas id="sparkline-2" style="height: 28px;"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-4">
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">Foxstream Miami 510</h3>
-						</div>
-						<div class="box-body">
-							<div class="chart">
-								<canvas id="sparkline-3" style="height: 28px;"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+            </select>
+          </h3>
+          <i class="fa fa-times-circle" ng-click="toggleSiteComparison(false)"></i>
+        </div>
+      </div>
+      <div class="col-md-5 col-xs-12 text-right">
+        <div class="btn-group">
+          <button type="button" ng-repeat="range in KPIRef.rangeOptions" class="btn btn-default btn-sm"
+                  ng-model="rangeSelected.id"
+                  uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="box-body">
+      <nav class="navbar">
+	<ul class="nav navbar-nav">
+	  <li class="dropdown">
+	    <select class="form-control"
+		    ng-model="indicatorSelected"
+		    ng-options="option.name for option in KPIRef.indicatorOptions track by option.id"
+		    ng-change="update()">
+	    </select>
+	  </li>
+	</ul>
+      </nav>
+      <div class="text-center">
+	<h4><strong>Total: {{total}}</strong></h4>
+      </div>
+      <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
+    </div>
+    <div class="box-footer no-border">
+    </div>
+</section>
