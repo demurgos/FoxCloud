@@ -10,9 +10,11 @@
 	service('DashboardParamsService', 
 		[ "$http",
 		  "$q",
+		  "DataService",
 		  function(
 		      $http,
-		      $q
+		      $q,
+		      DataService
 		  ) {
 		      
 		      this.period = { startDate: moment().set('hour', 0).set('minute', 0),
@@ -41,6 +43,7 @@
 			  var that = this;
 			  $http.get("assets/userdata.json").
 			      success(function(data, status) {
+				  that.sites = [];
 				  for(var i = 0; i < data.sites.length; ++i) {
 				      that.sites.push({ id: data.sites[i]._id,
 							name: data.sites[i].name });
@@ -52,6 +55,11 @@
 			      });
 
 			  return deferred.promise;
+		      };
+
+		      this.getSiteData = function(siteId) {
+			  return DataService.getRawDataForSiteInInterval(siteId,
+									 this.period);
 		      };
 
 		  }]);

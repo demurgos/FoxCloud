@@ -63,20 +63,22 @@
 
 		$scope.update = function() {
 
-		    KPI.getSiteCountingPeriod({ id: $scope.siteSelected.id,
-						period: $scope.params.period,
-						groupBy: $scope.rangeSelected.id,
-						indicator: $scope.indicatorSelected.id })
-		    .then(function(res) {
-
-			$scope.total = res.total;
-			$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
-										   $scope.rangeSelected.id);
-			$scope.countingChartData = [
-			    { key: WidgetStyleService.getIndicatorName($scope.indicatorSelected.id),
-			      values: res.data,
-			      area: true } ];
-		    });
+		    DashboardParamsService.getSiteData($scope.siteSelected.id)
+			.then(function(data) {
+			    
+			    var res = KPI.
+				getSiteCountingPeriod({ data: data,
+							period: $scope.params.period,
+							groupBy: $scope.rangeSelected.id,
+							indicator: $scope.indicatorSelected.id });			    
+			    $scope.total = res.total;
+			    $scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.params.period,
+										       $scope.rangeSelected.id);
+			    $scope.countingChartData = [
+				{ key: WidgetStyleService.getIndicatorName($scope.indicatorSelected.id),
+				  values: res.data,
+				  area: true } ];
+			});
 		};
 		
 		$scope.createWidget = function() {

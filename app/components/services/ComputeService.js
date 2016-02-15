@@ -102,6 +102,14 @@
 	 return index;
      };
 
+     this.createFixedLengthIndex = function(length, idxFuncValue) {
+	 var index = [];
+	 for(var i = 0; i < length; ++i) {
+	     index.push({x: i, y: idxFuncValue(i) });
+	 }
+	 return index;
+     };
+
      /**
       * @function fillIndex
       * @memberOf FSCounterAggregatorApp.ComputeService
@@ -183,7 +191,7 @@
      /**
       * @function cSum
       * @memberOf FSCounterAggregatorApp.ComputeService
-      * @description Simply returns the sum off all elements in a array
+      * @description Simply returns the sum of all elements in a array
       */
      this.cSum = function(data, fsum) {
 	 var s = 0;
@@ -191,6 +199,34 @@
 	     s += fsum(data[i]);
 	 }
 	 return s;
+     };
+
+     /**
+      * @function cMean
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description Returns the mean of all elements in a array
+      */
+     this.cMean = function(data, fsum) {
+	 return data.length === 0 ? 0 : this.cSum(data, fsum) / data.length;	 
+     };
+
+     /**
+      * @function cMax
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description Returns the array element which have the max value
+      */
+     this.cMax = function(data, fvalue) {	 
+	 var maxElt;
+	 if(data.length > 0) {
+	     var maxIdx = 0;
+	     for(var i = 1; i < data.length; ++i) {
+		 if(fvalue(data[i]) > fvalue(data[maxIdx])) {
+		     maxIdx = i;
+		 }
+	     }
+	     maxElt = data[maxIdx];
+	 }
+	 return maxElt;
      };
 
      /**

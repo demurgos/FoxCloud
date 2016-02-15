@@ -46,51 +46,32 @@
   <!-- Small boxes (Stat box) -->
   <div class="row">
     <div class="col-lg-3 col-xs-6">
-      <div ng-controller="StatBoxController">
-	<div fca-stat-box></div>
-      </div>
+      <fca-stat-box-sum data="params" indicator="in" label="Total In">
+      </fca-stat-box-sum>
     </div>
     <!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
-      <div class="small-box bg-green">
-        <div class="inner">
-          <h3>65</h3>
-          <p>Mean Occupancy</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-stats-bars"></i>
-        </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
+      <fca-stat-box-sum data="params" kpi="mean" indicator="occ" 
+			label="Mean Occupancy" bg-color="bg-green" 
+			icon="ion-stats-bars">
+      </fca-stat-box-sum>
     </div>
     <!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
-      <div class="small-box bg-yellow">
-        <div class="inner">
-          <h3>12h</h3>
-          <p>Max period</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-ios-clock"></i>
-        </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
+      <fca-stat-box-sum data="params" kpi="max-period" indicator="in"
+			label="Max Period" bg-color="bg-yellow"
+			icon="ion-ios-clock">
+      </fca-stat-box-sum>
     </div>
     <!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
-          <p>Foxstream France</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-pie-graph"></i>
-        </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
+      <fca-stat-box-sum data="params" kpi="max-site-ratio" indicator="in"
+			label="Foxstream France" bg-color="bg-red"
+			icon="ion-pie-graph">
+      </fca-stat-box-sum>
     </div>
     <!-- ./col -->
   </div>

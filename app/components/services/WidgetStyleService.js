@@ -66,6 +66,10 @@
 		    "StatBoxWidget": {
 			"json": "assets/statbox.json",
 			"css": undefined
+		    },
+		    "TotalInWidget": {
+			"json": "assets/statbox.json",
+			"css": undefined
 		    }
 		};
 
@@ -105,13 +109,17 @@
 		    
 		    var deferred = $q.defer();
 
-		    $http.get(this.widgetStyles[widgetId].json).
-			success(function(data, status) {
-			    deferred.resolve({"json": data});
-			}).
-			error(function(data, status) {
-			    deferred.reject(data);
-			});
+		    if(this.widgetStyles[widgetId] === undefined) {
+			deferred.resolve({});
+		    } else {
+			$http.get(this.widgetStyles[widgetId].json).
+			    success(function(data, status) {
+				deferred.resolve({"json": data});
+			    }).
+			    error(function(data, status) {
+				deferred.reject(data);
+			    });
+		    }
 		    return deferred.promise;
 		};		
 

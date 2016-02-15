@@ -32,6 +32,7 @@ var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
 		       "app/components/topbar/topBarController.js",
 		       "app/components/mainmenu/mainMenuController.js",
+		       "app/components/kpis/*.js",
 		       "app/components/widgets/*.js",
 		       "app/components/services/*.js",
 		       "lib/js/*.js" ];
