@@ -83,7 +83,7 @@
   }
     .control-sidebar.control-sidebar-dark,
   .control-sidebar.control-sidebar-open, .control-sidebar.control-sidebar-open+.control-sidebar-bg {
-    margin-top: 100px;
+    margin-top: 0px;
     padding-top: 10px;
   }
 }
