@@ -12,25 +12,28 @@
 		ComputeService
 	    ) {
 
-		this.rangeOptions = [
-		    { id: '15min', name: 'Minutes' },
-		    { id: 'hours', name: 'Hours' },
-		    { id: 'days', name: 'Days' },
-		    { id: 'week', name: 'Week' },
-		    { id: 'month', name: 'Month' }
-		];
-		
-		this.indicatorOptions = [
-		    { id: 'in', name: 'In' },
-		    { id: 'out', name: 'Out' }
-		];
+		this.options = {
 
-		this.getDefaultIndicatorId = function() {
-		    return "in";
-		};
+		    ranges: [
+			{ id: '15min', name: 'Minutes' },
+			{ id: 'hours', name: 'Hours' },
+			{ id: 'days', name: 'Days' },
+			{ id: 'week', name: 'Week' },
+			{ id: 'month', name: 'Month' }
+		    ],
+		    
+		    indicators: [
+			{ id: 'in', name: 'In' },
+			{ id: 'out', name: 'Out' }
+		    ],
+		    
+		    defaultIndicatorId: 'in',
+		    
+		    defaultRangeId: 'hours',
 
-		this.getLabel = function(id) {
-		    return id;
+		    getLabel: function(id) {
+			return id;
+		    }
 		};
 
 		/**

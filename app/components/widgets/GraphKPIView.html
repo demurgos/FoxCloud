@@ -26,7 +26,7 @@
       </div>
       <div class="col-md-5 col-xs-12 text-right">
         <div class="btn-group">
-          <button type="button" ng-repeat="range in kpi.rangeOptions" class="btn btn-default btn-sm"
+          <button type="button" ng-repeat="range in kpi.options.ranges" class="btn btn-default btn-sm"
                   ng-model="rangeSelected.id"
                   uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
         </div>
@@ -38,7 +38,7 @@
 	  <li class="dropdown">
 	    <select class="form-control"
 		    ng-model="indicatorSelected"
-		    ng-options="option.name for option in kpi.indicatorOptions track by option.id"
+		    ng-options="option.name for option in kpi.options.indicators track by option.id"
 		    ng-change="update()">
 	    </select>
 	  </li>

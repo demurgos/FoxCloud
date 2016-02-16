@@ -33,9 +33,9 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.countingChartOptions = undefined;
 		    $scope.countingChartData = undefined;
 
-		    $scope.indicatorSelected = { id: WidgetStyleService.getDefaultIndicatorId() };
+		    $scope.indicatorSelected = { id: $scope.kpi.options.defaultIndicatorId };
 
-		    $scope.rangeSelected = { id: WidgetStyleService.getDefaultRangeId() };
+		    $scope.rangeSelected = { id: $scope.kpi.options.defaultRangeId };
 
 		    $scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.data.period,
 									       $scope.rangeSelected.id);
