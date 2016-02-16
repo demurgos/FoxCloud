@@ -6,18 +6,18 @@
         <h3 class="box-title">
           <select class="form-control"
                   ng-model="siteSelected"
-                  ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in params.sites track by option.id"
+                  ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in data.sites track by option.id"
                   ng-change="update()">
           </select>
         </h3>
-        <h3 class="box-title">vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
-                                    ng-show="params.sites.length > 1 && siteComparisonSelected == null"
+        <h3 class="box-title">vs <a ng-click="data.sites.length > 1 && toggleSiteComparison(true)"
+                                    ng-show="data.sites.length > 1 && siteComparisonSelected == null"
                                     href="">select a site </a></h3>
         <div class="box-title" ng-show="siteComparisonSelected != null">
           <h3 class="box-title">
             <select class="form-control"
                     ng-model="siteComparisonSelected"
-                    ng-options="option.name disable when option.id == siteSelected.id for option in params.sites track by option.id"
+                    ng-options="option.name disable when option.id == siteSelected.id for option in data.sites track by option.id"
                     ng-change="update()">
             </select>
           </h3>
@@ -26,7 +26,7 @@
       </div>
       <div class="col-md-5 col-xs-12 text-right">
         <div class="btn-group">
-          <button type="button" ng-repeat="range in KPIRef.rangeOptions" class="btn btn-default btn-sm"
+          <button type="button" ng-repeat="range in kpi.rangeOptions" class="btn btn-default btn-sm"
                   ng-model="rangeSelected.id"
                   uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
         </div>
@@ -38,7 +38,7 @@
 	  <li class="dropdown">
 	    <select class="form-control"
 		    ng-model="indicatorSelected"
-		    ng-options="option.name for option in KPIRef.indicatorOptions track by option.id"
+		    ng-options="option.name for option in kpi.indicatorOptions track by option.id"
 		    ng-change="update()">
 	    </select>
 	  </li>

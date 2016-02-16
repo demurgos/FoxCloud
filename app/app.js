@@ -16,7 +16,7 @@
 		function($routeProvider) {
 		    $routeProvider.
 			when('/dashboard', {
-			    templateUrl: 'build/html/dashboardView.html'
+			    templateUrl: 'build/html/DashboardView.html'
 			}).
 			otherwise({
 			    redirectTo: '/dashboard'

@@ -6,7 +6,7 @@
 (function() {
     
     angular.module('FSCounterAggregatorApp').
-	service('KPISum', [ 
+	controller('KPISum', [ 
 	    "ComputeService",	    
 	    function(
 		ComputeService

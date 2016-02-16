@@ -6,7 +6,7 @@
 (function() {
     
     angular.module('FSCounterAggregatorApp').
-	service('KPIMean', [ 
+	controller('KPIMean', [ 
 	    "ComputeService",	    
 	    function(
 		ComputeService

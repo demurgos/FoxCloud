@@ -6,7 +6,7 @@
 (function() {
     
     angular.module('FSCounterAggregatorApp').
-	service('KPIMaxSiteRatio', [ 
+	controller('KPIMaxSiteRatio', [ 
 	    "ComputeService",	    
 	    function(
 		ComputeService

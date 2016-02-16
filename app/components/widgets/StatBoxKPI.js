@@ -1,41 +1,32 @@
 /**
- * @class StatBoxSum
+ * @class StatBoxKPI
  * @memberof FSCounterAggregatorApp
  * @description Widget implementation for displaying a KPI value from a specific indicator
  **/
 angular.module('FSCounterAggregatorApp').
-    directive('fcaStatBoxSum', function() {
+    directive('fcaStatBoxKpi', function() {
 	return {		
 	    scope: {
 		indicator: '@?',
 		label: '@?',
 		data: '=',
-		kpi: '@?',
+		kpi: '=',
 		bgColor: '@?',
 		icon: '@?'
 	    },
 	    controller: [
 		'$scope',
-		'WidgetStyleService', 
-		'KPI',
-		'DashboardParamsService',
+		'WidgetStyleService',
 		function(
 		    $scope,
-		    WidgetStyleService,
-		    KPI,
-		    DashboardParamsService
+		    WidgetStyleService
 		) {
-		    $scope.kpi = $scope.kpi !== undefined ? $scope.kpi : 'sum';
 		    $scope.indicator = $scope.indicator !== undefined ? $scope.indicator : 
 			WidgetStyleService.getDefaultIndicatorId();
 		    $scope.label = $scope.label !== undefined ? $scope.label : 
-			KPIRef.getLabel($scope.indicator);
+			$scope.kpi.getLabel($scope.indicator);
 		    $scope.value = 0;
 		    $scope.widgetId = 'statbox/' + $scope.kpi + '/' + $scope.indicator;
-		    $scope.data = $scope.data !== undefined ? $scope.data :
-			DashboardParamsService;
-
-		    $scope.KPIRef = KPI.getKPI($scope.kpi);
 
 		    WidgetStyleService.getStyle($scope.widgetId)
 			.then(function(data) {
@@ -51,9 +42,9 @@ angular.module('FSCounterAggregatorApp').
 			
 			$scope.data.getSiteData(null)
 			    .then(function(data) {
-				var res = $scope.KPIRef.compute({ data: data,
-								  period: $scope.data.period,
-								  indicator: $scope.indicator });
+				var res = $scope.kpi.compute({ data: data,
+							       period: $scope.data.period,
+							       indicator: $scope.indicator });
 				$scope.value = res.value;
 			    });
 		    };		    

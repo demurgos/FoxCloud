@@ -46,40 +46,50 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-lg-3 col-xs-6">
-	<fca-stat-box-sum data="params" indicator="in" label="Total In">
-	</fca-stat-box-sum>
+	<div ng-controller="KPISum as kpi">
+	  <fca-stat-box-kpi kpi="kpi" data="params" 
+			    indicator="in" label="Total In">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
-	<fca-stat-box-sum data="params" kpi="mean" indicator="occ" 
-			  label="Mean Occupancy" bg-color="bg-green" 
-			  icon="ion-stats-bars">
-	</fca-stat-box-sum>
+	<div ng-controller="KPIMean as kpi">
+	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="occ" 
+			    label="Mean Occupancy" bg-color="bg-green" 
+			    icon="ion-stats-bars">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
-	<fca-stat-box-sum data="params" kpi="max-period" indicator="in"
-			  label="Max Period" bg-color="bg-yellow"
-			  icon="ion-ios-clock">
-	</fca-stat-box-sum>
+	<div ng-controller="KPIMaxPeriod as kpi">
+	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="in"
+			    label="Max Period" bg-color="bg-yellow"
+			    icon="ion-ios-clock">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
-	<fca-stat-box-sum data="params" kpi="max-site-ratio" indicator="in"
-			  label="Foxstream France" bg-color="bg-red"
-			  icon="ion-pie-graph">
-	</fca-stat-box-sum>
+	<div ng-controller="KPIMaxSiteRatio as kpi">
+	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="in"
+			    label="Foxstream France" bg-color="bg-red"
+			    icon="ion-pie-graph">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
     </div>
     <!-- /.row -->
     <!-- row -->
     <div class="row">
-      <div ng-controller="GraphSiteController">
-	<div fca-graph-site></div>
+      <div ng-controller="KPISitesPeriod as kpi">
+	<fca-graph-kpi data="params" kpi="kpi">
+	</fca-graph-kpi>
       </div>
     </div>
     <!-- /.row -->
