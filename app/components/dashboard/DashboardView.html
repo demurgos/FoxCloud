@@ -58,7 +58,7 @@
 	<div ng-controller="KPIMean as kpi">
 	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="occ" 
 			    label="Mean Occupancy" bg-color="bg-green" 
-			    icon="ion-stats-bars">
+			    icon="ion-ios-stats">
 	  </fca-stat-box-kpi>
 	</div>
       </div>
@@ -78,7 +78,7 @@
 	<div ng-controller="KPIMaxSiteRatio as kpi">
 	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="in"
 			    label="Foxstream France" bg-color="bg-red"
-			    icon="ion-pie-graph">
+			    icon="ion-ios-pie">
 	  </fca-stat-box-kpi>
 	</div>
       </div>
@@ -87,10 +87,12 @@
     <!-- /.row -->
     <!-- row -->
     <div class="row">
-      <div ng-controller="KPISitesPeriod as kpi">
-	<fca-graph-kpi data="params" kpi="kpi">
-	</fca-graph-kpi>
-      </div>
+      <section class="col-md-12">
+	<div ng-controller="KPISitesPeriod as kpi">
+	  <fca-graph-kpi data="params" kpi="kpi">
+	  </fca-graph-kpi>
+	</div>
+      </section>
     </div>
     <!-- /.row -->
   </section>

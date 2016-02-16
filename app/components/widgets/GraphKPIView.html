@@ -1,54 +1,53 @@
-<section class="col-md-12 connectedSortable">
-  <div class="box">
-    <div class="box-header with-border row">
-      <div class="col-md-7 col-xs-12 bottom15">
-        <i class="fa fa-inbox box-title"></i>
+<div class="box">
+  <div class="box-header with-border row">
+    <div class="col-md-7 col-xs-12 bottom15">
+      <i class="fa fa-inbox box-title"></i>
+      <h3 class="box-title">
+        <select class="form-control"
+                ng-model="siteSelected"
+                ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in data.sites track by option.id"
+                ng-change="update()">
+        </select>
+      </h3>
+      <h3 class="box-title">vs <a ng-click="data.sites.length > 1 && toggleSiteComparison(true)"
+                                  ng-show="data.sites.length > 1 && siteComparisonSelected == null"
+                                  href="">select a site </a></h3>
+      <div class="box-title" ng-show="siteComparisonSelected != null">
         <h3 class="box-title">
           <select class="form-control"
-                  ng-model="siteSelected"
-                  ng-options="option.name disable when (siteComparisonSelected && option.id == siteComparisonSelected.id) for option in data.sites track by option.id"
+                  ng-model="siteComparisonSelected"
+                  ng-options="option.name disable when option.id == siteSelected.id for option in data.sites track by option.id"
                   ng-change="update()">
           </select>
         </h3>
-        <h3 class="box-title">vs <a ng-click="data.sites.length > 1 && toggleSiteComparison(true)"
-                                    ng-show="data.sites.length > 1 && siteComparisonSelected == null"
-                                    href="">select a site </a></h3>
-        <div class="box-title" ng-show="siteComparisonSelected != null">
-          <h3 class="box-title">
-            <select class="form-control"
-                    ng-model="siteComparisonSelected"
-                    ng-options="option.name disable when option.id == siteSelected.id for option in data.sites track by option.id"
-                    ng-change="update()">
-            </select>
-          </h3>
-          <i class="fa fa-times-circle" ng-click="toggleSiteComparison(false)"></i>
-        </div>
-      </div>
-      <div class="col-md-5 col-xs-12 text-right">
-        <div class="btn-group">
-          <button type="button" ng-repeat="range in kpi.options.ranges" class="btn btn-default btn-sm"
-                  ng-model="rangeSelected.id"
-                  uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
-        </div>
+        <i class="fa fa-times-circle" ng-click="toggleSiteComparison(false)"></i>
       </div>
     </div>
-    <div class="box-body">
-      <nav class="navbar">
-	<ul class="nav navbar-nav">
-	  <li class="dropdown">
-	    <select class="form-control"
-		    ng-model="indicatorSelected"
-		    ng-options="option.name for option in kpi.options.indicators track by option.id"
-		    ng-change="update()">
-	    </select>
-	  </li>
-	</ul>
-      </nav>
-      <div class="text-center">
-	<h4><strong>Total: {{total}}</strong></h4>
+    <div class="col-md-5 col-xs-12 text-right">
+      <div class="btn-group">
+        <button type="button" ng-repeat="range in kpi.options.ranges" class="btn btn-default btn-sm"
+                ng-model="rangeSelected.id"
+                uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
       </div>
-      <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
     </div>
-    <div class="box-footer no-border">
+  </div>
+  <div class="box-body">
+    <nav class="navbar">
+      <ul class="nav navbar-nav">
+	<li class="dropdown">
+	  <select class="form-control"
+		  ng-model="indicatorSelected"
+		  ng-options="option.name for option in kpi.options.indicators track by option.id"
+		  ng-change="update()">
+	  </select>
+	</li>
+      </ul>
+    </nav>
+    <div class="text-center">
+      <h4><strong>Total: {{total}}</strong></h4>
     </div>
-</section>
+    <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
+  </div>
+</div>
+
+

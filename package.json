@@ -40,7 +40,6 @@
     "yargs": "^3.32.0"
   },
   "dependencies": {
-    "admin-lte": "https://github.com/Innovisite/AdminLTE.git#dev",
     "angular": "^1.4.9",
     "angular-daterangepicker": "^0.2.2",
     "angular-nvd3": "^1.0.5",
@@ -51,7 +50,12 @@
     "d3": "^3.5.14",
     "daterangepicker": "0.0.3",
     "event-stream": "^3.3.2",
+    "fastclick": "^1.0.6",
+    "font-awesome": "^4.5.0",
     "gh-release": "^2.0.2",
+    "ionicons": "^3.0.0-alpha.3",
+    "jquery": "^2.2.0",
+    "moment": "^2.11.2",
     "nvd3": "^1.8.2"
   }
 }

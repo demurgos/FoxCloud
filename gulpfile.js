@@ -13,17 +13,10 @@ var jsdoc = require('gulp-jsdoc');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 
-var cssSources = [ adminlteRoot + "plugins/ionicons/css/ionicons.min.css",
-		   adminlteRoot + "node_modules/font-awesome/css/font-awesome.css",
+var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
+		   "node_modules/font-awesome/css/font-awesome.css",
 		   "node_modules/bootstrap/dist/css/bootstrap.css",
-		   adminlteRoot + "dist/css/AdminLTE.css",
-		   adminlteRoot + "dist/css/skins/_all-skins.css",
-		   adminlteRoot + "plugins/iCheck/flat/blue.css",
-		   adminlteRoot + "plugins/morris/morris.css",
-		   adminlteRoot + "plugins/jvectormap/jquery-jvectormap-1.2.2.css",
-		   adminlteRoot + "plugins/datepicker/datepicker3.css",
 		   "node_modules/daterangepicker/daterangepicker-bs3.css",
-		   adminlteRoot + "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.css",
 		   "node_modules/nvd3/build/nv.d3.css",
 		   "lib/Styles/*.css",
 		   "app/assets/css/*.css" ];
@@ -37,30 +30,19 @@ var localJSSources = [ "app/app.js",
 		       "app/components/services/*.js",
 		       "lib/js/*.js" ];
 
-var externalJSSources = [ adminlteRoot + 'node_modules/moment/moment.js',
-			  adminlteRoot + 'node_modules/raphael/raphael.js',
+var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/angular/angular.js',
 			  'node_modules/angular-route/angular-route.js',
-			  adminlteRoot + 'plugins/jQuery/jQuery-2.1.4.js',
-			  adminlteRoot + 'plugins/jQueryUI/jquery-ui.js',
-			  adminlteRoot + 'plugins/datatables/jquery.dataTables.js',
-			  adminlteRoot + 'plugins/datatables/dataTables.bootstrap.js',
+			  'node_modules/jquery/dist/jquery.js',
 			  'node_modules/bootstrap/dist/js/bootstrap.js',
 			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
-			  adminlteRoot + 'plugins/chartjs/Chart.js',
-			  adminlteRoot + 'plugins/sparkline/jquery.sparkline.js',
-			  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js',
-			  adminlteRoot + 'plugins/jvectormap/jquery-jvectormap-us-mill.js',
-			  adminlteRoot + 'plugins/knob/jquery.knob.js',
 			  'node_modules/daterangepicker/daterangepicker.js',
 			  'node_modules/bootstrap-daterangepicker/daterangepicker.js',
 			  'node_modules/angular-daterangepicker/js/angular-daterangepicker.js',
 			  'node_modules/d3/d3.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
-			  adminlteRoot + 'plugins/slimScroll/jquery.slimscroll.js',
-			  adminlteRoot + 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js',
-			  adminlteRoot + 'plugins/fastclick/fastclick.js'];
+			  'node_modules/fastclick/lib/fastclick.js'];
 
 var jsSources = externalJSSources.concat(localJSSources);
 
@@ -100,9 +82,9 @@ gulp.task('prepare-html', function() {
 });
 
 gulp.task('prepare-assets', function() {
-    return gulp.src([ adminlteRoot + "plugins/ionicons/fonts/ionicons*",
-		      adminlteRoot + "node_modules/bootstrap/dist/fonts/glyphicons*",
-		      adminlteRoot + "node_modules/font-awesome/fonts/fontawesome*" ])
+    return gulp.src([ "node_modules/ionicons/dist/fonts/ionicons*",
+		      "node_modules/bootstrap/dist/fonts/glyphicons*",
+		      "node_modules/font-awesome/fonts/fontawesome*" ])
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/fonts/'));
 });
