@@ -23,8 +23,7 @@ var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 
 var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
-		       "app/components/topbar/topBarController.js",
-		       "app/components/mainmenu/mainMenuController.js",
+		       "app/components/topbar/*.js",
 		       "app/components/kpis/*.js",
 		       "app/components/widgets/*.js",
 		       "app/components/services/*.js",
@@ -73,8 +72,7 @@ gulp.task('lint', function() {
 
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/*.html",
-		      "app/components/topbar/topBarView.html",
-		      "app/components/mainmenu/mainMenuView.html",
+		      "app/components/topbar/*.html",
 		      "app/components/widgets/*.html"
 		    ])
 	.pipe(duration('Execution Time: '))

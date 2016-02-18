@@ -5,9 +5,6 @@
 (function() {
 
  angular.module('FSCounterAggregatorApp')
-	.controller('SideMenuController', [
-	    function() {
-	    }])
 	.directive('fcaSideMenu', [
 	    'LayoutService',
 	    function(LayoutService) {
@@ -15,7 +12,7 @@
 		link: function(scope, element, attr) {
 		    LayoutService.init();
 		},
-		templateUrl: 'build/html/sideMenuView.html'
+		templateUrl: 'build/html/SideMenuView.html'
 	    };
 	}]);
 }());
