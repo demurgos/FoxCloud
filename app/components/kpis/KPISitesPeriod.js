@@ -135,19 +135,21 @@
 
 		    var res = { 
 			query: query,
-			data: [],
-			value: []
+			data: []
 		    };
 				
 		    for(var i = 0; i < query.data.length; ++i) {
 
-			res.data.push(ComputeService.cSumForPeriod(query.data[i],
-								   query.period,
-								   query.groupBy,
-								   query.indicator));
-			res.value.push(
-			    ComputeService.cSum(res.data[i], function(elt) { return elt.y; })
-			);
+			var sumPeriod = ComputeService.cSumForPeriod(query.data[i].data,
+								     query.period,
+								     query.groupBy,
+								     query.indicator);
+
+			res.data.push({
+			    "id": query.data[i].id,
+			    "data": sumPeriod,
+			    "total": ComputeService.cSum(sumPeriod, function(elt) { return elt.y; })
+			});
 		    }
 
 		    return res;

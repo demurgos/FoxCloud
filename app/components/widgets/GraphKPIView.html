@@ -5,18 +5,18 @@
       <h3 class="box-title">
         <select class="form-control"
                 ng-model="sitesSelected[0]"
-                ng-options="option.name disable when (sitesSelected[1] && option.id == sitesSelected[1].id) for option in data.sites track by option.id"
+                ng-options="option.name disable when (sitesSelected[1] && option.id == sitesSelected[1].id) for option in params.sites track by option.id"
                 ng-change="update()">
         </select>
       </h3>
-      <h3 class="box-title">vs <a ng-click="data.sites.length > 1 && toggleSiteComparison(true)"
-                                  ng-show="data.sites.length > 1 && sitesSelected[1] === undefined"
+      <h3 class="box-title">vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
+                                  ng-show="params.sites.length > 1 && sitesSelected[1] === undefined"
                                   href="">select a site </a></h3>
       <div class="box-title" ng-show="sitesSelected[1] !== undefined">
         <h3 class="box-title">
           <select class="form-control"
                   ng-model="sitesSelected[1]"
-                  ng-options="option.name disable when option.id == sitesSelected[0].id for option in data.sites track by option.id"
+                  ng-options="option.name disable when option.id == sitesSelected[0].id for option in params.sites track by option.id"
                   ng-change="update()">
           </select>
         </h3>

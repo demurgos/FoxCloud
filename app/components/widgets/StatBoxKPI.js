@@ -9,7 +9,7 @@ angular.module('FSCounterAggregatorApp').
 	    scope: {
 		indicator: '@',
 		label: '@?',
-		data: '=',
+		params: '=',
 		kpi: '=',
 		bgColor: '@?',
 		icon: '@?'
@@ -30,15 +30,15 @@ angular.module('FSCounterAggregatorApp').
 			.then(function(data) {
 			});	    		    
 
-		    $scope.$watch('data.data', function(oldData, newData) {
+		    $scope.$watch('params.data', function(oldData, newData) {
 			if(newData !== oldData) {
 			    $scope.update();
 			}
 		    });
 		    
 		    $scope.update = function() {			
-			var res = $scope.kpi.compute({ data: $scope.data.data,
-						       period: $scope.data.period,
+			var res = $scope.kpi.compute({ data: $scope.params.data,
+						       period: $scope.params.period,
 						       indicator: $scope.indicator });
 			$scope.value = res.value;
 		    };		    

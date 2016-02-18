@@ -7,7 +7,7 @@ angular.module('FSCounterAggregatorApp').
     directive('fcaGraphKpi', function() {
 	return {		
 	    scope: {
-		data: '=',
+		params: '=',
 		kpi: '='
 	    },
 	    controller: [
@@ -21,9 +21,9 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.widgetId = "GraphKPIWidget";		    
 		    $scope.sitesSelected = [ undefined, undefined ]; 
 
-		    $scope.$watch("data.sites", function(oldSites, newSites) {
+		    $scope.$watch("params.sites", function(oldSites, newSites) {
 			if(oldSites !== newSites) {
-			    $scope.sitesSelected[0] = $scope.data.sites[0];
+			    $scope.sitesSelected[0] = $scope.params.sites[0];
 			    $scope.update();
 			}
 		    });
@@ -38,7 +38,7 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.rangeSelected = { id: $scope.kpi.options.defaultRangeId };
 
-		    $scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.data.period,
+		    $scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 								       $scope.rangeSelected.id);
 
 		    $scope.total = [];
@@ -47,12 +47,12 @@ angular.module('FSCounterAggregatorApp').
 		     * When true, set the default value for 2nd site
 		     */
 		    $scope.toggleSiteComparison = function(open) {
-			$scope.sitesSelected[1] = (open ? ($scope.data.sites[0].id !== $scope.sitesSelected[0].id ? 
-							   $scope.data.sites[0] : $scope.data.sites[1]) : undefined);
+			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ? 
+							   $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
 			$scope.update();
 		    };
 
-		    $scope.$watch('data.data', function(oldData, newData) {
+		    $scope.$watch('params.data', function(oldData, newData) {
 			if(newData !== oldData) {
 			    $scope.update();
 			}
@@ -68,31 +68,38 @@ angular.module('FSCounterAggregatorApp').
 			var data = [];
 			for(var i = 0; i < $scope.sitesSelected.length; ++i) {
 			    if($scope.sitesSelected[i] !== undefined) {
-				var idx = _.findIndex($scope.data.data, { 
+				var idx = _.findIndex($scope.params.data, { 
 				    "id": $scope.sitesSelected[i].id });
 				if(idx != -1) {
-				    data.push($scope.data.data[idx].data);
+				    data.push($scope.params.data[idx]);
 				}
 			    }
 			}
 			return data;
 		    };
 
+		    $scope.getSiteName = function(id) {
+			var idx = _.findIndex($scope.params.sites,
+					      { "id": id });
+			return idx != -1 ? $scope.params.sites[idx].name : undefined;
+		    };
+
 		    $scope.update = function() {
 
 			var res = $scope.kpi.compute({ data: $scope.getDataFromSelectedSites(),
-						       period: $scope.data.period,
+						       period: $scope.params.period,
 						       groupBy: $scope.rangeSelected.id,
 						       indicator: $scope.indicatorSelected.id });
-			$scope.total = res.value;
-			$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.data.period,
+			$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 									   $scope.rangeSelected.id);
+			$scope.total = res.data.map(_.property("total"));
 			
 			var chartData = [];
 			for(var i = 0; i < res.data.length; ++i) {
 			    chartData.push({ 
-				key: $scope.kpi.getIndicatorName($scope.indicatorSelected.id),
-				values: res.data[i],
+				key: $scope.getSiteName(res.data[i].id) +
+				    " - " + $scope.kpi.getIndicatorName($scope.indicatorSelected.id),
+				values: res.data[i].data,
 				area: true });			   
 			} 
 			
@@ -111,7 +118,7 @@ angular.module('FSCounterAggregatorApp').
 				    return d3.format('d')(d);
 				};
 				$scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
-				    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.data.period);
+				    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 				};
 				$scope.countingChartOptions = $scope.style.nvd3;
 				$scope.countingChartData = [];			    

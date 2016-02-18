@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-lg-3 col-xs-6">
 	<div ng-controller="KPISum as kpi">
-	  <fca-stat-box-kpi kpi="kpi" data="params" 
+	  <fca-stat-box-kpi kpi="kpi" params="params" 
 			    indicator="in" label="Total In">
 	  </fca-stat-box-kpi>
 	</div>
@@ -35,7 +35,7 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMean as kpi">
-	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="occ" 
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ" 
 			    label="Mean Occupancy" bg-color="bg-green" 
 			    icon="ion-ios-stats">
 	  </fca-stat-box-kpi>
@@ -45,7 +45,7 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMaxPeriod as kpi">
-	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="in"
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in"
 			    label="Max Period" bg-color="bg-yellow"
 			    icon="ion-ios-clock">
 	  </fca-stat-box-kpi>
@@ -55,7 +55,7 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMaxSiteRatio as kpi">
-	  <fca-stat-box-kpi data="params" kpi="kpi" indicator="in"
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in"
 			    label="Foxstream France" bg-color="bg-red"
 			    icon="ion-ios-pie">
 	  </fca-stat-box-kpi>
@@ -68,7 +68,7 @@
     <div class="row">
       <section class="col-md-12">
 	<div ng-controller="KPISitesPeriod as kpi">
-	  <fca-graph-kpi data="params" kpi="kpi">
+	  <fca-graph-kpi params="params" kpi="kpi">
 	  </fca-graph-kpi>
 	</div>
       </section>
