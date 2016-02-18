@@ -6,7 +6,7 @@
     
     angular.module('FSCounterAggregatorApp').controller('DashboardController', [
 	'$scope',
-	'DashboardParamsService',
+	'DashboardParamsService',	
 	function(
 	    $scope,
 	    DashboardParamsService
@@ -26,6 +26,12 @@
 		    format: 'MMM D,YYYY'
 		}
 	    };
+
+
+	    $scope.exportPrint = function() {
+		window.print();
+	    };
+
 	}]);
 
 }());

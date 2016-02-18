@@ -9,12 +9,12 @@
     angular.module('FSCounterAggregatorApp').
 	service('DashboardParamsService', 
 		[ "$http",
-		  "$q",
 		  "DataService",
+		  "UserService",
 		  function(
 		      $http,
-		      $q,
-		      DataService
+		      DataService,
+		      UserService
 		  ) {
 		      
 		      this.period = { startDate: moment().set('hour', 0).set('minute', 0),
@@ -38,23 +38,16 @@
 
 		      this.loadParams = function() {
 			  
-			  var deferred = $q.defer();
-
 			  var that = this;
-			  $http.get("assets/userdata.json").
-			      success(function(data, status) {
+			  return UserService.getSettings().
+			      then(function(data) {
 				  that.sites = [];
 				  for(var i = 0; i < data.sites.length; ++i) {
 				      that.sites.push({ id: data.sites[i]._id,
 							name: data.sites[i].name });
 				  }
-				  deferred.resolve(that);
-			      }).
-			      error(function(data, status) {
-				  deferred.reject(data);
+				  return that;
 			      });
-
-			  return deferred.promise;
 		      };
 
 		      this.getSiteData = function(siteId) {
