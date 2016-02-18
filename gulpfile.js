@@ -30,6 +30,7 @@ var localJSSources = [ "app/app.js",
 		       "lib/js/*.js" ];
 
 var externalJSSources = [ 'node_modules/moment/moment.js',
+			  'node_modules/lodash/lodash.js',
 			  'node_modules/angular/angular.js',
 			  'node_modules/angular-route/angular-route.js',
 			  'node_modules/jquery/dist/jquery.js',

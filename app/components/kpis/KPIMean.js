@@ -30,7 +30,6 @@
 
 		    var res = { 
 			query: query,
-			data: undefined,
 			value: 0
 		    };
 				
@@ -41,7 +40,15 @@
 			    return Math.abs(elt.in - elt.out);
 			};
 
-		    res.value = Math.round(ComputeService.cMean(query.data, func));
+		    for(var i = 0; i < query.data.length; ++i) {
+			res.value += ComputeService.cMean(query.data[i].data, 
+							  func);
+		    }
+
+		    if(query.data.length) {
+			res.value = Math.round(res.value / query.data.length);
+		    }
+
 		    return res;
 		};
 		

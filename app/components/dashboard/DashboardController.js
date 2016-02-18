@@ -26,7 +26,16 @@
 		    format: 'MMM D,YYYY'
 		}
 	    };
+	    
+	    $scope.params.loadParams().then(function() {
+		$scope.params.loadData();
+	    });
 
+	    $scope.$watch('params.period', function(oldPeriod, newPeriod) {
+		if(newPeriod !== oldPeriod) {
+		    $scope.params.loadData();
+		}
+	    });
 
 	    $scope.exportPrint = function() {
 		window.print();

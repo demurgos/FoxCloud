@@ -7,7 +7,7 @@ angular.module('FSCounterAggregatorApp').
     directive('fcaStatBoxKpi', function() {
 	return {		
 	    scope: {
-		indicator: '@?',
+		indicator: '@',
 		label: '@?',
 		data: '=',
 		kpi: '=',
@@ -21,8 +21,6 @@ angular.module('FSCounterAggregatorApp').
 		    $scope,
 		    WidgetStyleService
 		) {
-		    $scope.indicator = $scope.indicator !== undefined ? $scope.indicator : 
-			WidgetStyleService.getDefaultIndicatorId();
 		    $scope.label = $scope.label !== undefined ? $scope.label : 
 			$scope.kpi.getLabel($scope.indicator);
 		    $scope.value = 0;
@@ -32,21 +30,17 @@ angular.module('FSCounterAggregatorApp').
 			.then(function(data) {
 			});	    		    
 
-		    $scope.$watch('data.period', function(oldPeriod, newPeriod) {
-			if(newPeriod !== oldPeriod) {
+		    $scope.$watch('data.data', function(oldData, newData) {
+			if(newData !== oldData) {
 			    $scope.update();
 			}
 		    });
 		    
-		    $scope.update = function() {
-			
-			$scope.data.getSiteData(null)
-			    .then(function(data) {
-				var res = $scope.kpi.compute({ data: data,
-							       period: $scope.data.period,
-							       indicator: $scope.indicator });
-				$scope.value = res.value;
-			    });
+		    $scope.update = function() {			
+			var res = $scope.kpi.compute({ data: $scope.data.data,
+						       period: $scope.data.period,
+						       indicator: $scope.indicator });
+			$scope.value = res.value;
 		    };		    
 		}],
 	    link: function(scope, element, attr) {

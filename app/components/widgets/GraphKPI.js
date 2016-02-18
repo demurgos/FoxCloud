@@ -18,13 +18,14 @@ angular.module('FSCounterAggregatorApp').
 		    WidgetStyleService
 		) {
 
-		    $scope.widgetId = "GraphSiteWidget";
-		    
-		    $scope.siteSelected = undefined; 
+		    $scope.widgetId = "GraphKPIWidget";		    
+		    $scope.sitesSelected = [ undefined, undefined ]; 
 
-		    $scope.data.loadParams().then(function() {
-			$scope.siteSelected = $scope.data.sites[0];
-			$scope.update();
+		    $scope.$watch("data.sites", function(oldSites, newSites) {
+			if(oldSites !== newSites) {
+			    $scope.sitesSelected[0] = $scope.data.sites[0];
+			    $scope.update();
+			}
 		    });
 
 		    $scope.siteComparisonSelected = undefined;
@@ -37,18 +38,22 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.rangeSelected = { id: $scope.kpi.options.defaultRangeId };
 
-		    $scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.data.period,
-									       $scope.rangeSelected.id);
+		    $scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.data.period,
+								       $scope.rangeSelected.id);
 
-		    $scope.total = 0;
+		    $scope.total = [];
 
+		    /**
+		     * When true, set the default value for 2nd site
+		     */
 		    $scope.toggleSiteComparison = function(open) {
-			$scope.siteComparisonSelected = (open ? ($scope.data.sites[0].id !== $scope.siteSelected.id ? 
-								 $scope.data.sites[0] : $scope.data.sites[1]) : undefined);
+			$scope.sitesSelected[1] = (open ? ($scope.data.sites[0].id !== $scope.sitesSelected[0].id ? 
+							   $scope.data.sites[0] : $scope.data.sites[1]) : undefined);
+			$scope.update();
 		    };
 
-		    $scope.$watch('data.period', function(oldPeriod, newPeriod) {
-			if(newPeriod !== oldPeriod) {
+		    $scope.$watch('data.data', function(oldData, newData) {
+			if(newData !== oldData) {
 			    $scope.update();
 			}
 		    });
@@ -59,24 +64,39 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    });
 
+		    $scope.getDataFromSelectedSites = function() {
+			var data = [];
+			for(var i = 0; i < $scope.sitesSelected.length; ++i) {
+			    if($scope.sitesSelected[i] !== undefined) {
+				var idx = _.findIndex($scope.data.data, { 
+				    "id": $scope.sitesSelected[i].id });
+				if(idx != -1) {
+				    data.push($scope.data.data[idx].data);
+				}
+			    }
+			}
+			return data;
+		    };
+
 		    $scope.update = function() {
 
-			$scope.data.getSiteData($scope.siteSelected.id)
-			    .then(function(data) {
-				
-				var res = $scope.kpi.
-				    compute({ data: data,
-					      period: $scope.data.period,
-					      groupBy: $scope.rangeSelected.id,
-					      indicator: $scope.indicatorSelected.id });
-				$scope.total = res.value;
-				$scope.periodTimeFormat = WidgetStyleService.getTimeFormat($scope.data.period,
-											   $scope.rangeSelected.id);
-				$scope.countingChartData = [
-				    { key: WidgetStyleService.getIndicatorName($scope.indicatorSelected.id),
-				      values: res.data,
-				      area: true } ];
-			    });
+			var res = $scope.kpi.compute({ data: $scope.getDataFromSelectedSites(),
+						       period: $scope.data.period,
+						       groupBy: $scope.rangeSelected.id,
+						       indicator: $scope.indicatorSelected.id });
+			$scope.total = res.value;
+			$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.data.period,
+									   $scope.rangeSelected.id);
+			
+			var chartData = [];
+			for(var i = 0; i < res.data.length; ++i) {
+			    chartData.push({ 
+				key: $scope.kpi.getIndicatorName($scope.indicatorSelected.id),
+				values: res.data[i],
+				area: true });			   
+			} 
+			
+			$scope.countingChartData = chartData;
 		    };
 
 		    $scope.createWidget = function() {
@@ -91,7 +111,7 @@ angular.module('FSCounterAggregatorApp').
 				    return d3.format('d')(d);
 				};
 				$scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
-				    return WidgetStyleService.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.data.period);
+				    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.data.period);
 				};
 				$scope.countingChartOptions = $scope.style.nvd3;
 				$scope.countingChartData = [];			    

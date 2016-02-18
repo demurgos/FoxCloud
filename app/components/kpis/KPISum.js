@@ -30,14 +30,18 @@
 
 		    var res = { 
 			query: query,
-			data: undefined,
 			value: 0
 		    };
-				
-		    res.value = ComputeService.cSum(query.data, 
-						    function(elt) { 
-							return elt[query.indicator]; 
-						    });
+		
+		    var felt = function(elt) {
+			return elt[query.indicator];
+		    };
+		
+		    for(var i = 0; i < query.data.length; ++i) {
+			res.value += ComputeService.cSum(query.data[i].data, 
+							 felt);
+		    }
+
 		    return res;
 		};
 		
