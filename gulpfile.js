@@ -133,6 +133,6 @@ gulp.task('copy-files', function() {
 	if(!argv.dest)
 		throw "Missing destionation file; use --dest parameter to indicate the destination folder";
 
-	return gulp.src("wwwroot/*")
+	return gulp.src("wwwroot/**/*")
 		.pipe(gulp.dest(argv.dest));
 });

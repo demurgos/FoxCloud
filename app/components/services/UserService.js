@@ -14,7 +14,7 @@
       */
      this.getSettings = function() {	 
 
-	 return $http.get("assets/userdata.json").
+	 return $http.get("/users/current").
 	     then(function(ret) {
 		 return ret.data;
 	     });

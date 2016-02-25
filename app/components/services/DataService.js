@@ -22,12 +22,11 @@
 	 this.getRawDataForSiteInInterval = function(siteId, period) {	 
 	     
 	     //$http.get("assets/counter1day.json").
-	     return $http.get("http://195.132.122.186:9003/items/568a49ae78af992414ef675d/rawdata?end=" + 
-			      period.endDate.unix() + "&start=" + period.startDate.unix(),
-			      { withCredentials: false }
+         return $http.get("/items/" + siteId + "/countdata",
+                  {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
 			     ).
 		 then(function(ret) {
-		     return { id: siteId, 
+		     return { id: siteId,
 			      data: ret.data };
 		 });
 	 };	 
