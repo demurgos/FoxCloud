@@ -12,6 +12,7 @@ var mkdirp = require('mkdirp');
 var jsdoc = require('gulp-jsdoc');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
+var argv = require('yargs').argv;
 
 var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 		   "node_modules/font-awesome/css/font-awesome.css",
@@ -52,6 +53,8 @@ mkdirp('wwwroot/build/js');
 mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
 mkdirp('wwwroot/build/img');
+
+gulp.task('install', [ 'build', 'copy-files' ]);
 
 gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
 
@@ -102,7 +105,7 @@ function buildCSS(files, minify) {
 
 function buildJS(files, destName, destDir, minify) {
     var g = gulp.src(files)
-	.pipe(concat_js(destName)); 
+	.pipe(concat_js(destName));
     if(minify) {
 	g = g.pipe(minify_js());
     }
@@ -126,3 +129,10 @@ gulp.task('prepare-css-release', function() {
     return buildCSS(cssSources, true);
 });
 
+gulp.task('copy-files', function() {
+	if(!argv.dest)
+		throw "Missing destionation file; use --dest parameter to indicate the destination folder";
+
+	return gulp.src("wwwroot/*")
+		.pipe(gulp.dest(argv.dest));
+});
