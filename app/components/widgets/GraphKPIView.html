@@ -27,6 +27,7 @@
       <div class="btn-group">
         <button type="button" ng-repeat="range in kpi.options.ranges" class="btn btn-default btn-sm"
                 ng-model="rangeSelected.id"
+		ng-disabled="range.id === '15min' && sitesSelected[1] !== undefined"
                 uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
       </div>
     </div>
@@ -44,7 +45,11 @@
       </ul>
     </nav>
     <div class="text-center">
-      <h4><strong>Total: {{total}}</strong></h4>
+      <h4>
+	<strong>{{total.length > 1 ? "Totals" : "Total"}}:<span ng-repeat="t in total track by $index">
+	    {{t}} <span ng-show="!$last">vs</span>
+	</span></strong>
+      </h4>
     </div>
     <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
   </div>
