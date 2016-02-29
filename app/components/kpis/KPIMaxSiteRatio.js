@@ -4,10 +4,10 @@
  * @description Retrieve the site which have the biggest amount of data
  */
 (function() {
-    
+
     angular.module('FSCounterAggregatorApp').
-	controller('KPIMaxSiteRatio', [ 
-	    "ComputeService",	    
+	controller('KPIMaxSiteRatio', [
+	    "ComputeService",
 	    function(
 		ComputeService
 	    ) {
@@ -28,15 +28,24 @@
 		 */
 		this.compute = function(query) {
 
-		    var res = { 
-			query: query,
-			data: undefined,
-			value: 0
-		    };
-				
-		    res.value = "53%";
-		    return res;
+            if(!query.indicator)
+                query.indicator = this.getDefaultIndicatorId();
+
+            var res = {
+            query: query,
+            value: 0
+            };
+
+            var felt = function(elt) {
+                return elt[query.indicator];
+            };
+
+            var siteSums = _.map(query.data, function(siteData){return ComputeService.cSum(siteData.data, felt);});
+            var maxIdx = _.indexOf(siteSums, _.max(siteSums));
+
+            res.value = maxIdx>=0 ? query.data[maxIdx].id:"n/a";
+            return res;
 		};
-		
+
 	    }]);
 }());

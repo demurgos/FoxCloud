@@ -9,10 +9,10 @@
       <div class="navbar-custom-menu pull-right">
         <ul class="nav navbar-nav">
           <li>
-	    <a date-range-picker="date-range-picker" 
-	       class="btn btn-default daterange pull-right" 
-	       type="text" 
-	       ng-model="params.period" 
+	    <a date-range-picker="date-range-picker"
+	       class="btn btn-default daterange pull-right"
+	       type="text"
+	       ng-model="params.period"
 	       options="periodOpts">
 	      {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D, YYYY')}} <i class="fa fa-calendar"></i></a>
           </li>
@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-lg-3 col-xs-6">
 	<div ng-controller="KPISum as kpi">
-	  <fca-stat-box-kpi kpi="kpi" params="params" 
+	  <fca-stat-box-kpi kpi="kpi" params="params"
 			    indicator="in" label="Total In">
 	  </fca-stat-box-kpi>
 	</div>
@@ -35,8 +35,8 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMean as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ" 
-			    label="Mean Occupancy" bg-color="bg-green" 
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
+			    label="Mean Occupancy" bg-color="bg-green"
 			    icon="ion-ios-stats">
 	  </fca-stat-box-kpi>
 	</div>
@@ -55,8 +55,8 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMaxSiteRatio as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in"
-			    label="Foxstream France" bg-color="bg-red"
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in" display-filters="SiteName"
+			    label="Most active site" bg-color="bg-red"
 			    icon="ion-ios-pie">
 	  </fca-stat-box-kpi>
 	</div>
