@@ -2,7 +2,7 @@
     "nvd3": {
 	"chart": {
 	    "type": "lineChart",
-	    "useInteractiveGuideline": true,
+	    "useInteractiveGuideline": false,
 	    "height": 300,
 	    "tooltip": {
 	    },

@@ -45,10 +45,16 @@ angular.module('FSCounterAggregatorApp').
 
 		    /**
 		     * When true, set the default value for 2nd site
+		     * force comparison to be at minimum by hours
+		     * set interactive guideline
 		     */
 		    $scope.toggleSiteComparison = function(open) {
 			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ? 
 							   $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
+			$scope.countingChartOptions.chart.useInteractiveGuideline = open;
+			if(open && $scope.rangeSelected.id === '15min') {
+			    $scope.rangeSelected.id = 'hours';
+			}
 			$scope.update();
 		    };
 
@@ -120,6 +126,7 @@ angular.module('FSCounterAggregatorApp').
 				$scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
 				    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 				};
+				
 				$scope.countingChartOptions = $scope.style.nvd3;
 				$scope.countingChartData = [];			    
 			    });		    
