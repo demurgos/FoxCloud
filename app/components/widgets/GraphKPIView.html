@@ -27,7 +27,7 @@
       <div class="btn-group">
         <button type="button" ng-repeat="range in kpi.options.ranges" class="btn btn-default btn-sm"
                 ng-model="rangeSelected.id"
-		ng-disabled="range.id === '15min' && sitesSelected[1] !== undefined"
+		ng-disabled="!rangesEnabled[range.id]"
                 uib-btn-radio="'{{range.id}}'">{{range.name}}</button>
       </div>
     </div>

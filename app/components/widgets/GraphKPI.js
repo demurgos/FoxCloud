@@ -18,6 +18,9 @@ angular.module('FSCounterAggregatorApp').
 		    WidgetStyleService
 		) {
 
+		    var $injector = angular.injector(['FSCounterAggregatorApp']);
+		    var s = $injector.get('WidgetStyleService');
+
 		    $scope.widgetId = "GraphKPIWidget";		    
 		    $scope.sitesSelected = [ undefined, undefined ]; 
 
@@ -38,6 +41,11 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.rangeSelected = { id: $scope.kpi.options.defaultRangeId };
 
+		    $scope.rangesEnabled = {};
+ 		    for(var i = 0; i < $scope.kpi.options.ranges.length; ++i) {
+			$scope.rangesEnabled[$scope.kpi.options.ranges[i].id] = true;
+		    }
+
 		    $scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 								       $scope.rangeSelected.id);
 
@@ -52,14 +60,13 @@ angular.module('FSCounterAggregatorApp').
 			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ? 
 							   $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
 			$scope.countingChartOptions.chart.useInteractiveGuideline = open;
-			if(open && $scope.rangeSelected.id === '15min') {
-			    $scope.rangeSelected.id = 'hours';
-			}
+			$scope.updateSelectedRange();
 			$scope.update();
 		    };
 
 		    $scope.$watch('params.data', function(oldData, newData) {
 			if(newData !== oldData) {
+			    $scope.updateSelectedRange();
 			    $scope.update();
 			}
 		    });
@@ -69,6 +76,25 @@ angular.module('FSCounterAggregatorApp').
 			    $scope.update();
 			}
 		    });
+
+		    $scope.updateSelectedRange = function() {
+			var firstEnabledRange;
+			for(var i = 0; i < $scope.kpi.options.ranges.length; ++i) {
+			    var rangeId = $scope.kpi.options.ranges[i].id;
+			    var computable =
+				$scope.kpi.isPeriodComputable($scope.params.period,
+							      rangeId) &&
+				($scope.kpi.isPeriodComparable(rangeId) || !$scope.sitesSelected[1]);
+			    if(!firstEnabledRange &&
+			       computable) {
+				firstEnabledRange = rangeId;
+			    }
+			    $scope.rangesEnabled[rangeId] = computable;
+			}			
+			if(!$scope.rangesEnabled[$scope.rangeSelected.id]) {
+			    $scope.rangeSelected.id = firstEnabledRange;
+			}
+		    };
 
 		    $scope.getDataFromSelectedSites = function() {
 			var data = [];

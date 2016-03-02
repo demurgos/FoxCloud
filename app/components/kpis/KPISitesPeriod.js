@@ -15,38 +15,58 @@
 		this.rangeParams = {
 		    '15min': {
 			hourMode: true,
+			comparable: false,
 			label: function(d, p) {
 			    return moment(d).format("dddd, MMMM Do YYYY, HH:mm").concat(
 				moment(d).add(15, "m").format(" - HH:mm"));
-			}
+			},
+			isPeriodComputable: function(period) {
+			    return period.endDate.diff(period.startDate, "days") <= 15;
+			},
 		    },
 		    'hours': {
-		      hourMode: true,
-		      label: function(d, p) {
-			  return moment(d).format("dddd, MMMM Do YYYY, HH:00");
-		      }
+			hourMode: true,
+			comparable: true,
+			label: function(d, p) {
+			    return moment(d).format("dddd, MMMM Do YYYY, HH:00");
+			},
+			isPeriodComputable: function(period) {
+			    return period.endDate.diff(period.startDate, "months") <= 6;
+			}			
 		    },
 		    'days': {
-		      hourMode: false,
-		      label: function(d, p) {
-			  return moment(d).format("dddd, MMMM Do YYYY");
-		      }
+			hourMode: false,
+			comparable: true,
+			label: function(d, p) {
+			    return moment(d).format("dddd, MMMM Do YYYY");
+			},
+			isPeriodComputable: function(period) {
+			    return period.endDate.diff(period.startDate, "years") <= 2;
+			}
 		    },
 		    'week': {
-		      hourMode: false,
-		      label: function(d, p) {
-			  return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
-			      moment.min(moment(d).add(1, "w"), 
-					 p.endDate).format(" - MMM DD YYYY"));
-		      }
+			hourMode: false,
+			comparable: true,
+			label: function(d, p) {
+			    return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
+				moment.min(moment(d).add(1, "w"), 
+					   p.endDate).format(" - MMM DD YYYY"));
+			},
+			isPeriodComputable: function(period) {
+			    return period.endDate.diff(period.startDate, "weeks") >= 1;
+			}
 		    },
 		    'month': {
-		      hourMode: false,
-		      label: function(d, p) {
-			  return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
-			      moment.min(moment(d).add(1, "M"), 
-					 p.endDate).format(" - MMM DD YYYY"));
-		      }
+			hourMode: false,
+			comparable: true,
+			label: function(d, p) {
+			    return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
+				moment.min(moment(d).add(1, "M"), 
+					   p.endDate).format(" - MMM DD YYYY"));
+			},
+			isPeriodComputable: function(period) {
+			    return period.endDate.diff(period.startDate, "months") >= 1;
+			}
 		    }
 		};
 
@@ -96,6 +116,26 @@
 		    } else {
 			return this.getRangeParams(rangeId).hourMode ? "HH:mm" : "MMM DD";
 		    }
+		};
+
+		/**
+		 * @function isPeriodComputable
+		 * @memberOf FSCounterAggregator.KPISitesPeriod
+		 * @description return whether or not we can compute the KPI
+		 * for a specific period size
+		 */
+		this.isPeriodComputable = function(period, rangeId) {
+		    return this.getRangeParams(rangeId).isPeriodComputable(period);
+		};
+
+		/**
+		 * @function isPeriodComparable
+		 * @memberOf FSCounterAggregator.KPISitesPeriod
+		 * @description return whether or not this range period
+		 * could be used for comparisons between multiple sets of data
+		 */
+		this.isPeriodComparable = function(rangeId) {
+		    return this.getRangeParams(rangeId).comparable;
 		};
 
 		/**

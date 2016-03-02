@@ -21,10 +21,10 @@
 	  */
 	 this.getRawDataForSiteInInterval = function(siteId, period) {	 
 	     
-	     //$http.get("assets/counter1day.json").
-         return $http.get("/items/" + siteId + "/countdata",
-                  {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
-			     ).
+	     return $http.get("assets/counter1day.json").
+		//return $http.get("/items/" + siteId + "/countdata",
+                // {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
+		//	     ).
 		 then(function(ret) {
 		     return { id: siteId,
 			      data: ret.data };

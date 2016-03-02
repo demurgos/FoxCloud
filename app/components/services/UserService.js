@@ -15,7 +15,8 @@
       * @description retrieve the user settings and cached them
       */
      this.getSettings = function() {
-    	 return $http.get("/users/current").
+    	 //return $http.get("/users/current").
+	 return $http.get("assets/userdata.json").
     	     then(function(ret) {
                  currentUserData = ret.data;
     		     return ret.data;
