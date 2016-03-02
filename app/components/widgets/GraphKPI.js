@@ -27,7 +27,6 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.$watch("params.sites", function(oldSites, newSites) {
 			if(oldSites !== newSites) {
 			    $scope.sitesSelected[0] = $scope.params.sites[0];
-			    $scope.update();
 			}
 		    });
 
@@ -118,23 +117,28 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.update = function() {
 
-			var res = $scope.kpi.compute({ data: $scope.getDataFromSelectedSites(),
-						       period: $scope.params.period,
-						       groupBy: $scope.rangeSelected.id,
-						       indicator: $scope.indicatorSelected.id });
+			$scope.total = [];
+			var chartData = [];
+			for(var i = 0; i < $scope.sitesSelected.length; ++i) {
+			    if($scope.sitesSelected[i] !== undefined) {
+				var idx = _.findIndex($scope.params.data, {
+				    "id": $scope.sitesSelected[i].id });
+				var res = $scope.kpi.compute({
+				    data: $scope.params.data[idx].data,
+				    period: $scope.params.period,
+				    groupBy: $scope.rangeSelected.id,
+				    indicator: $scope.indicatorSelected.id });
+				chartData.push({
+				    key: $scope.getSiteName($scope.sitesSelected[i].id) + 
+					" - " + 
+					$scope.kpi.getIndicatorName(res.query.indicator),
+				    values: res.data,
+				    area: true });
+				$scope.total.push(res.total);
+			    }
+			}
 			$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 									   $scope.rangeSelected.id);
-			$scope.total = res.data.map(_.property("total"));
-			
-			var chartData = [];
-			for(var i = 0; i < res.data.length; ++i) {
-			    chartData.push({ 
-				key: $scope.getSiteName(res.data[i].id) +
-				    " - " + $scope.kpi.getIndicatorName($scope.indicatorSelected.id),
-				values: res.data[i].data,
-				area: true });			   
-			} 
-			
 			$scope.countingChartData = chartData;
 		    };
 

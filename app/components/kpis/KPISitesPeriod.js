@@ -175,23 +175,17 @@
 
 		    var res = { 
 			query: query,
-			data: []
+			data: [],
+			total: undefined
 		    };
 				
-		    for(var i = 0; i < query.data.length; ++i) {
-
-			var sumPeriod = ComputeService.cSumForPeriod(query.data[i].data,
-								     query.period,
-								     query.groupBy,
-								     query.indicator);
-
-			res.data.push({
-			    "id": query.data[i].id,
-			    "data": sumPeriod,
-			    "total": ComputeService.cSum(sumPeriod, function(elt) { return elt.y; })
-			});
-		    }
-
+		    var sumPeriod = ComputeService.cSumForPeriod(query.data,
+								 query.period,
+								 query.groupBy,
+								 query.indicator);
+		    res.data = sumPeriod;
+		    res.total = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
+		    
 		    return res;
 		};
 		
