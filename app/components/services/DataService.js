@@ -26,6 +26,12 @@
                 // {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
 		//	     ).
 		 then(function(ret) {
+
+		     // add rnd
+		     for(var i = 0; i < ret.data.length; ++i) {
+			 ret.data[i]["in"] = Math.floor(ret.data[i]["in"] * 2 * Math.random());
+		     }
+
 		     return { id: siteId,
 			      data: ret.data };
 		 });

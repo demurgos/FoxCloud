@@ -10,7 +10,22 @@
 	    },
 	    "yAxis": {
 	    },
-	    "forceY": [ 0, 1 ]		
+	    "forceY": [ 0, 1 ],
+	    "pointShape": "circle",
+	    "pointSize": 2,
+	    "showLegend": false
 	}
-    }
+    },
+    "chartData": [
+	{
+	    "area": true,
+            "strokeWidth": 4,
+	    "fillOpacity": 0.1
+	},
+	{
+	    "area": false,
+	    "color": "#aadff3",
+	    "strokeWidth": 4
+	}
+    ]
 }

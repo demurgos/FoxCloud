@@ -23,6 +23,7 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.widgetId = "GraphKPIWidget";		    
 		    $scope.sitesSelected = [ undefined, undefined ]; 
+		    $scope.chartData = [ {}, {} ];
 
 		    $scope.$watch("params.sites", function(oldSites, newSites) {
 			if(oldSites !== newSites) {
@@ -128,12 +129,12 @@ angular.module('FSCounterAggregatorApp').
 				    period: $scope.params.period,
 				    groupBy: $scope.rangeSelected.id,
 				    indicator: $scope.indicatorSelected.id });
-				chartData.push({
-				    key: $scope.getSiteName($scope.sitesSelected[i].id) + 
-					" - " + 
-					$scope.kpi.getIndicatorName(res.query.indicator),
-				    values: res.data,
-				    area: true });
+				$scope.chartData[i] = angular.extend({ key: $scope.getSiteName($scope.sitesSelected[i].id) + 
+								       " - " + 
+								       $scope.kpi.getIndicatorName(res.query.indicator),
+								       values: res.data },
+								     $scope.style.chartData[i]);
+				chartData.push($scope.chartData[i]);
 				$scope.total.push(res.total);
 			    }
 			}
@@ -156,8 +157,13 @@ angular.module('FSCounterAggregatorApp').
 				$scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
 				    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 				};
-				
+				//$scope.style.nvd3.xScale = d3.time.scale();
 				$scope.countingChartOptions = $scope.style.nvd3;
+
+				if($scope.style.chartData === undefined) {
+				    $scope.style.chartData = [ {}, {} ];
+				}
+				
 				$scope.countingChartData = [];			    
 			    });		    
 		    };    		    
