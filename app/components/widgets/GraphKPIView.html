@@ -46,15 +46,12 @@
     </nav>
       <div class="row left45">
           <div class="col-md-5">
-              <!-- HARDCODED - Use ng-repeat directive instead-->
+	    <div ng-repeat="elt in chartLegends">
               <div class="caption">
-                  <div class="circle"></div>
-                  <strong>Foxstream France</strong> (Total 2000)
+                <div class="circle" ng-style="{'background': elt.color}"></div>
+                <strong>{{elt.label}}</strong> (Total {{elt.total}})
               </div>
-              <div class="caption">
-                  <div class="circle"></div>
-                  <strong>Vaux-en-velin</strong> (Total 2000)
-              </div>
+	    </div>
           </div>
       </div>
     <!--<div class="text-center">-->
