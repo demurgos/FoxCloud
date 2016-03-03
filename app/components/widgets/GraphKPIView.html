@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class="box-body">
-    <nav class="navbar">
-      <ul class="nav navbar-nav">
+    <nav class="navbar bottom0">
+      <ul class="nav navbar-nav" id="indicatorSelect">
 	<li class="dropdown">
 	  <select class="form-control"
 		  ng-model="indicatorSelected"
@@ -44,13 +44,26 @@
 	</li>
       </ul>
     </nav>
-    <div class="text-center">
-      <h4>
-	<strong>{{total.length > 1 ? "Totals" : "Total"}}:<span ng-repeat="t in total track by $index">
-	    {{t}} <span ng-show="!$last">vs</span>
-	</span></strong>
-      </h4>
-    </div>
+      <div class="row left45">
+          <div class="col-md-5">
+              <!-- HARDCODED - Use ng-repeat directive instead-->
+              <div class="caption">
+                  <div class="circle"></div>
+                  <strong>Foxstream France</strong> (Total 2000)
+              </div>
+              <div class="caption">
+                  <div class="circle"></div>
+                  <strong>Vaux-en-velin</strong> (Total 2000)
+              </div>
+          </div>
+      </div>
+    <!--<div class="text-center">-->
+      <!--<h4>-->
+	<!--<strong>{{total.length > 1 ? "Totals" : "Total"}}:<span ng-repeat="t in total track by $index">-->
+	    <!--{{t}} <span ng-show="!$last">vs</span>-->
+	<!--</span></strong>-->
+      <!--</h4>-->
+    <!--</div>-->
     <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
   </div>
 </div>
