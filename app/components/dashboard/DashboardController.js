@@ -31,7 +31,7 @@
 		$scope.params.loadData();
 	    });
 
-	    $scope.$watch('params.period', function(oldPeriod, newPeriod) {
+	    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
 		if(newPeriod !== oldPeriod) {
 		    $scope.params.loadData();
 		}

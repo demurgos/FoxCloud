@@ -14,15 +14,18 @@
 		this.widgetStyles = {
 		    "GraphKPIWidget": {
 			"json": "assets/graphsite.json",
-			"css": undefined
+			"css": undefined,
+			"cached": undefined
 		    },
 		    "StatBoxWidget": {
 			"json": "assets/statbox.json",
-			"css": undefined
+			"css": undefined,
+			"cached": undefined
 		    },
 		    "TotalInWidget": {
 			"json": "assets/statbox.json",
-			"css": undefined
+			"css": undefined,
+			"cached": undefined
 		    }
 		};
 
@@ -34,10 +37,14 @@
 		this.getStyle = function(widgetId) {
 		    if(this.widgetStyles[widgetId] === undefined) {
 			return $q.when({});
+		    } else if(this.widgetStyles[widgetId].json_cached !== undefined) {
+			return $q.when(this.widgetStyles[widgetId].cached);
 		    } else {
+			var that = this;
 			return $http.get(this.widgetStyles[widgetId].json).
 			    then(function(ret) {
-				return { "json": ret.data };
+				that.widgetStyles[widgetId].cached = { "json": ret.data };
+				return that.widgetStyles[widgetId].cached;
 			    });
 		    }
 		};		

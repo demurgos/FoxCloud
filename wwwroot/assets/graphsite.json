@@ -20,11 +20,13 @@
 	{
 	    "area": true,
             "strokeWidth": 4,
-	    "fillOpacity": 0.1
+	    "fillOpacity": 0.1,
+	    "color": "#1F77B4"
 	},
 	{
 	    "area": false,
-	    "strokeWidth": 4
+	    "strokeWidth": 4,
+	    "color": "#aadff3"
 	}
     ]
 }
