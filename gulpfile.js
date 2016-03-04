@@ -30,6 +30,7 @@ var localJSSources = [ "app/app.js",
 			   "app/components/pipes/*.js",
 		       "app/components/widgets/*.js",
 		       "app/components/services/*.js",
+		       "app/components/indicators/*.js",
 		       "lib/js/*.js" ];
 
 localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");

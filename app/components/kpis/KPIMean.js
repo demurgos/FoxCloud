@@ -33,13 +33,10 @@
 			value: 0
 		    };
 				
-		    var func = query.indicator !== "occ" ?
-			function(elt) { 
-			    return elt[query.indicator]; 
-			} : function(elt) {
-			    return Math.abs(elt.in - elt.out);
-			};
-
+		    var func = function(elt) { 
+			return elt[query.indicator]; 
+		    };
+		    
 		    for(var i = 0; i < query.data.length; ++i) {
 			res.value += ComputeService.cMean(query.data[i].data, 
 							  func);

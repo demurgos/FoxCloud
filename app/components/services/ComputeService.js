@@ -136,14 +136,15 @@
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description generic function to merge data regarding indexes list
       */
-     this.aggregate = function(data, index, cumulFunc) {
+     this.aggregate = function(data, index, cumulFunc, endCumulFunc) {
 	 var res = [];
 	 for(var i = 0; i < index.length; ++i) {
 	     var curIndex = index[i];
 	     var cumul = { x: curIndex.x, y: cumulFunc() };
 	     if(curIndex.y !== undefined) {
 		 for(var j = 0; j < curIndex.y.length; ++j) {
-		     cumul.y = cumulFunc(data[curIndex.y[j]], cumul.y);
+		     cumul.y = cumulFunc(data[curIndex.y[j]], cumul.y,
+					 j, curIndex.y.length);
 		 }
 	     }
 	     res.push(cumul);
@@ -208,7 +209,7 @@
       */
      this.cMean = function(data, fsum) {
 	 return data.length === 0 ? 0 : this.cSum(data, fsum) / data.length;	 
-     };
+     };     
 
      /**
       * @function cMax
@@ -234,7 +235,7 @@
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description aggregate data on a period grouped by step duration
       */
-     this.cSumForPeriod = function(data, period, step, id) {
+     this.cFuncForPeriod = function(data, period, step, id, func) {
 	 
 	 var that = this;
 
@@ -251,11 +252,54 @@
 				   );
 	 var tdata = this.aggregate(data, 
 				    timeIndex,
+				    func);
+	 return tdata;
+     };
+
+     /**
+      * @function cSumForPeriod
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description aggregate data on a period grouped by step duration
+      */
+     this.cSumForPeriod = function(data, period, step, id) {
+	 
+	 return this.cFuncForPeriod(data, period, step, id, 
 				    function(elt, curCumul) {
 					return curCumul !== undefined ? 
 					    curCumul + elt[id] : 0;
 				    });
-	 return tdata;
+     };
+
+     /**
+      * @function cMeanForPeriod
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description aggregate data on a period grouped by step duration
+      */
+     this.cMeanForPeriod = function(data, period, step, id) {
+	 
+	 return this.cFuncForPeriod(data, period, step, id,
+				    function(elt, curCumul, pos, length) {
+					if(curCumul !== undefined) {
+					    return pos == (length - 1) ? 
+						Math.round((curCumul + elt[id])/length) : 
+						curCumul + elt[id];
+					} else {
+					    return 0;
+					}
+				    });
+     };
+
+     /**
+      * @function cOccupancy
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description Compute occupancy values based on in/out
+      */
+     this.cOccupancy = function(data, idIn, idOut, idOcc) {
+	 var occupancy = 0;
+	 for(var i = 0; i < data.length; ++i) {
+	     occupancy = Math.max(0, occupancy + (data[i][idIn] - data[i][idOut]));
+	     data[i][idOcc] = occupancy;
+	 }
      };
 
  });
