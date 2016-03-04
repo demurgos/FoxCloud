@@ -49,6 +49,9 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 
 var jsSources = externalJSSources.concat(localJSSources);
 
+var jsConfig = [ 'app/config.js' ];
+var jsConfigDemo = [ 'app/config-demo.js' ];
+
 mkdirp('docs');
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
@@ -59,6 +62,8 @@ mkdirp('wwwroot/build/img');
 gulp.task('install', [ 'build', 'copy-files' ]);
 
 gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
+
+gulp.task('demo', [ 'common', 'prepare-css', 'prepare-js-demo' ]);
 
 gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release' ]);
 
@@ -116,11 +121,15 @@ function buildJS(files, destName, destDir, minify) {
 }
 
 gulp.task('prepare-js', function() {
-    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', false);
+    return buildJS(jsSources.concat(jsConfig), 'lib.min.js', 'wwwroot/build/js/', false);
 });
 
 gulp.task('prepare-js-release', function() {
-    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', true);
+    return buildJS(jsSources.concat(jsConfig), 'lib.min.js', 'wwwroot/build/js/', true);
+});
+
+gulp.task('prepare-js-demo', function() {
+    return buildJS(jsSources.concat(jsConfigDemo), 'lib.min.js', 'wwwroot/build/js/', true);
 });
 
 gulp.task('prepare-css', function() {

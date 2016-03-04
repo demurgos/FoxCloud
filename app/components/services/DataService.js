@@ -8,9 +8,11 @@
  angular.module('FSCounterAggregatorApp').service('DataService', [
      "$http", 
      "$q",
+     "useServerAPI",
      function(
 	 $http,
-	 $q
+	 $q,
+	 useServerAPI
      ) {
 	 
 	 /**
@@ -20,18 +22,22 @@
 	  * within a period of time
 	  */
 	 this.getRawDataForSiteInInterval = function(siteId, period) {	 
-	     
-	     return $http.get("assets/counter1day.json").
-		//return $http.get("/items/" + siteId + "/countdata",
-                // {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
-		//	     ).
+	     return useServerAPI ? 
+		 $http.get("/items/" + siteId + "/countdata",
+			   { params: { 
+			       start: period.startDate.unix(), 
+			       end:  period.endDate.unix()
+			   }}).
 		 then(function(ret) {
-
+		     return { id: siteId,
+			      data: ret.data };
+		 }) : 
+	     $http.get("assets/counter1day.json").
+		 then(function(ret) {		     
 		     // add rnd
 		     for(var i = 0; i < ret.data.length; ++i) {
 			 ret.data[i]["in"] = Math.floor(ret.data[i]["in"] * 2 * Math.random());
-		     }
-
+		     }		     
 		     return { id: siteId,
 			      data: ret.data };
 		 });
@@ -43,8 +49,7 @@
 	  * @description retrieve counting data for a set of sites
 	  * within a period of time
 	  */
-	 this.getRawDataForSitesInInterval = function(sitesId, period) {
-	     
+	 this.getRawDataForSitesInInterval = function(sitesId, period) {	     
 	     var promises = [];
 	     for(var i = 0; i < sitesId.length; ++i) {
 		 promises.push(this.getRawDataForSiteInInterval(sitesId[i], period));
