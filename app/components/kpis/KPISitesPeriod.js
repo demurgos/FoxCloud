@@ -76,6 +76,9 @@
 		    },
 		    'out': {
 			name: 'Out' 
+		    },
+		    'occ': {
+			name: 'Occupancy'
 		    }
 		};
 
@@ -91,7 +94,8 @@
 		    
 		    indicators: [
 			{ id: 'in', name: 'In' },
-			{ id: 'out', name: 'Out' }
+			{ id: 'out', name: 'Out' },
+			{ id: 'occ', name: 'Occupancy' }
 		    ],
 		    
 		    defaultIndicatorId: 'in',
@@ -178,13 +182,23 @@
 			data: [],
 			total: undefined
 		    };
-				
-		    var sumPeriod = ComputeService.cSumForPeriod(query.data,
-								 query.period,
-								 query.groupBy,
-								 query.indicator);
-		    res.data = sumPeriod;
-		    res.total = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
+
+		    if(query.indicator !== 'occ') {
+			var sumPeriod = ComputeService.cSumForPeriod(query.data,
+								     query.period,
+								     query.groupBy,
+								     query.indicator);
+			res.data = sumPeriod;
+			res.total = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
+		    } else {
+			var meanPeriod = ComputeService.cMeanForPeriod(query.data,
+								       query.period,
+								       query.groupBy,
+								       query.indicator);
+			res.data = meanPeriod;
+			res.total = Math.round(ComputeService.cMean(meanPeriod, 
+								    function(elt) { return elt.y; }));
+		    }
 		    
 		    return res;
 		};

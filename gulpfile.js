@@ -29,6 +29,7 @@ var localJSSources = [ "app/app.js",
 			   "app/components/pipes/*.js",
 		       "app/components/widgets/*.js",
 		       "app/components/services/*.js",
+		       "app/components/indicators/*.js",
 		       "lib/js/*.js" ];
 
 var externalJSSources = [ 'node_modules/moment/moment.js',

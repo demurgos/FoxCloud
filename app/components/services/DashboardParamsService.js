@@ -11,10 +11,12 @@
 		[ "$http",
 		  "DataService",
 		  "UserService",
+		  "OccupancyIndicator",
 		  function(
 		      $http,
 		      DataService,
-		      UserService
+		      UserService,
+		      OccupancyIndicator
 		  ) {
 		      
 		      this.period = { startDate: moment().set('hour', 0).set('minute', 0),
@@ -45,6 +47,7 @@
 			      _.compact(this.sites.map(_.property("id"))),
 			      this.period).
 			      then(function(data) {
+				  OccupancyIndicator.compute(data);
 				  that.data = data;
 				  return that;
 			      });
