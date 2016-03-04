@@ -5,7 +5,7 @@
  **/
 angular.module('FSCounterAggregatorApp').
     directive('fcaGraphKpi', function() {
-	return {		
+	return {
 	    scope: {
 		params: '=',
 		kpi: '='
@@ -21,8 +21,8 @@ angular.module('FSCounterAggregatorApp').
 		    var $injector = angular.injector(['FSCounterAggregatorApp']);
 		    var s = $injector.get('WidgetStyleService');
 
-		    $scope.widgetId = "GraphKPIWidget";		    
-		    $scope.sitesSelected = [ undefined, undefined ]; 
+		    $scope.widgetId = "GraphKPIWidget";
+		    $scope.sitesSelected = [ undefined, undefined ];
 		    $scope.chartData = [ {}, {} ];
 		    $scope.chartLegends = [];
 
@@ -56,7 +56,7 @@ angular.module('FSCounterAggregatorApp').
 		     * set interactive guideline
 		     */
 		    $scope.toggleSiteComparison = function(open) {
-			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ? 
+			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ?
 							   $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
 			$scope.countingChartOptions.chart.useInteractiveGuideline = open;
 			$scope.updateSelectedRange();
@@ -100,7 +100,7 @@ angular.module('FSCounterAggregatorApp').
 				firstEnabledRange = rangeId;
 			    }
 			    $scope.rangesEnabled[rangeId] = computable;
-			}			
+			}
 			if(!$scope.rangesEnabled[$scope.rangeSelected.id]) {
 			    $scope.rangeSelected.id = firstEnabledRange;
 			}
@@ -116,7 +116,7 @@ angular.module('FSCounterAggregatorApp').
 
 			WidgetStyleService.getStyle($scope.widgetId).
 			    then(function(style) {
-				
+
 				$scope.setWidgetStyle(style);
 
 				var chartData = [];
@@ -126,25 +126,25 @@ angular.module('FSCounterAggregatorApp').
 					var idx = _.findIndex($scope.params.data, {
 					    "id": $scope.sitesSelected[i].id });
 					var res = $scope.kpi.compute({
-					    data: $scope.params.data[idx].data,
+					    sitedata: $scope.params.data[idx].data,
 					    period: $scope.params.period,
 					    groupBy: $scope.rangeSelected.id,
 					    indicator: $scope.indicatorSelected.id });
-					var key = $scope.getSiteName($scope.sitesSelected[i].id) + 
-					    " - " + 
+					var key = $scope.getSiteName($scope.sitesSelected[i].id) +
+					    " - " +
 					    $scope.kpi.getIndicatorName(res.query.indicator);
 					$scope.chartData[i] = angular.extend({ key: key,
 									       values: res.data },
 									     $scope.style.chartData[i]);
 					chartData.push($scope.chartData[i]);
-					chartLegends.push({ label: key, 
-							    total: res.total,
+					chartLegends.push({ label: key,
+							    total: res.value,
 							    color: $scope.chartData[i].color });
 				    }
 				}
 				$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 										   $scope.rangeSelected.id);
-				$scope.countingChartData = chartData;				
+				$scope.countingChartData = chartData;
 				$scope.chartLegends = chartLegends;
 			    });
 		    };
@@ -161,11 +161,11 @@ angular.module('FSCounterAggregatorApp').
 			    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 			};
 			$scope.countingChartOptions = $scope.style.nvd3;
-			
-			$scope.countingChartOptions.chart.xScale = d3.time.scale(); 
-                        
-			$scope.countingChartData = [];			    
-		    };    		    
+
+			$scope.countingChartOptions.chart.xScale = d3.time.scale();
+
+			$scope.countingChartData = [];
+		    };
 
 		}],
 	    link: function(scope, element, attr) {
@@ -173,4 +173,3 @@ angular.module('FSCounterAggregatorApp').
 	    templateUrl: 'build/html/GraphKPIView.html'
 	};
     });
-	    
