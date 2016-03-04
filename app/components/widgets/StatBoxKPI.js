@@ -48,9 +48,10 @@ angular.module('FSCounterAggregatorApp').
 		    });
 
 		    $scope.update = function() {
-			var res = $scope.kpi.compute({ data: $scope.params.data,
+			var res = $scope.kpi.compute({ allsitedata : $scope.params.data,
 						       period: $scope.params.period,
-						       indicator: $scope.indicator });
+						       indicator: $scope.indicator,
+                               omitTable: true });
 			$scope.value = applyFilters(res.value);
 		    };
 		}],

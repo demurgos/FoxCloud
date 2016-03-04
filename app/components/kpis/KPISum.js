@@ -4,10 +4,10 @@
  * @description Compute the sum for a set of data indicators
  */
 (function() {
-    
+
     angular.module('FSCounterAggregatorApp').
-	controller('KPISum', [ 
-	    "ComputeService",	    
+	controller('KPISum', [
+	    "ComputeService",
 	    function(
 		ComputeService
 	    ) {
@@ -23,28 +23,31 @@
 		/**
 		 * @function compute
 		 * @memberOf FSCounterAggregatorApp.KPISum
-		 * @description Returns the total of  
-		 * data within a period of time
+		 * @description Returns the total of
+		 * data within a period of time (for a site or for multi-site)
 		 */
 		this.compute = function(query) {
 
-		    var res = { 
+		    var res = {
 			query: query,
 			value: 0
 		    };
-		
-		    var felt = function(elt) {
-			return elt[query.indicator];
-		    };
-		
-		    for(var i = 0; i < query.data.length; ++i) {
-			res.value += ComputeService.cSum(query.data[i].data, 
-							 felt);
+
+            if(!query.indicator)
+                query.indicator = this.getDefaultIndicatorId();
+
+		    var felt = function(elt) { return elt[query.indicator];};
+
+            if(query.allsitedata)
+            {
+		          for(var i = 0; i < query.allsitedata.length; ++i)
+			          res.value += ComputeService.cSum(query.allsitedata[i].data, felt);
 		    }
+            else
+                res.value += ComputeService.cSum(query.sitedata.data, felt);
 
 		    return res;
 		};
-		
+
 	    }]);
 }());
-	
