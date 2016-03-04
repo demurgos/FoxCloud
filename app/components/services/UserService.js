@@ -5,7 +5,7 @@
  */
 (function() {
 
- angular.module('FSCounterAggregatorApp').service('UserService', ["$http", function($http) {
+ angular.module('FSCounterAggregatorApp').service('UserService', ["$http", "myconfig", function($http, myconfig) {
 
      var currentUserData = null;
 
@@ -15,8 +15,9 @@
       * @description retrieve the user settings and cached them
       */
      this.getSettings = function() {
-    	 //return $http.get("/users/current").
-	 return $http.get("assets/userdata.json").
+
+         var url = myconfig.debug ? "assets/userdata.json" : "/users/current";
+	     return $http.get(url).
     	     then(function(ret) {
                  currentUserData = ret.data;
     		     return ret.data;

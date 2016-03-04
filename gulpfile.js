@@ -1,5 +1,6 @@
 var fs = require('fs');
 var gulp = require('gulp');
+var gulpSequence = require('gulp-sequence');
 var concat_css = require('gulp-concat-css');
 var concat_js = require('gulp-concat');
 var minify_css = require('gulp-cssnano');
@@ -31,6 +32,8 @@ var localJSSources = [ "app/app.js",
 		       "app/components/services/*.js",
 		       "lib/js/*.js" ];
 
+localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");
+
 var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/lodash/lodash.js',
 			  'node_modules/angular/angular.js',
@@ -55,7 +58,7 @@ mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
 mkdirp('wwwroot/build/img');
 
-gulp.task('install', [ 'build', 'copy-files' ]);
+gulp.task('install', gulpSequence('build', 'copy-files'));
 
 gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
 

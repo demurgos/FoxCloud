@@ -6,36 +6,42 @@
 (function() {
 
  angular.module('FSCounterAggregatorApp').service('DataService', [
-     "$http", 
+     "$http",
      "$q",
+     "myconfig",
      function(
 	 $http,
-	 $q
+	 $q,
+     myconfig
      ) {
-	 
+
 	 /**
 	  * @function getRawDataForSiteInInterval
 	  * @memberOf FSCounterAggregatorApp.DataService
-	  * @description retrieve counting data for an unique site 
+	  * @description retrieve counting data for an unique site
 	  * within a period of time
 	  */
-	 this.getRawDataForSiteInInterval = function(siteId, period) {	 
-	     
-	     return $http.get("assets/counter1day.json").
-		//return $http.get("/items/" + siteId + "/countdata",
-                // {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}
-		//	     ).
-		 then(function(ret) {
+	 this.getRawDataForSiteInInterval = function(siteId, period) {
 
-		     // add rnd
-		     for(var i = 0; i < ret.data.length; ++i) {
-			 ret.data[i]["in"] = Math.floor(ret.data[i]["in"] * 2 * Math.random());
-		     }
+         if(myconfig.debug)
+         {
+             return $http.get("assets/counter1day.json").
+    		 then(function(ret) {
 
-		     return { id: siteId,
-			      data: ret.data };
-		 });
-	 };	 
+    		     // add rnd
+    		     for(var i = 0; i < ret.data.length; ++i)
+    			          ret.data[i]["in"] = Math.floor(ret.data[i]["in"] * 2 * Math.random());
+
+                 return { id: siteId,
+    			      data: ret.data };
+    		 });
+         }
+         else
+             return $http.get("/items/" + siteId + "/countdata", {params: {start: period.startDate.unix(), end:  period.endDate.unix()}}).
+                then(function(ret) { return { id: siteId, data: ret.data }; });
+
+
+	 };
 
 	 /**
 	  * @function getRawDataForSitesInInterval
@@ -44,7 +50,7 @@
 	  * within a period of time
 	  */
 	 this.getRawDataForSitesInInterval = function(sitesId, period) {
-	     
+
 	     var promises = [];
 	     for(var i = 0; i < sitesId.length; ++i) {
 		 promises.push(this.getRawDataForSiteInInterval(sitesId[i], period));
