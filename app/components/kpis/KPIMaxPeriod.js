@@ -71,6 +71,9 @@
             var mx = _.max(_.values(hours));
             res.value = _.findKey(hours, function(v){ return v == mx;})+"h";
 
+            if(!res.value)
+                res.value="no data";
+
 		    return res;
 		};
 
