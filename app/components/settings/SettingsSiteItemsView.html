@@ -1,0 +1,27 @@
+<div class="content-wrapper">
+
+  <section class="content">
+    
+    <table width='100%' style='vertical-align: top'>
+      <tr><td>Selected site : </td><td>
+	  <select ng-model="siteId" ng-options="site._id as site.name for site in currentUserSites | filter: {isadmin:true}" style='width:90%''></select>
+      </td></tr>
+      <tr><td>
+	  Existing cameras 
+	  <select size='25' ng-model="selectedItem" ng-options="item as item.name for item in site.items" style='width:90%'></select>
+	  <br/>			
+	  <button ng-click='add_item()'  class='btn btn-default'>Add</button>														
+	  <button ng-click='unlink_item()' class='btn btn-default'>Unlink</button>			
+	  <button ng-click='remove_item()' class='btn btn-default'>Delete</button>			
+	</td>
+	<td  style='vertical-align: top'>
+	  <p>Details:</p>
+	  <p>Last upload: {{selectedItem.lastUpdateTime |  date:"dd/MM/yyyy 'at' HH:mm:ss"}}</p>
+	  <p>Item Id: {{selectedItem.itemid}} </p>
+	  <p>Pairing id: {{selectedItem.pairId}} </p>	  
+      </td></tr>
+    </table>
+    
+  </section>
+  
+</div>

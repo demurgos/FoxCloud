@@ -29,7 +29,8 @@
 			    category : "Settings"
 			}).
 			when('/settings_site_items', {
-			    templateUrl: 'build/html/SettingsSiteItems.html',
+			    templateUrl: 'build/html/SettingsSiteItemsView.html',
+			    controller: 'SettingsSiteItems',
 			    pageName : "Site cameras",
 			    category : "Settings"
 			}).
