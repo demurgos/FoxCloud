@@ -40,10 +40,11 @@ var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
 		       "app/components/topbar/*.js",
 		       "app/components/kpis/*.js",
-			   "app/components/pipes/*.js",
+		       "app/components/pipes/*.js",
 		       "app/components/widgets/*.js",
 		       "app/components/services/*.js",
 		       "app/components/indicators/*.js",
+		       "app/components/settings/*.js",
 		       "lib/js/*.js" ];
 
 localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");
@@ -104,6 +105,7 @@ gulp.task('lint', function() {
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/*.html",
 		      "app/components/topbar/*.html",
+		      "app/components/settings/*.html",
 		      "app/components/widgets/*.html"
 		    ])
 	.pipe(duration('Execution Time: '))
