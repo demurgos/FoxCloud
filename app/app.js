@@ -6,6 +6,7 @@
 
     var app = angular.module('FSCounterAggregatorApp',[
 	'ngRoute',
+	'ngResource',
 	'ui.bootstrap',
 	'daterangepicker',
 	'nvd3',
@@ -35,17 +36,20 @@
 			    category : "Settings"
 			}).
 			when('/settings_users', {
-			    templateUrl: 'build/html/SettingsUsers.html',
+			    templateUrl: 'build/html/SettingsUsersView.html',
+			    controller: 'SettingsUsers',
 			    pageName : "User management",
 			    category : "Settings"
 			}).
 			when('/settings_sites', {
-			    templateUrl: 'build/html/SettingsSites.html',
+			    templateUrl: 'build/html/SettingsSitesView.html',
+			    controller: 'SettingsSites',
 			    pageName : "Site management",
 			    category : "Settings"
 			}).
 			when('/settings_site_users', {
-			    templateUrl: 'build/html/SettingsSiteUsers.html',
+			    templateUrl: 'build/html/SettingsSiteUsersView.html',
+			    controller: 'SettingsSiteUsers',
 			    pageName : "Site users",
 			    category : "Settings"
 			}).

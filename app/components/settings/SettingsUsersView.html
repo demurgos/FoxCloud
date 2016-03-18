@@ -1,0 +1,20 @@
+<div class="content-wrapper">
+
+  <section class="content">
+
+    <table width='100%'><tr><td>
+	  <select size='25' ng-model="selecteduser" 
+		  ng-options="user as user.email + '(' + user.name + ')' for user in users" 
+		  style='width:90%'>
+	  </select>	
+	  <br/>
+	  <button ng-click='new_user()'  class='btn btn-default'>New</button>
+	  <button ng-click='delete_user()'  class='btn btn-default'>Delete</button>			
+	</td><td  style='vertical-align: top'>
+	  <usereditor user='selecteduser' onsave='user_updated()' oncancel='user_cancel()'/>
+      </td></tr>
+    </table>
+
+  </section>
+
+</div>

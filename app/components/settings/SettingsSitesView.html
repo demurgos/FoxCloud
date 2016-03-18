@@ -1,0 +1,26 @@
+<div class="content-wrapper">
+
+  <section class="content">
+
+    <table width='100%' style='vertical-align: top'><tr><td>
+	  <select size='25' ng-model="selectedsite" ng-options="site as site.name for site in sites" style='width:90%''></select>
+	  <br/>
+	  Site name: <input ng-model='editing_site' type='text' /> 
+	  <br/>
+	  <button ng-click='add_site()'  class='btn btn-default'>Add</button>						
+	  <button ng-click='rename_site()'  class='btn btn-default'>Rename</button>						
+	  <button ng-click='delete_site()' class='btn btn-default'>Delete</button>			
+	</td>
+	<td  style='vertical-align: top'>
+	  Associated users:
+	  <select size='15' ng-model="selecteduser" ng-options="user as user for user in selectedsite.usersadmin" style='width:90%''></select>
+	  <br/>
+	  User email: <input ng-model='editing_user' type='text' /><br/>
+	  <button ng-click='add_user()'  class='btn btn-default'>Add</button>						
+	  <button ng-click='delete_user()' class='btn btn-default'>Delete</button>				  
+      </td></tr>
+    </table>
+    
+  </section>
+
+</div>

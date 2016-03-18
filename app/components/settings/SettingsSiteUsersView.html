@@ -1,0 +1,31 @@
+<div class="content-wrapper">
+
+  <section class="content">
+
+    <table width='100%' style='vertical-align: top'>
+      <tr><td>Selected site : </td><td>
+	  <select ng-model="siteId" ng-options="site._id as site.name for site in currentUserSites | filter: {isadmin:true}" style='width:90%'></select>
+      </td></tr>
+      <tr><td>
+	  Administrators 
+	  <select size='25' ng-model="selectedAdminUser" ng-options="user as user for user in site.usersadmin" style='width:90%''></select>
+	  <br/>
+	  User email: <input ng-model='editing_admin_user' type='text' /> 
+	  <br/>
+	  <button ng-click='add_admin_user()'  class='btn btn-default'>Add</button>														
+	  <button ng-click='delete_admin_user()' class='btn btn-default'>Delete</button>			
+	</td>
+	<td  style='vertical-align: top'>
+	  Viewers:
+	  <select size='25' ng-model="selectedUser" ng-options="user as user for user in site.users" style='width:90%''></select>
+	  <br/>
+	  User email: <input ng-model='editing_user' type='text' /><br/>
+	  <button ng-click='add_user()'  class='btn btn-default'>Add</button>						
+	  <button ng-click='delete_user()' class='btn btn-default'>Delete</button>			
+	  
+      </td></tr>
+    </table>
+    
+  </section>
+  
+</div>

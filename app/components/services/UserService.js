@@ -7,10 +7,12 @@
 
     angular.module('FSCounterAggregatorApp').service('UserService', [
 	"$http", 
+	"$resource",
 	"$q",
 	"myconfig", 
 	function(
 	    $http, 
+	    $resource,
 	    $q,
 	    myconfig
 	) {
@@ -64,6 +66,15 @@
 	     */
 	    this.getCachedSettings = function(){
 		return currentUserData;
+	    };
+
+	    this.getResource = function() {
+		if(myconfig.debug) {
+		    return $resource('assets/users.json');
+		} else {
+		    return $resource('/users/:userId',
+				     { userId: '@_id' });
+		}
 	    };
 	    
 	}]);

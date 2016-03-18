@@ -7,15 +7,17 @@
 
     angular.module('FSCounterAggregatorApp').service('SiteService', [
 	"$http",
+	"$resource",
 	"$q",
 	"myconfig",
 	function(
 	    $http,
+	    $resource,
 	    $q,
 	    myconfig
 	) {
 
-	    this.getSite = function(siteId, cb) {
+	    this.getSite = function(siteId) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -26,7 +28,7 @@
 		}
             };            
             
-            this.addUser = function(siteId, userEmail, addAsAdmin, cb) {
+            this.addUser = function(siteId, userEmail, addAsAdmin) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -39,7 +41,7 @@
 		}
             }; 
                         
-            this.removeUser = function(siteId, userEmail, isAdmin, cb) {
+            this.removeUser = function(siteId, userEmail, isAdmin) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -52,7 +54,7 @@
 		}
             };
                         
-            this.addItem = function(siteId, cb) {
+            this.addItem = function(siteId) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -63,7 +65,7 @@
 		}
             };
                         
-            this.removeItem = function(siteId, itemId, cb) {
+            this.removeItem = function(siteId, itemId) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -74,7 +76,7 @@
 		}
             };
             
-            this.unlinkItem = function (siteId, itemId, cb) {
+            this.unlinkItem = function (siteId, itemId) {
 		if(myconfig.debug) {
 		    return $q.when({});
 		} else {
@@ -91,6 +93,15 @@
 		}		
 		var elem = _.find(siteLists, "isadmin", true);		
 		return elem ? elem._id : null;
+	    };
+
+	    this.getResource = function() {
+		if(myconfig.debug) {
+		    return $resource('assets/sites.json');
+		} else {
+		    return $resource('/sites/:siteId',
+				     { userId: '@_id' });
+		}
 	    };
 
 	}]);

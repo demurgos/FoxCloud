@@ -3,7 +3,6 @@
  * @memberof FSCounterAggregatorApp
  * @description Controller that manages user settings
  */
-
 (function() {
 
     angular.module('FSCounterAggregatorApp')
