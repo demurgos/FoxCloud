@@ -129,7 +129,7 @@ gulp.task('prepare-js-release', function() {
 });
 
 gulp.task('prepare-js-demo', function() {
-    return buildJS(jsSources.concat(jsConfigDemo), 'lib.min.js', 'wwwroot/build/js/', true);
+    return buildJS(jsSources.concat(jsConfigDemo), 'lib.min.js', 'wwwroot/build/js/', false);
 });
 
 gulp.task('prepare-css', function() {

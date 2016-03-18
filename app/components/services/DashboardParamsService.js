@@ -19,8 +19,8 @@
 		      OccupancyIndicator
 		  ) {
 		      
-		      this.period = { startDate: moment().set('hour', 0).set('minute', 0),
-				      endDate: moment().set('hour', 23).set('minute', 59) 
+		      this.period = { startDate: moment().hours(0).minutes(0).seconds(0),
+				      endDate: moment().hours(23).minutes(59).seconds(59) 
 				    };
 		      
 		      this.sites = [];

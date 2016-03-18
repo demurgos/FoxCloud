@@ -32,14 +32,19 @@
 		     return { id: siteId,
 			      data: ret.data };
 		 }) : 
-	     $http.get("assets/counter1day.json").
-		 then(function(ret) {		     
+	     $q.when({}).
+		 then(function() {
 		     // add rnd
-		     for(var i = 0; i < ret.data.length; ++i) {
-			 ret.data[i]["in"] = Math.floor(ret.data[i]["in"] * 2 * Math.random());
+		     var retData = [];
+		     for(var ts = period.startDate.clone(); 
+			 ts.unix() < period.endDate.unix(); ts.add(15,"m")) {
+			 retData.push({ "in": Math.floor(50 * Math.random()),
+					"out": Math.floor(50 * Math.random()),
+					"time": ts.unix(),
+					"duration": 900 });
 		     }		     
 		     return { id: siteId,
-			      data: ret.data };
+			      data: retData };
 		 });
 	 };	 
 
