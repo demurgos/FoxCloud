@@ -32,18 +32,15 @@
                 query.indicator = this.getDefaultIndicatorId();
 
             var res = {
-            query: query,
-            value: 0
+                query: query,
+                value: 0
             };
 
-            var felt = function(elt) {
-                return elt[query.indicator];
-            };
+            var siteSums = _.map(query.allsitedata, function(siteData){return _.sumBy(siteData.data, query.indicator);});
 
-            var siteSums = _.map(query.data, function(siteData){return ComputeService.cSum(siteData.data, felt);});
             var maxIdx = _.indexOf(siteSums, _.max(siteSums));
 
-            res.value = maxIdx>=0 ? query.data[maxIdx].id:"n/a";
+            res.value = maxIdx>=0 ? query.allsitedata[maxIdx].id:"n/a";
             return res;
 		};
 

@@ -34,9 +34,9 @@
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
-	<div ng-controller="KPIMean as kpi">
+	<div ng-controller="KPIMax as kpi">
 	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
-			    label="Mean Occupancy" bg-color="bg-green"
+			    label="Max Occupancy" bg-color="bg-green"
 			    icon="ion-ios-stats">
 	  </fca-stat-box-kpi>
 	</div>
@@ -45,8 +45,8 @@
       <div class="col-lg-3 col-xs-6">
 	<!-- small box -->
 	<div ng-controller="KPIMaxPeriod as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in"
-			    label="Max Period" bg-color="bg-yellow"
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
+			    label="Max Period of Occupancy" bg-color="bg-yellow"
 			    icon="ion-ios-clock">
 	  </fca-stat-box-kpi>
 	</div>

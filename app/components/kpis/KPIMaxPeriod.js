@@ -4,10 +4,10 @@
  * @description Retrieve the period which have the max indicator value
  */
 (function() {
-    
+
     angular.module('FSCounterAggregatorApp').
-	controller('KPIMaxPeriod', [ 
-	    "ComputeService",	    
+	controller('KPIMaxPeriod', [
+	    "ComputeService",
 	    function(
 		ComputeService
 	    ) {
@@ -20,49 +20,62 @@
 		    return "max period";
 		};
 
+        function groupSiteByHour(data, indicator)
+        {
+            var arrayOfDataPerHour = _.groupBy(data, function(item){
+                return moment(item.time*1000).hour();
+            });
+
+            var siteByHour = _.mapValues(arrayOfDataPerHour, function(it){
+                return _.sumBy(it, indicator);
+            });
+
+            return siteByHour;
+        }
+
+        function groupAllSitesByHour(data, indicator)
+        {
+            var sitesSumByHour = _.map(data, function(siteData){
+                return groupSiteByHour(siteData.data, indicator);
+            });
+
+            return _.reduce(sitesSumByHour, function(acc, siteSumByHour){
+                _.forEach(siteSumByHour, function(value, hour){
+                    acc[hour+""] = value + (acc[hour+""] | 0);
+                });
+                return acc;
+            }, {});
+        }
+
 		/**
 		 * @function compute
 		 * @memberOf FSCounterAggregatorApp.KPIMaxPeriod
 		 * @description Returns the period which have the max value
 		 */
 		this.compute = function(query) {
+            if(!query.indicator)
+                query.indicator = this.getDefaultIndicatorId();
 
-		    var res = { 
-			query: query,
-			data: undefined,
-			value: 0
+		    var res = {
+			         query: query,
+			         value: 0
 		    };
-				
-		    var step = "hours";
 
-		    var timeIndex = ComputeService.
-			createFixedLengthIndex(24,
-					       function() { return undefined; });
-		    
-		    timeIndex = ComputeService.
-			fillIndex(query.data,
-				  timeIndex,
-				  function(elt) {
-				      return moment(elt.time*1000).hour();
-				  }
-				 );
+            var hours = [];
 
-		    var tdata = ComputeService.
-			aggregate(query.data,
-				  timeIndex,
-				  function(elt, curCumul) {
-				      return curCumul !== undefined ? 
-					  curCumul + elt[query.indicator] : 0;
-				  });
+            if(query.allsitedata)
+                hours = groupAllSitesByHour(query.allsitedata, query.indicator);
+            else if(query.sitedata )
+                hours = groupSiteByHour(query.sitedata, query.indicator);
 
-		    var maxElt = ComputeService.cMax(tdata,
-						    function(elt) {
-							return elt.y;
-						    }); 
-		    res.value = maxElt.x + "h";
+            var mx = _.max(_.values(hours));
+            res.value = _.findKey(hours, function(v){ return v == mx;})+"h";
+
+            if(!res.value)
+                res.value="no data";
+
 		    return res;
 		};
-		
+
 	    }]);
 }());
-	

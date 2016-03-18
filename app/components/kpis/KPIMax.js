@@ -1,12 +1,12 @@
 /**
- * @class KPIMean
+ * @class KPIMax
  * @memberOf FSCounterAggregatorApp
- * @description Compute the mean value for on a set of data indicators
+ * @description Compute the max value for on a set of data indicators
  */
 (function() {
 
     angular.module('FSCounterAggregatorApp').
-	controller('KPIMean', [
+	controller('KPIMax', [
 	    "ComputeService",
 	    function(
 		ComputeService
@@ -17,8 +17,13 @@
 		};
 
 		this.getLabel = function(id) {
-		    return "mean ".concat(id);
+		    return "max ".concat(id);
 		};
+
+        function computeMaxSite(siteData, indicator)
+        {
+            return _.maxBy(siteData, indicator);
+        }
 
 		/**
 		 * @function compute
@@ -29,8 +34,8 @@
 		this.compute = function(query) {
 
 		    var res = {
-			  query: query,
-			  value: 0
+			query: query,
+			value: 0
 		    };
 
             if(!query.indicator)
@@ -41,14 +46,14 @@
 			}
 
             if(query.allsitedata)
-    		    for(var i = 0; i < query.allsitedata.length; ++i) {
-    			    res.value += ComputeService.cMean(query.allsitedata[i].data,
-    							  getSelectedIndicator);
-		        }
-            else
-                res.value += ComputeService.cMean(query.sitedata, getSelectedIndicator);
-
-			res.value = Math.round(res.value / (query.period.endDate - query.period.startDate));
+		    for(var i = 0; i < query.allsitedata.length; ++i) {
+                var siteMax = computeMaxSite(query.allsitedata[i].data, query.indicator);
+                if(siteMax && siteMax[query.indicator]>res.value)
+                    res.value = siteMax[query.indicator];
+		    }
+            else {
+                res.value = computeMaxSite(query.sitedata, query.indicator);
+            }
 
 		    return res;
 		};

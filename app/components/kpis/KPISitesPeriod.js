@@ -4,10 +4,10 @@
  * @description Compute the sum of data for each range within a period of time
  */
 (function() {
-    
+
     angular.module('FSCounterAggregatorApp').
-	controller('KPISitesPeriod', [ 
-	    "ComputeService",	    
+	controller('KPISitesPeriod', [
+	    "ComputeService",
 	    function(
 		ComputeService
 	    ) {
@@ -32,7 +32,7 @@
 			},
 			isPeriodComputable: function(period) {
 			    return period.endDate.diff(period.startDate, "months") <= 6;
-			}			
+			}
 		    },
 		    'days': {
 			hourMode: false,
@@ -49,7 +49,7 @@
 			comparable: true,
 			label: function(d, p) {
 			    return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
-				moment.min(moment(d).add(1, "w"), 
+				moment.min(moment(d).add(1, "w"),
 					   p.endDate).format(" - MMM DD YYYY"));
 			},
 			isPeriodComputable: function(period) {
@@ -61,7 +61,7 @@
 			comparable: true,
 			label: function(d, p) {
 			    return moment.max(p.startDate, moment(d)).format("MMM DD YYYY").concat(
-				moment.min(moment(d).add(1, "M"), 
+				moment.min(moment(d).add(1, "M"),
 					   p.endDate).format(" - MMM DD YYYY"));
 			},
 			isPeriodComputable: function(period) {
@@ -71,11 +71,11 @@
 		};
 
 		this.indicatorParams = {
-		    'in': { 
-			name: 'In' 
+		    'in': {
+			name: 'In'
 		    },
 		    'out': {
-			name: 'Out' 
+			name: 'Out'
 		    },
 		    'occ': {
 			name: 'Occupancy'
@@ -91,15 +91,15 @@
 			{ id: 'week', name: 'Week' },
 			{ id: 'month', name: 'Month' }
 		    ],
-		    
+
 		    indicators: [
 			{ id: 'in', name: 'In' },
 			{ id: 'out', name: 'Out' },
 			{ id: 'occ', name: 'Occupancy' }
 		    ],
-		    
+
 		    defaultIndicatorId: 'in',
-		    
+
 		    defaultRangeId: 'hours',
 
 		    getLabel: function(id) {
@@ -177,31 +177,31 @@
 		 */
 		this.compute = function(query) {
 
-		    var res = { 
+		    var res = {
 			query: query,
 			data: [],
-			total: undefined
+			value: undefined
 		    };
 
 		    if(query.indicator !== 'occ') {
-			var sumPeriod = ComputeService.cSumForPeriod(query.data,
+			var sumPeriod = ComputeService.cSumForPeriod(query.sitedata,
 								     query.period,
 								     query.groupBy,
 								     query.indicator);
 			res.data = sumPeriod;
-			res.total = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
+			res.value = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
 		    } else {
-			var meanPeriod = ComputeService.cMeanForPeriod(query.data,
+			var meanPeriod = ComputeService.cMeanForPeriod(query.sitedata,
 								       query.period,
 								       query.groupBy,
 								       query.indicator);
 			res.data = meanPeriod;
-			res.total = Math.round(ComputeService.cMean(meanPeriod, 
+			res.value = Math.round(ComputeService.cMean(meanPeriod,
 								    function(elt) { return elt.y; }));
 		    }
-		    
+
 		    return res;
 		};
-		
+
 	    }]);
 }());

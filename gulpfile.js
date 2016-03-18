@@ -1,5 +1,6 @@
 var fs = require('fs');
 var gulp = require('gulp');
+var gulpSequence = require('gulp-sequence');
 var concat_css = require('gulp-concat-css');
 var concat_js = require('gulp-concat');
 var minify_css = require('gulp-cssnano');
@@ -12,7 +13,19 @@ var mkdirp = require('mkdirp');
 var jsdoc = require('gulp-jsdoc');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
-var argv = require('yargs').argv;
+
+var usageCmd = '\nUsage: gulp build|release|docs|install [--local] [--dest]\n \
+\t--local\tUse fake data instead of retrieving them from the server.\n \
+\t--dest\tSet the destination folder for the install task.\n\
+\tbuild\tSimply build the project.\n\
+\trelease\tBuild the project with minify and uglify.\n\
+\tdocs\tBuild the javascript documentation.\n\
+\tinstall\tBuild the project and then copy all the files to the folder specified with --dest.\n\
+';
+
+var argv = require('yargs')
+    .usage(usageCmd)
+    .argv;
 
 var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 		   "node_modules/font-awesome/css/font-awesome.css",
@@ -32,6 +45,8 @@ var localJSSources = [ "app/app.js",
 		       "app/components/indicators/*.js",
 		       "lib/js/*.js" ];
 
+localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");
+
 var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/lodash/lodash.js',
 			  'node_modules/angular/angular.js',
@@ -49,9 +64,6 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 
 var jsSources = externalJSSources.concat(localJSSources);
 
-var jsConfig = [ 'app/config.js' ];
-var jsConfigDemo = [ 'app/config-demo.js' ];
-
 mkdirp('docs');
 mkdirp('wwwroot/build/fonts');
 mkdirp('wwwroot/build/js');
@@ -59,11 +71,13 @@ mkdirp('wwwroot/build/css');
 mkdirp('wwwroot/build/html');
 mkdirp('wwwroot/build/img');
 
-gulp.task('install', [ 'build', 'copy-files' ]);
+gulp.task('default', function() {
+    console.log(usageCmd);
+});
+
+gulp.task('install', gulpSequence('build', 'copy-files'));
 
 gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
-
-gulp.task('demo', [ 'common', 'prepare-css', 'prepare-js-demo' ]);
 
 gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release' ]);
 
@@ -121,15 +135,11 @@ function buildJS(files, destName, destDir, minify) {
 }
 
 gulp.task('prepare-js', function() {
-    return buildJS(jsSources.concat(jsConfig), 'lib.min.js', 'wwwroot/build/js/', false);
+    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', false);
 });
 
 gulp.task('prepare-js-release', function() {
-    return buildJS(jsSources.concat(jsConfig), 'lib.min.js', 'wwwroot/build/js/', true);
-});
-
-gulp.task('prepare-js-demo', function() {
-    return buildJS(jsSources.concat(jsConfigDemo), 'lib.min.js', 'wwwroot/build/js/', false);
+    return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', true);
 });
 
 gulp.task('prepare-css', function() {
@@ -142,7 +152,7 @@ gulp.task('prepare-css-release', function() {
 
 gulp.task('copy-files', function() {
 	if(!argv.dest)
-		throw "Missing destionation file; use --dest parameter to indicate the destination folder";
+		throw "Missing destination path; use --dest parameter to indicate the destination folder";
 
 	return gulp.src("wwwroot/**/*")
 		.pipe(gulp.dest(argv.dest));
