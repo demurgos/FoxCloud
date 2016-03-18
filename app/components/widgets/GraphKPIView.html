@@ -44,23 +44,16 @@
 	</li>
       </ul>
     </nav>
-      <div class="row left45">
-          <div class="col-md-5">
-	    <div ng-repeat="elt in chartLegends">
-              <div class="caption">
-                <div class="circle" ng-style="{'background': elt.color}"></div>
-                <strong>{{elt.label}}</strong> (Total {{elt.total}})
-              </div>
-	    </div>
+    <div class="row left45">
+      <div class="col-md-5">
+	<div ng-repeat="elt in chartLegends">
+          <div class="caption">
+            <div class="circle" ng-style="{'background': elt.color}"></div>
+            <strong>{{elt.label}}</strong> (Total {{elt.total}})
           </div>
+	</div>
       </div>
-    <!--<div class="text-center">-->
-      <!--<h4>-->
-	<!--<strong>{{total.length > 1 ? "Totals" : "Total"}}:<span ng-repeat="t in total track by $index">-->
-	    <!--{{t}} <span ng-show="!$last">vs</span>-->
-	<!--</span></strong>-->
-      <!--</h4>-->
-    <!--</div>-->
+    </div>
     <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
   </div>
 </div>

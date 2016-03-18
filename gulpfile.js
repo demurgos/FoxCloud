@@ -32,6 +32,7 @@ var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 		   "node_modules/bootstrap/dist/css/bootstrap.css",
 		   "node_modules/daterangepicker/daterangepicker-bs3.css",
 		   "node_modules/nvd3/build/nv.d3.css",
+		   "node_modules/datatables.net-bs/css/dataTables.bootstrap.css",
 		   "lib/Styles/*.css",
 		   "app/assets/css/*.css" ];
 
@@ -49,9 +50,11 @@ localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : 
 
 var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/lodash/lodash.js',
+			  'node_modules/jquery/dist/jquery.js',
+			  'node_modules/datatables.net/js/jquery.dataTables.js',
 			  'node_modules/angular/angular.js',
 			  'node_modules/angular-route/angular-route.js',
-			  'node_modules/jquery/dist/jquery.js',
+			  'node_modules/angular-datatables/dist/angular-datatables.js',
 			  'node_modules/bootstrap/dist/js/bootstrap.js',
 			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
 			  'node_modules/daterangepicker/daterangepicker.js',
@@ -60,7 +63,10 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/d3/d3.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
-			  'node_modules/fastclick/lib/fastclick.js'];
+			  'node_modules/fastclick/lib/fastclick.js',
+			  'node_modules/datatables.net-bs/js/dataTables.bootstrap.js'
+
+			  ];
 
 var jsSources = externalJSSources.concat(localJSSources);
 

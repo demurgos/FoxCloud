@@ -2,13 +2,19 @@
     "nvd3": {
 	"chart": {
 	    "type": "lineChart",
-	    "useInteractiveGuideline": false,
+	    "useInteractiveGuideline": true,
 	    "height": 300,
+	    "interactiveLayer": {
+		"tooltip": {
+		}
+	    },
 	    "tooltip": {
 	    },
 	    "xAxis": {
 	    },
 	    "yAxis": {
+	    },
+	    "yAxis1": {
 	    },
 	    "forceY": [ 0, 1 ],
 	    "pointShape": "circle",

@@ -58,7 +58,7 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.toggleSiteComparison = function(open) {
 			$scope.sitesSelected[1] = (open ? ($scope.params.sites[0].id !== $scope.sitesSelected[0].id ?
 							   $scope.params.sites[0] : $scope.params.sites[1]) : undefined);
-			$scope.countingChartOptions.chart.useInteractiveGuideline = open;
+			//$scope.countingChartOptions.chart.useInteractiveGuideline = open;
 			$scope.updateSelectedRange();
 			$scope.update();
 		    };
@@ -157,7 +157,7 @@ angular.module('FSCounterAggregatorApp').
 			$scope.style.nvd3.chart.yAxis.tickFormat = function(d) {
 			    return d3.format('d')(d);
 			};
-			$scope.style.nvd3.chart.tooltip.headerFormatter = function(d, i) {
+			$scope.style.nvd3.chart.interactiveLayer.tooltip.headerFormatter = function(d, i) {
 			    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 			};
 			$scope.countingChartOptions = $scope.style.nvd3;

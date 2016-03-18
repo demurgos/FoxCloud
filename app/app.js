@@ -9,6 +9,7 @@
 	'ui.bootstrap',
 	'daterangepicker',
 	'nvd3',
+	'datatables',
 	'adminLTE']);
     
     // Configure routes

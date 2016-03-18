@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "angular": "^1.4.9",
+    "angular-datatables": "^0.5.3",
     "angular-daterangepicker": "^0.2.2",
     "angular-nvd3": "^1.0.5",
     "angular-route": "^1.4.9",
@@ -49,6 +50,8 @@
     "bootstrap": "^3.3.6",
     "bootstrap-daterangepicker": "^2.1.17",
     "d3": "^3.5.14",
+    "datatables.net": "^1.10.11",
+    "datatables.net-bs": "^1.10.11",
     "daterangepicker": "0.0.3",
     "event-stream": "^3.3.2",
     "fastclick": "^1.0.6",
