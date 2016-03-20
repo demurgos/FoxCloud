@@ -1,7 +1,11 @@
 <div class="box">
   <div class="box-header with-border row">
-    <div class="col-md-7 col-xs-12 bottom15">
-      <i class="fa fa-line-chart box-title"></i>
+
+      <div class="col-md-7 col-xs-12">
+          <button uib-popover="In" popover-placement="bottom" popover-title="Select indicator" type="button" class="btn btn-default btn-box right30">
+              <i class="fa fa-line-chart box-title"></i>
+              In
+          </button>
       <h3 class="box-title">
         <select class="form-control"
                 ng-model="sitesSelected[0]"
@@ -34,7 +38,7 @@
   </div>
   <div class="box-body">
     <nav class="navbar bottom0">
-      <ul class="nav navbar-nav" id="indicatorSelect">
+      <!--<ul class="nav navbar-nav" id="indicatorSelect">
 	<li class="dropdown">
 	  <select class="form-control"
 		  ng-model="indicatorSelected"
@@ -42,7 +46,7 @@
 		  ng-change="update()">
 	  </select>
 	</li>
-      </ul>
+      </ul>-->
     </nav>
     <div class="row left45">
       <div class="col-md-5">

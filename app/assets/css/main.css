@@ -271,3 +271,17 @@
         margin-left: 60px;
     }
 }
+
+/* Box overriding */
+
+.row .box-header {
+
+    margin: 0px;
+}
+
+.btn-default.btn-box {
+    background-color: #ffffff;
+}
+.box-header.with-border {
+    border-bottom: 2px solid #DE7265;
+}
