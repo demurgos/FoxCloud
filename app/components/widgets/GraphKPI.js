@@ -18,8 +18,8 @@ angular.module('FSCounterAggregatorApp').
 		    WidgetStyleService
 		) {
 
-		    var $injector = angular.injector(['FSCounterAggregatorApp']);
-		    var s = $injector.get('WidgetStyleService');
+		    //var $injector = angular.injector(['FSCounterAggregatorApp']);
+		    //var s = $injector.get('WidgetStyleService');
 
 		    $scope.widgetId = "GraphKPIWidget";
 		    $scope.sitesSelected = [ undefined, undefined ];
