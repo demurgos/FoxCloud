@@ -14,7 +14,7 @@
                   {{indicatorSelected.id}} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                  <li role="menuitem" ng-repeat="option in kpi.options.indicators" ng-click="indicatorSelected.id=option.id; update();">
+                  <li class="indicator-value" ng-repeat="option in kpi.options.indicators" ng-click="indicatorSelected.id=option.id; update();" ng-class="{'indicator-value-active':option.id==indicatorSelected.id}">
                       {{option.name}}
                   </li>
               </ul>

@@ -295,3 +295,14 @@
 .dataTable {
     width: 100%;
 }
+
+.indicator-value{
+    padding-left: 10px;
+}
+.indicator-value:hover {
+    background-color: #eeeeee;
+}
+
+.indicator-value-active {
+    color: #dd4b39;
+}
