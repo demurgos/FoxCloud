@@ -285,3 +285,13 @@
 .box-header.with-border {
     border-bottom: 2px solid #DE7265;
 }
+
+/* Datatables */
+
+.dataTables_wrapper {
+    width: 100%;
+}
+
+.dataTable {
+    width: 100%;
+}
