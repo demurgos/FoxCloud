@@ -64,11 +64,14 @@
       <!-- ./col -->
     </div>
     <!-- /.row -->
+    
     <!-- row -->
     <div class="row">
       <section class="col-md-12">
-	<fca-table-kpi>
-	</fca-table-kpi>
+	<div ng-controller="KPISumMax as kpi">
+	  <fca-table-kpi params="params" kpi="kpi">
+	  </fca-table-kpi>
+	</div>
       </section>
     </div>
     <!-- /.row -->

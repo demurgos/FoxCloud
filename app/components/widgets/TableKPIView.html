@@ -3,36 +3,30 @@
   <div class="box-header with-border row">
     <div class="col-md-7">
       <i class="fa fa-table box-title"></i>
-      <h3 class="box-title">Hello world !</h3>
+      <h3 class="box-title">All Sites</h3>
     </div>
   </div>
 
   <div class="box-body">
-    <table datatable="" class="row-border hover">
-      <thead>
-	<tr>
-	  <th>ID</th>
-	  <th>First name</th>
-	  <th>Last name</th>
-	</tr>
-      </thead>
-      <tbody>
-	<tr>
-	  <td>1</td>
-	  <td>Foo</td>
-	  <td>Bar</td>
-	</tr>
-	<tr>
-	  <td>123</td>
-	  <td>Someone</td>
-	  <td>Youknow</td>
-	</tr>
-	<tr>
-	  <td>987</td>
-	  <td>Iamout</td>
-	  <td>Ofinspiration</td>
-	</tr>
-      </tbody>
+    <table datatable="ng" class="row-border hover">
+       <thead>
+	 <tr>
+           <th>Site name</th>
+           <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
+	 </tr>
+       </thead>
+       <tfoot>
+	 <tr>
+	   <th>Total:</th>
+	   <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
+	 </tr>
+       </tfoot>
+       <tbody>
+         <tr ng-repeat="row in rows">
+           <td>{{row.name}}</td>
+	   <td ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
+         </tr>
+       </tbody>
     </table>
   </div>
 

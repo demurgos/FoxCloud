@@ -13,24 +13,24 @@ angular.module('FSCounterAggregatorApp').
 		kpi: '=',
 		bgColor: '@?',
 		icon: '@?',
-        displayFilters: '@?'
+		displayFilters: '@?'
 	    },
 	    controller: [
 		'$scope',
-        '$filter',
+		'$filter',
 		'WidgetStyleService',
 		function(
 		    $scope,
-            $filter,
+		    $filter,
 		    WidgetStyleService
 		) {
-            function applyFilters(value)
-            {
-                if(!$scope.displayFilters)
-                    return value;
+		    function applyFilters(value)
+		    {
+			if(!$scope.displayFilters)
+			    return value;
 
-                return $filter($scope.displayFilters)(value);
-            }
+			return $filter($scope.displayFilters)(value);
+		    }
 
 		    $scope.label = $scope.label !== undefined ? $scope.label :
 			$scope.kpi.getLabel($scope.indicator);
@@ -51,7 +51,7 @@ angular.module('FSCounterAggregatorApp').
 			var res = $scope.kpi.compute({ allsitedata : $scope.params.data,
 						       period: $scope.params.period,
 						       indicator: $scope.indicator,
-                               omitTable: true });
+						       omitTable: true });
 			$scope.value = applyFilters(res.value);
 		    };
 		}],
@@ -61,4 +61,4 @@ angular.module('FSCounterAggregatorApp').
 	    },
 	    template: '<fca-stat-box value="value" label="label" bg-color="bgColor" icon="icon"></fca-stat-box>'
 	};
-});
+    });

@@ -20,10 +20,10 @@
 		    return "max ".concat(id);
 		};
 
-        function computeMaxSite(siteData, indicator)
-        {
-            return _.maxBy(siteData, indicator);
-        }
+		function computeMaxSite(siteData, indicator)
+		{
+		    return _.maxBy(siteData, indicator);
+		}
 
 		/**
 		 * @function compute
@@ -38,22 +38,23 @@
 			value: 0
 		    };
 
-            if(!query.indicator)
-                query.indicator = this.getDefaultIndicatorId();
+		    if(!query.indicator)
+			query.indicator = this.getDefaultIndicatorId();
 
-			function getSelectedIndicator(elt) {
-			    return elt[query.indicator];
-			}
-
-            if(query.allsitedata)
-		    for(var i = 0; i < query.allsitedata.length; ++i) {
-                var siteMax = computeMaxSite(query.allsitedata[i].data, query.indicator);
-                if(siteMax && siteMax[query.indicator]>res.value)
-                    res.value = siteMax[query.indicator];
+		    function getSelectedIndicator(elt) {
+			return elt[query.indicator];
 		    }
-            else {
-                res.value = computeMaxSite(query.sitedata, query.indicator);
-            }
+
+		    if(query.allsitedata)
+			for(var i = 0; i < query.allsitedata.length; ++i) {
+			    var siteMax = computeMaxSite(query.allsitedata[i].data, query.indicator);
+			    if(siteMax && siteMax[query.indicator]>res.value)
+				res.value = siteMax[query.indicator];
+			}
+		    else {
+			var maxElt = computeMaxSite(query.sitedata.data, query.indicator);
+			res.value = maxElt[query.indicator];
+		    }
 
 		    return res;
 		};

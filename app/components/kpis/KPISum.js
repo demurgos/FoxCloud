@@ -33,21 +33,22 @@
 			value: 0
 		    };
 
-            if(!query.indicator)
-                query.indicator = this.getDefaultIndicatorId();
+		    if(!query.indicator) {
+			query.indicator = this.getDefaultIndicatorId();
+		    }
 
 		    var felt = function(elt) { return elt[query.indicator];};
 
-            if(query.allsitedata)
-            {
-		          for(var i = 0; i < query.allsitedata.length; ++i)
-			          res.value += ComputeService.cSum(query.allsitedata[i].data, felt);
+		    if(query.allsitedata) {
+		        for(var i = 0; i < query.allsitedata.length; ++i) {
+			    res.value += ComputeService.cSum(query.allsitedata[i].data, felt);
+			}
+		    } else {
+			res.value += ComputeService.cSum(query.sitedata.data, felt);
 		    }
-            else
-                res.value += ComputeService.cSum(query.sitedata.data, felt);
 
 		    return res;
 		};
-
+		
 	    }]);
 }());
