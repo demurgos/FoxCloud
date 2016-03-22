@@ -2,10 +2,24 @@
   <div class="box-header with-border row">
 
       <div class="col-md-7 col-xs-12">
-          <button uib-popover="In" popover-placement="bottom" popover-title="Select indicator" type="button" class="btn btn-default btn-box right30">
+
+          <!--<button uib-popover-html="htmlPopover" popover-placement="bottom" popover-title="Select indicator" type="button" class="btn btn-default btn-box right30">
               <i class="fa fa-line-chart box-title"></i>
-              In
-          </button>
+             {{indicatorSelected.id}}
+          </button>-->
+
+          <div class="btn-group" uib-dropdown>
+              <button id="btn-append-to-single-button" type="button" class="btn btn-box" uib-dropdown-toggle>
+                  <i class="fa fa-line-chart box-title"></i>
+                  {{indicatorSelected.id}} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+                  <li role="menuitem" ng-repeat="option in kpi.options.indicators" ng-click="indicatorSelected.id=option.id; update();">
+                      {{option.name}}
+                  </li>
+              </ul>
+          </div>
+
       <h3 class="box-title">
         <select class="form-control"
                 ng-model="sitesSelected[0]"

@@ -13,13 +13,20 @@ angular.module('FSCounterAggregatorApp').
 	    controller: [
 		'$scope',
 		'WidgetStyleService',
+            '$sce',
 		function(
 		    $scope,
-		    WidgetStyleService
+		    WidgetStyleService,
+            $sce
 		) {
 
 		    //var $injector = angular.injector(['FSCounterAggregatorApp']);
 		    //var s = $injector.get('WidgetStyleService');
+            $scope.htmlPopover = $sce.trustAsHtml(
+                '<ul>' +
+                    '<li ng-repeat="option in parent.kpi.options.indicators"> {{option.name}}</li>' +
+                 '</ul>'
+            );
 
 		    $scope.widgetId = "GraphKPIWidget";
 		    $scope.sitesSelected = [ undefined, undefined ];
