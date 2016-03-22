@@ -306,3 +306,7 @@
 .indicator-value-active {
     color: #dd4b39;
 }
+
+.wo-border {
+    border-color: #ffffff;
+}

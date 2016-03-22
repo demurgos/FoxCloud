@@ -11,7 +11,7 @@
           <div class="btn-group" uib-dropdown>
               <button id="btn-append-to-single-button" type="button" class="btn btn-box" uib-dropdown-toggle>
                   <i class="fa fa-line-chart box-title"></i>
-                  {{indicatorSelected.id}} <span class="caret"></span>
+                  {{kpi.getIndicatorName(indicatorSelected.id)}} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
                   <li class="indicator-value" ng-repeat="option in kpi.options.indicators" ng-click="indicatorSelected.id=option.id; update();" ng-class="{'indicator-value-active':option.id==indicatorSelected.id}">
@@ -21,7 +21,7 @@
           </div>
 
       <h3 class="box-title">
-        <select class="form-control"
+        <select class="form-control wo-border"
                 ng-model="sitesSelected[0]"
                 ng-options="option.name disable when (sitesSelected[1] && option.id == sitesSelected[1].id) for option in params.sites track by option.id"
                 ng-change="update()">
@@ -32,7 +32,7 @@
                                   href="">select a site </a></h3>
       <div class="box-title" ng-show="sitesSelected[1] !== undefined">
         <h3 class="box-title">
-          <select class="form-control"
+          <select class="form-control wo-border"
                   ng-model="sitesSelected[1]"
                   ng-options="option.name disable when option.id == sitesSelected[0].id for option in params.sites track by option.id"
                   ng-change="update()">
