@@ -8,25 +8,25 @@
   </div>
 
   <div class="box-body">
-    <table datatable="ng" class="row-border hover">
-       <thead>
-	 <tr>
-           <th>Site name</th>
-           <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
-	 </tr>
-       </thead>
-       <tfoot>
-	 <tr>
-	   <th>Total:</th>
-	   <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
-	 </tr>
-       </tfoot>
-       <tbody>
-         <tr ng-repeat="row in rows">
-           <td>{{row.name}}</td>
-	   <td ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
-         </tr>
-       </tbody>
+    <table datatable="ng" dt-options="dtOptions" class="table-bordered table-striped">
+      <thead>
+	<tr>
+          <th>Site name</th>
+          <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
+	</tr>
+      </thead>
+      <tfoot>
+	<tr>
+	  <th>Total:</th>
+	  <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
+	</tr>
+      </tfoot>
+      <tbody>
+        <tr ng-repeat="row in rows">
+          <td>{{row.name}}</td>
+	  <td ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 

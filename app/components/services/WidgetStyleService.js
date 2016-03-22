@@ -26,6 +26,11 @@
 			"json": "assets/statbox.json",
 			"css": undefined,
 			"cached": undefined
+		    },
+		    "TableKPIWidget": {
+			"json": "assets/table.json",
+			"css": undefined,
+			"cached": undefined
 		    }
 		};
 

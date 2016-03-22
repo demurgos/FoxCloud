@@ -26,7 +26,7 @@
 		    indicators: [
 			{ id: 'in', name: 'In' },
 			{ id: 'out', name: 'Out' },
-			{ id: 'occ', name: 'Occupancy' }
+			{ id: 'occ', name: 'Max Occupancy' }
 		    ]
 		};
 		

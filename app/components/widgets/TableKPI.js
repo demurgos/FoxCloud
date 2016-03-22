@@ -15,16 +15,20 @@ angular.module('FSCounterAggregatorApp')
 		'$q',
 		'$controller',
 		'WidgetStyleService',
+		'DTOptionsBuilder',
 		function(
 		    $scope,
 		    $q,
 		    $controller,
-		    WidgetStyleService
+		    WidgetStyleService,
+		    DTOptionsBuilder
 		) {
 		    $scope.widgetId = "TableKPIWidget";		    
 		    $scope.indicators = $scope.kpi.options.indicators;		    
 		    $scope.rows = [];		   		    
 		    $scope.total = {};
+
+		    $scope.dtOptions = DTOptionsBuilder.newOptions();
 		    
 		    $scope.$watch('params.data', function(newData, oldData) {
 			if(newData !== undefined && newData.length) {
@@ -77,7 +81,11 @@ angular.module('FSCounterAggregatorApp')
 			    });	
 		    };
 		    
-		    $scope.setWidgetStyle = function(style) {			
+		    $scope.setWidgetStyle = function(style) {
+			if(style.json !== undefined &&
+			   style.json.dtOptions !== undefined) {
+			    $scope.dtOptions = $q.when(style.json.dtOptions);
+			}
 		    };
 		}],
 	    templateUrl: 'build/html/TableKPIView.html'
