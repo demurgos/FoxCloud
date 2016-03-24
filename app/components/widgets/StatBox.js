@@ -10,7 +10,8 @@ angular.module('FSCounterAggregatorApp').
 		bgColor: '=?',
 		icon: '=?',
 		label: '=?',
-		value: '=?'        
+        description: '=?',
+		value: '=?'
 	    },
 	    link: function(scope, element, attr) {
 		//scope.bgColor = scope.bgColor !== undefined ? scope.bgColor : 'bg-aqua';
