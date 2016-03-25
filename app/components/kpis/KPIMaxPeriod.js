@@ -47,6 +47,7 @@
             }, {});
         }
 
+
 		/**
 		 * @function compute
 		 * @memberOf FSCounterAggregatorApp.KPIMaxPeriod
@@ -69,12 +70,10 @@
                 hours = groupSiteByHour(query.sitedata, query.indicator);
 
             var mx = _.max(_.values(hours));
-            res.value = _.findKey(hours, function(v){ return v == mx;});
+            var maxHour = _.findKey(hours, function(v){ return v == mx;});
 
-            if(!res.value)
-                res.value="no data";
-            else
-                res.value += "h";
+
+            res.value= maxHour ? maxHour : "no data";
 
 		    return res;
 		};

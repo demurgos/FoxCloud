@@ -11,6 +11,7 @@ angular.module('FSCounterAggregatorApp').
 		icon: '=?',
 		label: '=?',
         description: '=?',
+        unit: '=?',
 		value: '=?'
 	    },
 	    link: function(scope, element, attr) {

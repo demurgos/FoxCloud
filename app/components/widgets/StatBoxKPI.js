@@ -10,6 +10,7 @@ angular.module('FSCounterAggregatorApp').
 		indicator: '@',
 		label: '@?',
         description: '@?',
+        unit: '@?',
 		params: '=',
 		kpi: '=',
 		bgColor: '@?',
@@ -60,6 +61,6 @@ angular.module('FSCounterAggregatorApp').
 		scope.bgColor = scope.bgColor !== undefined ? scope.bgColor : 'bg-aqua';
 		scope.icon = scope.icon !== undefined ? scope.icon : 'ion-ios-download';
 	    },
-	    template: '<fca-stat-box description="description" value="value" label="label" bg-color="bgColor" icon="icon"></fca-stat-box>'
+	    template: '<fca-stat-box unit="unit" description="description" value="value" label="label" bg-color="bgColor" icon="icon"></fca-stat-box>'
 	};
     });
