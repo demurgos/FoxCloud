@@ -23,7 +23,7 @@
         function groupSiteByHour(data, indicator)
         {
             var arrayOfDataPerHour = _.groupBy(data, function(item){
-                return moment(item.time*1000).hour();
+                return moment( (+item.time + 1800 )*1000).hour();//the closest hour (16:45 -> 17:00)
             });
 
             var siteByHour = _.mapValues(arrayOfDataPerHour, function(it){

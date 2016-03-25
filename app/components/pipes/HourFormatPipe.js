@@ -13,7 +13,7 @@
                 return h;
             else
             {
-                var ampm = h>=12 ? "pm" : "am";
+                var ampm = h>=12 ? " PM" : " AM";
                 var digit = h % 12; if(digit===0) digit = 12;
 
                 return digit + ampm;
