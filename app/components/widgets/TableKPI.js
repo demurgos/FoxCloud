@@ -29,7 +29,7 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.total = {};
 
 		    $scope.dtOptions = DTOptionsBuilder.newOptions();
-		    
+
 		    $scope.$watch('params.data', function(newData, oldData) {
 			if(newData !== undefined && newData.length) {
 			    $scope.update();
@@ -84,7 +84,7 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.setWidgetStyle = function(style) {
 			if(style.json !== undefined &&
 			   style.json.dtOptions !== undefined) {
-			    $scope.dtOptions = $q.when(style.json.dtOptions);
+			    //$scope.dtOptions = $q.when(style.json.dtOptions);
 			}
 		    };
 		}],
