@@ -27,7 +27,8 @@
 	  <li><a><i class="fa fa-circle-o"></i> Storage</a></li>
 	</ul>
       </li>
-      <li class="treeview">
+
+      <li ng-show="user.admin" class="treeview">
 	<a>
 	  <i class="fa fa-book"></i><span>Settings</span><i class="fa fa-angle-left pull-right"></i>
 	</a>	
@@ -51,6 +52,7 @@
 	  </li>
 	</ul>
       </li>
+
       <li class="treeview">
 	<a>
 	  <i class="fa fa-book"></i><span>Help</span><i class="fa fa-angle-left pull-right"></i>
