@@ -8,11 +8,54 @@
     angular.module('FSCounterAggregatorApp')
 	.controller('SettingsSiteUsers', [
 	    '$scope',
+	    'UserService',
 	    'SiteService',
 	    function(
 		$scope,
+		UserService,
 		SiteService
 	    ) {
+
+		$scope.members = [];
+
+		function initScope() {
+
+		    var addMembers = function(site) {
+			var user;
+			
+			for(var i = 0; i < site.usersadmin.length; i++) {
+			    user = site.usersadmin[i];
+			    $scope.members.push({
+				"site_name": site.name,
+				"site_id": site._id,
+				"email": user});
+			}
+			for(i = 0; i < site.users.length; i++) {
+			    user = site.users[i];
+			    $scope.members.push({
+				"site_name": site.name,
+				"site_id": site._id,
+				"email": user});
+			}
+		    };
+
+		    UserService.getSettings()
+			.then(function(userData) {
+			    var sites = userData.sites;
+			    for(var i = 0; i < sites.length; ++i) {
+				// check here if user has admin rights for this site
+				var site = sites[i];
+				if(SiteService.isSiteAdmin(site)) {				  
+				    for(var j = 0; j < site.items.length; ++j) {
+					var item = site.items[j];
+					SiteService.getSite(site._id)
+					    .then(addMembers);
+				    }
+				}
+			    }			
+			});    
+
+		}
 		
 		var pos1 = 0, pos2 = 0;
 		
@@ -91,6 +134,8 @@
 		
 		$scope.siteId = SiteService
 		    .getIdOfFirstSiteWithAdminRights($scope.currentUserSites);		
+
+		initScope();
 		
 	    }]);
 }());
