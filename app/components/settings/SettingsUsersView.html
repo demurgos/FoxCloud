@@ -1,20 +1,42 @@
 <div class="content-wrapper">
-
   <section class="content">
+    <div class="row">
+      <section class="col-md-12">
 
-    <table width='100%'><tr><td>
-	  <select size='25' ng-model="selecteduser" 
-		  ng-options="user as user.email + '(' + user.name + ')' for user in users" 
-		  style='width:90%'>
-	  </select>	
-	  <br/>
-	  <button ng-click='new_user()'  class='btn btn-default'>New</button>
-	  <button ng-click='delete_user()'  class='btn btn-default'>Delete</button>			
-	</td><td  style='vertical-align: top'>
-	  <usereditor user='selecteduser' onsave='user_updated()' oncancel='user_cancel()'/>
-      </td></tr>
-    </table>
+	<div class="box">      
+	  <div class="box-header with-border row">
+	    <div class="col-md-7">
+	      <i class="fa fa-table box-title"></i>
+	      <h3 class="box-title">Users management</h3>
+	    </div>
+	  </div>      
+	  <div class="box-body">
+	    <div class="table-responsive">
+	      <table datatable="users" dt-options="dtOptions" class="table table-bordered table-striped table-hover">
+		<thead>
+		  <tr>
+		    <th>User name</th>
+		    <th>E-mail</th>
+		    <th>Enabled</th>
+		    <th>Administrator</th>
+		    <th>Sites</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="user in users">
+		    <td>{{user.name}}</td>
+		    <td>{{user.email}}</td>
+		    <td>{{user.enabled}}</td>
+		    <td>{{user.admin}}</td>
+		    <td>SITES</td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </div>      
+	</div>
 
+      </section>
+    </div>
   </section>
-
 </div>
