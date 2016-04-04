@@ -39,22 +39,18 @@
             };            
 
 	    this.getItem = function(siteId, itemId) {
-		if(myconfig.debug) {
-		    return this.getSite(siteId)
-			.then(function(site) {
-			    var item;
-			    if(site !== undefined) {
-				for(var i = 0; !item && i < site.items.length; ++i) {
-				    if(site.items[i]._id == itemId) {
-					item = site.items[i];
-				    }
+		return this.getSite(siteId)
+		    .then(function(site) {
+			var item;
+			if(site !== undefined) {
+			    for(var i = 0; !item && i < site.items.length; ++i) {
+				if(site.items[i]._id == itemId) {
+				    item = site.items[i];
 				}
 			    }
-			    return item;
-			});
-		} else {
-		    // to be done
-		}
+			}
+			return item;
+		    });			
 	    };
 	    
             this.addUser = function(siteId, userEmail, addAsAdmin) {
