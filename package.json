@@ -53,7 +53,6 @@
     "d3": "^3.5.14",
     "datatables.net": "^1.10.11",
     "datatables.net-bs": "^1.10.11",
-    "daterangepicker": "0.0.3",
     "event-stream": "^3.3.2",
     "fastclick": "^1.0.6",
     "font-awesome": "^4.5.0",
