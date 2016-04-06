@@ -4,9 +4,9 @@
       <a date-range-picker="date-range-picker"
          class="btn btn-default daterange pull-right"
          type="text"
-         ng-model="params.period"
-         options="periodOpts">
-        {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}
+         ng-model="params.startDateComparedPeriod"
+         options="singleDateOpts">
+        {{params.comparedPeriod.startDate.format('MMM D, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM D,YYYY')}}
         <i class="fa fa-calendar"></i></a>
     </li>
   </ul>
