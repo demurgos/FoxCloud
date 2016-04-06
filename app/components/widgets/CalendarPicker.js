@@ -30,6 +30,28 @@ angular.module('FSCounterAggregatorApp').
 			    format: 'MMM D,YYYY'
 			}
 		    };
+
+		    $scope.singleDateOpts = {
+			
+			singleDatePicker:true,
+			locale: {
+			    format: 'MMM D,YYYY'
+			}
+		    };
+		    
+		    $scope.$watch('params.startDateComparedPeriod', function(newDate, oldDate) {
+			if(newDate != oldDate) {
+			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
+			    $scope.params.comparedPeriod.startDate = newDate;
+			    $scope.params.comparedPeriod.endDate = moment(newDate).add(duration);
+			}
+		    });
+		    
+		    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
+			if(newPeriod !== oldPeriod) {
+			    $scope.params.startDateComparedPeriod = newPeriod.startDate;
+			}
+		    });
 		    
 		}],
 	    link: function(scope, element, attr) {
