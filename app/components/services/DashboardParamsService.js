@@ -23,7 +23,8 @@
 				      endDate: moment().hours(23).minutes(59).seconds(59) 
 				    };
 
-              this.comparedPeriod = this.period;
+		      this.comparedPeriod = { startDate: this.period.startDate,
+					      endDate: this.period.endDate };
 		      
 		      this.sites = [];
 

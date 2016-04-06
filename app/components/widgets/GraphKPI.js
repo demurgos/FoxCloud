@@ -13,20 +13,20 @@ angular.module('FSCounterAggregatorApp').
 	    controller: [
 		'$scope',
 		'WidgetStyleService',
-            '$sce',
+		'$sce',
 		function(
 		    $scope,
 		    WidgetStyleService,
-            $sce
+		    $sce
 		) {
 
 		    //var $injector = angular.injector(['FSCounterAggregatorApp']);
 		    //var s = $injector.get('WidgetStyleService');
-            $scope.htmlPopover = $sce.trustAsHtml(
-                '<ul>' +
-                    '<li ng-repeat="option in parent.kpi.options.indicators"> {{option.name}}</li>' +
-                 '</ul>'
-            );
+		    $scope.htmlPopover = $sce.trustAsHtml(
+			'<ul>' +
+			    '<li ng-repeat="option in parent.kpi.options.indicators"> {{option.name}}</li>' +
+			    '</ul>'
+		    );
 
 		    $scope.widgetId = "GraphKPIWidget";
 		    $scope.sitesSelected = [ undefined, undefined ];
@@ -86,13 +86,13 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    });
 
-//		    $scope.updateSiteList = function() {
-//			if($scope.params.data !== undefined &&
-//			   $scope.params.data.length &&
-//			   $scope.sitesSelected[0] === undefined) {
-//			    $scope.sitesSelected[0] = $scope.params.data[0].id;
-//			}
-//		    };
+		    //		    $scope.updateSiteList = function() {
+		    //			if($scope.params.data !== undefined &&
+		    //			   $scope.params.data.length &&
+		    //			   $scope.sitesSelected[0] === undefined) {
+		    //			    $scope.sitesSelected[0] = $scope.params.data[0].id;
+		    //			}
+		    //		    };
 
 		    $scope.updateSelectedRange = function() {
 			var firstEnabledRange;
