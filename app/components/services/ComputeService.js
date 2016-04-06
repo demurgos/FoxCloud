@@ -9,12 +9,25 @@
 
      var that = this;
 
+     this.NSEC_5MIN = 300;
      this.NSEC_15MIN = 900;
      this.NSEC_HOUR = 3600;
      this.NSEC_DAY = 86400;
      this.NSEC_WEEK = 604800;
 
-     this.rangeFunc = { 
+     this.rangeFunc = {
+	 '5min': { 
+	     init: function(date) {
+		 return date.minute(Math.floor(date.minute() / 5) * 5);
+	     },
+	     step: function(date) { 
+		 return date.add(5,"m"); 
+	     },
+	     dist: function(date, dateStart) {
+		 return that.getTimeIndex(date.unix(),
+					  dateStart.unix(),
+					  that.NSEC_5MIN);
+	     }},
 	 '15min': { 
 	     init: function(date) {
 		 return date.minute(Math.floor(date.minute() / 15) * 15);
@@ -225,7 +238,7 @@
 		     maxIdx = i;
 		 }
 	     }
-	     maxElt = data[maxIdx];
+	     maxElt = fvalue(data[maxIdx]);
 	 }
 	 return maxElt;
      };
@@ -290,15 +303,34 @@
      };
 
      /**
+      * @function cMaxForPeriod
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description aggregate data on a period grouped by step duration
+      */
+     this.cMaxForPeriod = function(data, period, step, id) {
+	 
+	 return this.cFuncForPeriod(data, period, step, id,
+				    function(elt, curCumul, pos, length) {					
+					if(curCumul !== undefined) {
+					    return elt[id] > curCumul ? elt[id]: curCumul;
+					} else {					    
+					    return 0;
+					}
+				    });
+     };
+
+     /**
       * @function cOccupancy
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description Compute occupancy values based on in/out
       */
      this.cOccupancy = function(data, idIn, idOut, idOcc) {
-	 var occupancy = 0;
+	 var occupancy = 0;	 
 	 for(var i = 0; i < data.length; ++i) {
 	     occupancy = Math.max(0, occupancy + (data[i][idIn] - data[i][idOut]));
 	     data[i][idOcc] = occupancy;
+	     //data[i].date = moment(data[i].time*1000).format("YYYY MM DD HH:mm");
+	     //data[i].time = _.isString(data[i].time) ? parseInt(data[i].time) : data[i].time;
 	 }
      };
 

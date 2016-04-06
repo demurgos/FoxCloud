@@ -192,12 +192,12 @@
 			res.value = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
 		    } else {
 			var meanPeriod = ComputeService.cMeanForPeriod(query.sitedata,
-								       query.period,
-								       query.groupBy,
-								       query.indicator);
+								     query.period,
+								     query.groupBy,
+								     query.indicator);
 			res.data = meanPeriod;
 			res.value = Math.round(ComputeService.cMean(meanPeriod,
-								    function(elt) { return elt.y; }));
+								   function(elt) { return elt.y; }));
 		    }
 
 		    return res;

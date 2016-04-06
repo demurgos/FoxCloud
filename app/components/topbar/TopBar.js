@@ -1,7 +1,8 @@
-/*
- * Manage the topbar data
- **/
-
+/**
+ * @class fcaTopBar
+ * @memberOf FSCounterAggregatorApp
+ * @description Manage the topbar data
+ */
 (function() {
 
     angular.module('FSCounterAggregatorApp')

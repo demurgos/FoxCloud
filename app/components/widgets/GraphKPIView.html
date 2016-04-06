@@ -67,7 +67,7 @@
 	<div ng-repeat="elt in chartLegends">
           <div class="caption">
             <div class="circle" ng-style="{'background': elt.color}"></div>
-            <strong>{{elt.label}}</strong> (Total {{elt.total}})
+            <strong>{{elt.label}}</strong> ({{ indicatorSelected.id !== 'occ' ? 'Total' : 'Mean'}} {{elt.total}})
           </div>
 	</div>
       </div>
