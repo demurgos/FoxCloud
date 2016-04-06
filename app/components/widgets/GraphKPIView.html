@@ -27,9 +27,9 @@
                 ng-change="update()">
         </select>
       </h3>
-      <h3 class="box-title">vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
-                                  ng-show="params.sites.length > 1 && sitesSelected[1] === undefined"
-                                  href="">select a site </a></h3>
+      <h3 class="box-title"><span ng-show="params.sites.length > 1"> vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
+                                  ng-show="sitesSelected[1] === undefined"
+                                  href="">select a site </a></span></h3>
       <div class="box-title" ng-show="sitesSelected[1] !== undefined">
         <h3 class="box-title">
           <select class="form-control"
@@ -75,5 +75,3 @@
     <nvd3 options="countingChartOptions" data="countingChartData"></nvd3>
   </div>
 </div>
-
-

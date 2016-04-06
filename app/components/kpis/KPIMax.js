@@ -53,7 +53,7 @@
 			}
 		    else {
 			var maxElt = computeMaxSite(query.sitedata.data, query.indicator);
-			res.value = maxElt[query.indicator];
+			res.value = maxElt ? maxElt[query.indicator] : "?";
 		    }
 
 		    return res;

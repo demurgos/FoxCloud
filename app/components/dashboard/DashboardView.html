@@ -45,41 +45,41 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-lg-3 col-xs-6">
-        <div ng-controller="KPISum as kpi">
-          <fca-stat-box-kpi kpi="kpi" params="params"
-                            indicator="in" label="Total In">
-          </fca-stat-box-kpi>
-        </div>
+	<div ng-controller="KPISum as kpi">
+	  <fca-stat-box-kpi kpi="kpi" params="params"
+			    indicator="in" label="Total In" unit='ent'  description="Total number of entries over the selected perdiod.">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div ng-controller="KPIMax as kpi">
-          <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
-                            label="Max Occupancy" bg-color="bg-green"
-                            icon="ion-ios-stats">
-          </fca-stat-box-kpi>
-        </div>
+	<!-- small box -->
+	<div ng-controller="KPIMax as kpi">
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
+			    label="Max Occupancy" bg-color="bg-green"
+			    icon="ion-ios-stats" unit='ppl' description="Largest occupancy of all sites over the selected period">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div ng-controller="KPIMaxPeriod as kpi">
-          <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
-                            label="Max Period of Occupancy" bg-color="bg-yellow"
-                            icon="ion-ios-clock">
-          </fca-stat-box-kpi>
-        </div>
+	<!-- small box -->
+	<div ng-controller="KPIMaxPeriod as kpi">
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ" display-filters="Hour12h"
+			    label="Max Period of Occupancy" bg-color="bg-yellow"
+			    icon="ion-ios-clock" description="The time of the day with the highest occupencay over all sites">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div ng-controller="KPIMaxSiteRatio as kpi">
-          <fca-stat-box-kpi params="params" kpi="kpi" indicator="in" display-filters="SiteName"
-                            label="Most active site" bg-color="bg-red"
-                            icon="ion-ios-pie">
-          </fca-stat-box-kpi>
-        </div>
+	<!-- small box -->
+	<div ng-controller="KPIMaxSiteRatio as kpi">
+	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in" display-filters="SiteName"
+			    label="Most active site" bg-color="bg-red"
+			    icon="ion-ios-pie" description="The site having the largest occupancy">
+	  </fca-stat-box-kpi>
+	</div>
       </div>
       <!-- ./col -->
     </div>
@@ -88,20 +88,16 @@
     <!-- row -->
     <div class="row">
       <section class="col-md-12">
-        <div ng-controller="KPISumMax as kpi">
-          <fca-table-kpi params="params" kpi="kpi">
-          </fca-table-kpi>
-        </div>
+	<div ng-controller="KPISitesPeriod as kpi">
+	  <fca-graph-kpi params="params" kpi="kpi">
+	  </fca-graph-kpi>
+	</div>
       </section>
-    </div>
-    <!-- /.row -->
-    <!-- row -->
-    <div class="row">
       <section class="col-md-12">
-        <div ng-controller="KPISitesPeriod as kpi">
-          <fca-graph-kpi params="params" kpi="kpi">
-          </fca-graph-kpi>
-        </div>
+	<div ng-controller="KPISumMax as kpi">
+	  <fca-table-kpi params="params" kpi="kpi">
+	  </fca-table-kpi>
+	</div>
       </section>
     </div>
     <!-- /.row -->
