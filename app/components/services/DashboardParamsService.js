@@ -22,7 +22,7 @@
 		      this.period = { startDate: moment().hours(0).minutes(0).seconds(0),
 				      endDate: moment().hours(23).minutes(59).seconds(59) 
 				    };
-              this.startDateComparedPeriod = moment().hours(0).minutes(0).seconds(0);
+
               this.comparedPeriod = { startDate: moment().hours(0).minutes(0).seconds(0),
                   endDate: moment().hours(23).minutes(59).seconds(59)
               };
