@@ -23,7 +23,7 @@
 				      endDate: moment().hours(23).minutes(59).seconds(59) 
 				    };
 
-              this.comparedPeriod = undefined;
+              this.comparedPeriod = this.period;
 		      
 		      this.sites = [];
 
