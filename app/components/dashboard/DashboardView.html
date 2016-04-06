@@ -6,38 +6,7 @@
       <div class="pull-left">
         <h3><i class="fa fa-pie-chart"></i><span> Counters / Sites Overview</span></h3>
       </div>
-      <div class="navbar-custom-menu pull-right" ng-show="comparisonRequired">
-        <ul class="nav navbar-nav">
-          <li>
-            <a date-range-picker="date-range-picker"
-               class="btn btn-default daterange pull-right"
-               type="text"
-               ng-model="params.period"
-               options="periodOpts">
-              {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}
-              <i class="fa fa-calendar"></i></a>
-          </li>
-        </ul>
-      </div>
-      <div class="checkbox pull-right right4 left4">
-        <label>
-          <input type="checkbox" ng-model="comparisonRequired">
-          Period<br/>comparison
-        </label>
-      </div>
-      <div class="navbar-custom-menu pull-right">
-        <ul class="nav navbar-nav">
-          <li>
-            <a date-range-picker="date-range-picker"
-               class="btn btn-default daterange pull-right"
-               type="text"
-               ng-model="params.period"
-               options="periodOpts">
-              {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}
-              <i class="fa fa-calendar"></i></a>
-          </li>
-        </ul>
-      </div>
+      <fca-calendar-picker params="params"></fca-calendar-picker>
     </nav>
   </section>
   <!-- Main content -->
