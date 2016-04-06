@@ -12,7 +12,8 @@
 	    DashboardParamsService
 	) {	   
 	    $scope.params = DashboardParamsService;
- 
+        $scope.comparisonRequired = false;
+
 	    $scope.periodOpts = {
 		ranges: {
 		    'Today': [moment(), moment()],
