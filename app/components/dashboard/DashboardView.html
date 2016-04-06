@@ -6,17 +6,37 @@
       <div class="pull-left">
         <h3><i class="fa fa-pie-chart"></i><span> Counters / Sites Overview</span></h3>
       </div>
+      <div class="navbar-custom-menu pull-right" ng-show="comparisonRequired">
+        <ul class="nav navbar-nav">
+          <li>
+            <a date-range-picker="date-range-picker"
+               class="btn btn-default daterange pull-right"
+               type="text"
+               ng-model="params.period"
+               options="periodOpts">
+              {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}
+              <i class="fa fa-calendar"></i></a>
+          </li>
+        </ul>
+      </div>
+      <div class="checkbox pull-right right4 left4">
+        <label>
+          <input type="checkbox" ng-model="comparisonRequired">
+          Period<br/>comparison
+        </label>
+      </div>
       <div class="navbar-custom-menu pull-right">
         <ul class="nav navbar-nav">
           <li>
-	    <a date-range-picker="date-range-picker"
-	       class="btn btn-default daterange pull-right"
-	       type="text"
-	       ng-model="params.period"
-	       options="periodOpts">
-	      {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D, YYYY')}} <i class="fa fa-calendar"></i></a>
+            <a date-range-picker="date-range-picker"
+               class="btn btn-default daterange pull-right"
+               type="text"
+               ng-model="params.period"
+               options="periodOpts">
+              {{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}
+              <i class="fa fa-calendar"></i></a>
           </li>
-	</ul>
+        </ul>
       </div>
     </nav>
   </section>
@@ -25,63 +45,63 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
       <div class="col-lg-3 col-xs-6">
-	<div ng-controller="KPISum as kpi">
-	  <fca-stat-box-kpi kpi="kpi" params="params"
-			    indicator="in" label="Total In">
-	  </fca-stat-box-kpi>
-	</div>
+        <div ng-controller="KPISum as kpi">
+          <fca-stat-box-kpi kpi="kpi" params="params"
+                            indicator="in" label="Total In">
+          </fca-stat-box-kpi>
+        </div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-	<!-- small box -->
-	<div ng-controller="KPIMax as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
-			    label="Max Occupancy" bg-color="bg-green"
-			    icon="ion-ios-stats">
-	  </fca-stat-box-kpi>
-	</div>
+        <!-- small box -->
+        <div ng-controller="KPIMax as kpi">
+          <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
+                            label="Max Occupancy" bg-color="bg-green"
+                            icon="ion-ios-stats">
+          </fca-stat-box-kpi>
+        </div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-	<!-- small box -->
-	<div ng-controller="KPIMaxPeriod as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
-			    label="Max Period of Occupancy" bg-color="bg-yellow"
-			    icon="ion-ios-clock">
-	  </fca-stat-box-kpi>
-	</div>
+        <!-- small box -->
+        <div ng-controller="KPIMaxPeriod as kpi">
+          <fca-stat-box-kpi params="params" kpi="kpi" indicator="occ"
+                            label="Max Period of Occupancy" bg-color="bg-yellow"
+                            icon="ion-ios-clock">
+          </fca-stat-box-kpi>
+        </div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
-	<!-- small box -->
-	<div ng-controller="KPIMaxSiteRatio as kpi">
-	  <fca-stat-box-kpi params="params" kpi="kpi" indicator="in" display-filters="SiteName"
-			    label="Most active site" bg-color="bg-red"
-			    icon="ion-ios-pie">
-	  </fca-stat-box-kpi>
-	</div>
+        <!-- small box -->
+        <div ng-controller="KPIMaxSiteRatio as kpi">
+          <fca-stat-box-kpi params="params" kpi="kpi" indicator="in" display-filters="SiteName"
+                            label="Most active site" bg-color="bg-red"
+                            icon="ion-ios-pie">
+          </fca-stat-box-kpi>
+        </div>
       </div>
       <!-- ./col -->
     </div>
     <!-- /.row -->
-    
+
     <!-- row -->
     <div class="row">
       <section class="col-md-12">
-	<div ng-controller="KPISumMax as kpi">
-	  <fca-table-kpi params="params" kpi="kpi">
-	  </fca-table-kpi>
-	</div>
+        <div ng-controller="KPISumMax as kpi">
+          <fca-table-kpi params="params" kpi="kpi">
+          </fca-table-kpi>
+        </div>
       </section>
     </div>
     <!-- /.row -->
     <!-- row -->
     <div class="row">
       <section class="col-md-12">
-	<div ng-controller="KPISitesPeriod as kpi">
-	  <fca-graph-kpi params="params" kpi="kpi">
-	  </fca-graph-kpi>
-	</div>
+        <div ng-controller="KPISitesPeriod as kpi">
+          <fca-graph-kpi params="params" kpi="kpi">
+          </fca-graph-kpi>
+        </div>
       </section>
     </div>
     <!-- /.row -->
