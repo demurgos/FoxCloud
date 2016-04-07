@@ -17,11 +17,13 @@
 		$scope.params.loadData();
 	    });
 
+	    /*
 	    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
 		if(newPeriod !== oldPeriod) {
 		    $scope.params.loadData();
 		}
 	    });
+	    */
 
 	    $scope.exportPrint = function() {
 		window.print();

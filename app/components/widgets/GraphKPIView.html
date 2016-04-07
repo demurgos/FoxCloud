@@ -3,11 +3,6 @@
 
       <div class="col-md-7 col-xs-12">
 
-          <!--<button uib-popover-html="htmlPopover" popover-placement="bottom" popover-title="Select indicator" type="button" class="btn btn-default btn-box right30">
-              <i class="fa fa-line-chart box-title"></i>
-             {{indicatorSelected.id}}
-          </button>-->
-
           <div class="btn-group" uib-dropdown>
               <button id="btn-append-to-single-button" type="button" class="btn btn-box" uib-dropdown-toggle>
                   <i class="fa fa-line-chart box-title"></i>
@@ -51,20 +46,25 @@
     </div>
   </div>
   <div class="box-body">
-    <nav class="navbar bottom0">
-      <!--<ul class="nav navbar-nav" id="indicatorSelect">
-	<li class="dropdown">
-	  <select class="form-control"
-		  ng-model="indicatorSelected"
-		  ng-options="option.name for option in kpi.options.indicators track by option.id"
-		  ng-change="update()">
-	  </select>
-	</li>
-      </ul>-->
-    </nav>
     <div class="row left45">
       <div class="col-md-5">
+	<div class="caption" ng-show="periodComparisonSelected">
+	  <strong>{{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}</strong>
+	</div>
 	<div ng-repeat="elt in chartLegends">
+          <div class="caption">
+            <div class="circle" ng-style="{'background': elt.color}"></div>
+            <strong>{{elt.label}}</strong> ({{ indicatorSelected.id !== 'occ' ? 'Total' : 'Mean'}} {{elt.total}})
+          </div>
+	</div>
+      </div>
+    </div>
+    <div class="row left45" ng-show="periodComparisonSelected">
+      <div class="col-md-5">
+	<div class="caption">
+	  <strong>{{params.comparedPeriod.startDate.format('MMM D, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM D,YYYY')}}</strong>
+	</div>
+	<div ng-repeat="elt in chartLegendsCompared">
           <div class="caption">
             <div class="circle" ng-style="{'background': elt.color}"></div>
             <strong>{{elt.label}}</strong> ({{ indicatorSelected.id !== 'occ' ? 'Total' : 'Mean'}} {{elt.total}})

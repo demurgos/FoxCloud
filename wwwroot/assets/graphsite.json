@@ -14,12 +14,22 @@
 	    },
 	    "yAxis": {
 	    },
-	    "yAxis1": {
-	    },
 	    "forceY": [ 0, 1 ],
 	    "pointShape": "circle",
 	    "pointSize": 2,
-	    "showLegend": false
+	    "showLegend": false,
+	    "zoom": {
+		"enabled": false,
+		"scaleExtent": [
+		    1,
+		    10
+		],
+		"useFixedDomain": false,
+		"useNiceScale": false,
+		"horizontalOff": false,
+		"verticalOff": true,
+		"unzoomEventType": "dblclick.zoom"
+	    }
 	}
     },
     "chartData": [
@@ -33,6 +43,19 @@
 	    "area": false,
 	    "strokeWidth": 4,
 	    "color": "#aadff3"
+	}
+    ],
+    "chartDataCompared": [
+	{
+	    "area": true,
+            "strokeWidth": 4,
+	    "fillOpacity": 0.1,
+	    "color": "#ED7E17"
+	},
+	{
+	    "area": false,
+	    "strokeWidth": 4,
+	    "color": "#f2d5bd"
 	}
     ]
 }

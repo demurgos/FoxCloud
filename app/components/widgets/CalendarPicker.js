@@ -17,6 +17,8 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.comparisonRequired = false;
 
+		    $scope.localComparedPeriod = $scope.params.comparedPeriod;
+		    
 		    $scope.periodOpts = {
 			ranges: {
 			    'Today': [moment(), moment()],
@@ -30,7 +32,7 @@ angular.module('FSCounterAggregatorApp').
 			    format: 'MMM D,YYYY'
 			}
 		    };
-
+		  
 		    $scope.singleDateOpts = {
 			
 			singleDatePicker:true,
@@ -39,17 +41,34 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    };
 
-		    $scope.$watch('params.comparedPeriod', function(newDate, oldDate) {
-			var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
-			$scope.params.comparedPeriod.startDate = newDate;
-			$scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
+		    $scope.$watch('comparisonRequired', function(newComp) {
+			if(!newComp) {
+			    $scope.params.disableDataCompared();
+			} else {
+			    $scope.params.loadDataCompared();
+			}
+		    });
+		    
+		    $scope.$watch('localComparedPeriod', function(newDate, oldData) {
+			if($scope.localComparedPeriod !== undefined &&
+			   $scope.localComparedPeriod.startDate === undefined &&
+			   $scope.comparisonRequired) {
+			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
+			    $scope.params.comparedPeriod.startDate = $scope.localComparedPeriod;
+			    $scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
+			    $scope.params.loadDataCompared();
+			}
 		    });
 		    
 		    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
 			if(newPeriod !== oldPeriod) {
+			    $scope.params.loadData();
 			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
-			    //$scope.params.comparedPeriod.startDate = newPeriod.startDate;
-			    $scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
+			    $scope.params.comparedPeriod.endDate =
+				moment($scope.params.comparedPeriod.startDate).add(duration);
+			    if($scope.comparisonRequired) {
+				$scope.params.loadDataCompared();
+			    }
 			}
 		    });		    
 		}],
