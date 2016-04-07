@@ -87,6 +87,22 @@
   z-index: 13;
 }
 
+.daterangepicker .single td.in-range {
+    background: #f2d5bd;
+}
+
+.daterangepicker .single td.available:hover,
+.daterangepicker .single th.available:hover {
+  background: #eee;
+}
+
+.daterangepicker .single td.active,
+.daterangepicker .single td.active:hover {
+    background: #ed7e17;
+    background-color: #ed7e17;
+    border-color: #ed7e17;
+}
+
 .fa-times-circle:hover {
     color: #717171;
     cursor:pointer;

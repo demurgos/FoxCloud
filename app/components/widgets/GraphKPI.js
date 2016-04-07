@@ -214,9 +214,14 @@ angular.module('FSCounterAggregatorApp').
 				
 				$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 										   $scope.rangeSelected.id);
-				$scope.countingChartData = chartsData;
+
 				$scope.chartLegends = chartsLegends;
 				$scope.chartLegendsCompared = chartsLegendsCompared;
+				
+				$scope.countingChartOptions = $scope.style.nvd3;			
+				$scope.countingChartOptions.chart.xScale = d3.time.scale();
+				$scope.countingChartData = chartsData;
+
 			    });
 		    };
 
@@ -238,13 +243,19 @@ angular.module('FSCounterAggregatorApp').
 			    };
 			    
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.contentGenerator = function(d) {
+
+				// async call pb : called while countingChartData is undefined
+				if(d.series.length === 2 && $scope.sitesSelected[1]) {
+				    return false;
+				}
+				
 				return contentGenerator({
 				    "value": $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d.value, $scope.params.period),
-				    "series": [ d.series[0] ]
+				    "series": $scope.sitesSelected[1] ? [ d.series[0], d.series[1] ] : [ d.series[0] ]
 				}) + contentGenerator({
 				    "value": $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)($scope.periodComparisonMoments[d.index],
 												    $scope.params.period),
-				    "series": [ d.series[1] ]
+				    "series": $scope.sitesSelected[1] ? [ d.series[2], d.series[3] ] : [ d.series[1] ]
 				});
 			    };
 			    
@@ -256,15 +267,14 @@ angular.module('FSCounterAggregatorApp').
 				return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
 			    };
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.keyFormatter = function(d, i) {
-			    return $scope.chartLegends[i].label;
+				return $scope.chartLegends[i] ? $scope.chartLegends[i].label : "";
 			    };
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.contentGenerator = undefined;
 			}
-			$scope.countingChartOptions = $scope.style.nvd3;
 
-			$scope.countingChartOptions.chart.xScale = d3.time.scale();
-
-			$scope.countingChartData = [];
+			$scope.countingCharOptions = undefined;
+			$scope.countingChartData = undefined;
+			
 		    };		    
 		}],
 	    link: function(scope, element, attr) {

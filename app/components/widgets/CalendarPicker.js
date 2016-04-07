@@ -57,6 +57,13 @@ angular.module('FSCounterAggregatorApp').
 			    $scope.params.comparedPeriod.startDate = $scope.localComparedPeriod;
 			    $scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
 			    $scope.params.loadDataCompared();
+
+			    // daterangepicker 2.1.17 pb with singleDatePicker
+			    // the period model { startDate, endDate } is replaced by the
+			    // user clicked value so we have to rebuild it again
+			    $scope.localComparedPeriod = { "startDate": $scope.params.comparedPeriod.startDate,
+							   "endDate": $scope.params.comparedPeriod.endDate };
+
 			}
 		    });
 		    
