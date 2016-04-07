@@ -40,8 +40,9 @@ angular.module('FSCounterAggregatorApp').
 		    });
 
 		    $scope.siteComparisonSelected = undefined;
-
 		    $scope.periodComparisonSelected = false;
+		    $scope.periodComparisonMoments = [];
+		    $scope.periodComparisonLabels = {};
 		    
 		    $scope.style = undefined;
 		    $scope.countingChartOptions = undefined;
@@ -150,17 +151,27 @@ angular.module('FSCounterAggregatorApp').
 				chartsData.push(chartData);
 				var label = $scope.getSiteName($scope.sitesSelected[i].id) +
 				    " - " + $scope.kpi.getIndicatorName(res.query.indicator);
-				chartsLegends.push({ "period": period,
+				chartsLegends.push({ "key": key,
+						     "period": period,
 						     "label": label,
 						     "total": res.value,
 						     "color": chartData.color });
+				$scope.periodComparisonLabels[key] = label;
 			    }
 			}
 		    }
 
-		    function replaceXaxis(dst, src) {
-			for(var i = 0; i < src.length; ++i) {
-			    dst[i].x = src[i].x;
+		    function replaceXaxis(dst, src, backup) {
+			var i;
+			if(backup !== undefined) {
+			    for(i = 0; i < src.length; ++i) {
+				backup[i] = dst[i].x;
+				dst[i].x = src[i].x;				
+			    }
+			} else {
+			    for(i = 0; i < src.length; ++i) {
+				dst[i].x = src[i].x;
+			    }
 			}
 		    }
 		    
@@ -171,6 +182,8 @@ angular.module('FSCounterAggregatorApp').
 
 				$scope.setWidgetStyle(style);
 
+				$scope.periodComparisonLabels = {};
+				
 				var chartsData = [];
 				var chartsLegends = [];
 				var chartsLegendsCompared = [];
@@ -184,10 +197,15 @@ angular.module('FSCounterAggregatorApp').
 				    updateOnPeriod($scope.params.comparedPeriod, $scope.params.comparedData,
 						   $scope.style.chartDataCompared,
 						   chartsData, chartsLegendsCompared, "comp");
+
+				    $scope.periodComparisonMoments = [];
+				    
 				    if($scope.sitesSelected[1] === undefined) {
-					replaceXaxis(chartsData[1].values, chartsData[0].values);
+					replaceXaxis(chartsData[1].values, chartsData[0].values,
+						     $scope.periodComparisonMoments);
 				    } else {
-					replaceXaxis(chartsData[2].values, chartsData[0].values);
+					replaceXaxis(chartsData[2].values, chartsData[0].values,
+						     $scope.periodComparisonMoments);
 					replaceXaxis(chartsData[3].values, chartsData[1].values);
 				    }
 
@@ -210,16 +228,44 @@ angular.module('FSCounterAggregatorApp').
 			$scope.style.nvd3.chart.yAxis.tickFormat = function(d) {
 			    return d3.format('d')(d);
 			};
-			$scope.style.nvd3.chart.interactiveLayer.tooltip.headerFormatter = function(d, i) {
-			    return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
-			};
+			
+			if($scope.periodComparisonSelected) {
+
+			    var tooltip = nv.models.tooltip();
+			    var contentGenerator = tooltip._options.contentGenerator;
+			    tooltip._options.keyFormatter = function(d) {
+				return $scope.periodComparisonLabels[d];
+			    };
+			    
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.contentGenerator = function(d) {
+				return contentGenerator({
+				    "value": $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d.value, $scope.params.period),
+				    "series": [ d.series[0] ]
+				}) + contentGenerator({
+				    "value": $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)($scope.periodComparisonMoments[d.index],
+												    $scope.params.period),
+				    "series": [ d.series[1] ]
+				});
+			    };
+			    
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.headerFormatter = undefined;
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.keyFormatter = undefined;
+
+			} else {
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.headerFormatter = function(d, i) {
+				return $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d, $scope.params.period);
+			    };
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.keyFormatter = function(d, i) {
+			    return $scope.chartLegends[i].label;
+			    };
+			    $scope.style.nvd3.chart.interactiveLayer.tooltip.contentGenerator = undefined;
+			}
 			$scope.countingChartOptions = $scope.style.nvd3;
 
 			$scope.countingChartOptions.chart.xScale = d3.time.scale();
 
 			$scope.countingChartData = [];
-		    };
-
+		    };		    
 		}],
 	    link: function(scope, element, attr) {
 	    },
