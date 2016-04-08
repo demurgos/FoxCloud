@@ -288,6 +288,10 @@
     margin-right: 20px;
 }
 
+.caption-date {
+	width: 165px;
+}
+
 @media (min-width: 768px){
     #indicatorSelect {
         margin-left: 60px;
