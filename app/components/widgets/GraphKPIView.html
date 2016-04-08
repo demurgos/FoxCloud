@@ -47,9 +47,9 @@
   </div>
   <div class="box-body">
     <div class="row left45">
-      <div class="col-md-5">
-	<div class="caption" ng-show="periodComparisonSelected">
-	  <strong>{{params.period.startDate.format('MMM D, YYYY')}} - {{params.period.endDate.format('MMM D,YYYY')}}</strong>
+      <div class="col-md-12">
+	<div class="caption caption-date" ng-show="periodComparisonSelected">
+	  <strong>{{params.period.startDate.format('MMM DD, YYYY')}} - {{params.period.endDate.format('MMM DD,YYYY')}}</strong>
 	</div>
 	<div ng-repeat="elt in chartLegends">
           <div class="caption">
@@ -60,9 +60,9 @@
       </div>
     </div>
     <div class="row left45" ng-show="periodComparisonSelected">
-      <div class="col-md-5">
-	<div class="caption">
-	  <strong>{{params.comparedPeriod.startDate.format('MMM D, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM D,YYYY')}}</strong>
+      <div class="col-md-12">
+	<div class="caption caption-date">
+	  <strong>{{params.comparedPeriod.startDate.format('MMM DD, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM DD,YYYY')}}</strong>
 	</div>
 	<div ng-repeat="elt in chartLegendsCompared">
           <div class="caption">
