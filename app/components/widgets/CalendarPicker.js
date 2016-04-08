@@ -17,7 +17,9 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.comparisonRequired = false;
 
-		    $scope.localComparedPeriod = $scope.params.comparedPeriod;
+		    $scope.localComparedPeriod = { "startDate": moment($scope.params.comparedPeriod.startDate),
+						   "endDate": moment($scope.params.comparedPeriod.endDate)
+						 };
 		    
 		    $scope.periodOpts = {
 			ranges: {
@@ -32,10 +34,22 @@ angular.module('FSCounterAggregatorApp').
 			    format: 'MMM D,YYYY'
 			}
 		    };
-		  
+
+		    /*
+		    function getPrevPeriod() {
+			var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
+			var startDate = moment($scope.params.period.startDate).subtract(duration).subtract(1, 'days');
+			return [ startDate,
+				 moment(startDate).add(duration) ];
+		    }*/
+		    
 		    $scope.singleDateOpts = {
 			
 			singleDatePicker:true,
+			/*
+			ranges: {
+			    'Prev': getPrevPeriod()
+			},*/
 			locale: {
 			    format: 'MMM D,YYYY'
 			}
@@ -54,15 +68,15 @@ angular.module('FSCounterAggregatorApp').
 			   $scope.localComparedPeriod.startDate === undefined &&
 			   $scope.comparisonRequired) {
 			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
-			    $scope.params.comparedPeriod.startDate = $scope.localComparedPeriod;
+			    $scope.params.comparedPeriod.startDate = moment($scope.localComparedPeriod);
 			    $scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
 			    $scope.params.loadDataCompared();
 
 			    // daterangepicker 2.1.17 pb with singleDatePicker
 			    // the period model { startDate, endDate } is replaced by the
 			    // user clicked value so we have to rebuild it again
-			    $scope.localComparedPeriod = { "startDate": $scope.params.comparedPeriod.startDate,
-							   "endDate": $scope.params.comparedPeriod.endDate };
+			    $scope.localComparedPeriod = { "startDate": moment($scope.params.comparedPeriod.startDate),
+							   "endDate": moment($scope.params.comparedPeriod.endDate) };
 
 			}
 		    });

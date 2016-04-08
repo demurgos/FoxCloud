@@ -24,8 +24,8 @@
 				    };
 
 		      // by default set it to yesterday
-		      this.comparedPeriod = { startDate: this.period.startDate.subtract(1, 'days'),
-					      endDate: this.period.endDate.subtract(1, 'days')
+		      this.comparedPeriod = { startDate: this.period.startDate.clone().subtract(1, 'days'),
+					      endDate: this.period.endDate.clone().subtract(1, 'days')
 					    };
 
 		      this.sites = [];
