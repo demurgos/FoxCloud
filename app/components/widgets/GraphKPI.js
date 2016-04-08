@@ -86,10 +86,8 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.$watch('params.comparedData', function(newData, oldData) {
 			if(newData !== undefined && newData.length) {
 			    $scope.periodComparisonSelected = true;
-			    $scope.update();
 			} else if($scope.periodComparisonSelected) {
 			    $scope.periodComparisonSelected = false;
-			    $scope.update();
 			}
 		    });
 		    
@@ -165,12 +163,23 @@ angular.module('FSCounterAggregatorApp').
 			var i;
 			if(backup !== undefined) {
 			    for(i = 0; i < src.length; ++i) {
-				backup[i] = dst[i].x;
-				dst[i].x = src[i].x;				
+				if(dst[i] !== undefined) {
+				    backup[i] = dst[i].x;
+				    dst[i].x = src[i].x;
+				} else {
+				    backup[i] = src[i].x;
+				    dst[i] = { x: src[i].x,
+					       y: 0 };
+				}
 			    }
 			} else {
 			    for(i = 0; i < src.length; ++i) {
-				dst[i].x = src[i].x;
+				if(dst[i] !== undefined) {
+				    dst[i].x = src[i].x;
+				} else {
+				    dst[i] = { x: src[i].x,
+					       y: 0 };
+				}
 			    }
 			}
 		    }

@@ -74,7 +74,7 @@
 			  return loadDataOnPeriod(this.sites, this.comparedPeriod)
 			      .then(function(data) {
 				  that.comparedData = data;
-				  return that;
+				  return that.loadData();
 			      });
 		      };
 

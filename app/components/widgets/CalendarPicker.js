@@ -65,12 +65,13 @@ angular.module('FSCounterAggregatorApp').
 		    
 		    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
 			if(newPeriod !== oldPeriod) {
-			    $scope.params.loadData();
 			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
 			    $scope.params.comparedPeriod.endDate =
 				moment($scope.params.comparedPeriod.startDate).add(duration);
 			    if($scope.comparisonRequired) {
 				$scope.params.loadDataCompared();
+			    } else {
+				$scope.params.loadData();
 			    }
 			    $scope.singleDateOpts.autoRangeDuration = duration;
 			    $scope.singleDateOpts.ranges = getRanges();
