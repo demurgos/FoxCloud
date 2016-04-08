@@ -19,8 +19,8 @@
 		      OccupancyIndicator
 		  ) {
 		      
-		      this.period = { startDate: moment().hours(0).minutes(0).seconds(0),
-				      endDate: moment().hours(23).minutes(59).seconds(59) 
+		      this.period = { startDate: moment().hours(0).minutes(0).seconds(0).milliseconds(0),
+				      endDate: moment().hours(23).minutes(59).seconds(59).milliseconds(999) 
 				    };
 
 		      // by default set it to yesterday
