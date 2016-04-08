@@ -17,10 +17,6 @@ angular.module('FSCounterAggregatorApp').
 
 		    $scope.comparisonRequired = false;
 
-		    $scope.localComparedPeriod = { "startDate": moment($scope.params.comparedPeriod.startDate),
-						   "endDate": moment($scope.params.comparedPeriod.endDate)
-						 };
-		    
 		    $scope.periodOpts = {
 			ranges: {
 			    'Today': [moment(), moment()],
@@ -35,21 +31,19 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    };
 
-		    /*
-		    function getPrevPeriod() {
-			var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
-			var startDate = moment($scope.params.period.startDate).subtract(duration).subtract(1, 'days');
-			return [ startDate,
-				 moment(startDate).add(duration) ];
-		    }*/
+		    
+		    function getRanges() {
+			var duration =  $scope.params.period.endDate.diff($scope.params.period.startDate, 'days') + 1;
+			return { 'Previous' : [ moment($scope.params.period.startDate).subtract(duration, 'days'),
+						moment($scope.params.period.endDate).subtract(duration, 'days') ]
+			       };
+		    }
 		    
 		    $scope.singleDateOpts = {
-			
-			singleDatePicker:true,
-			/*
-			ranges: {
-			    'Prev': getPrevPeriod()
-			},*/
+			autoRange: true,
+			autoRangeDuration: moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate)),
+			elementId: 'compCalendar',
+			ranges: getRanges(),
 			locale: {
 			    format: 'MMM D,YYYY'
 			}
@@ -63,21 +57,9 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    });
 		    
-		    $scope.$watch('localComparedPeriod', function(newDate, oldData) {
-			if($scope.localComparedPeriod !== undefined &&
-			   $scope.localComparedPeriod.startDate === undefined &&
-			   $scope.comparisonRequired) {
-			    var duration =  moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate));
-			    $scope.params.comparedPeriod.startDate = moment($scope.localComparedPeriod);
-			    $scope.params.comparedPeriod.endDate = moment($scope.params.comparedPeriod.startDate).add(duration);
+		    $scope.$watch('params.comparedPeriod', function(newDate, oldData) {
+			if($scope.comparisonRequired) {
 			    $scope.params.loadDataCompared();
-
-			    // daterangepicker 2.1.17 pb with singleDatePicker
-			    // the period model { startDate, endDate } is replaced by the
-			    // user clicked value so we have to rebuild it again
-			    $scope.localComparedPeriod = { "startDate": moment($scope.params.comparedPeriod.startDate),
-							   "endDate": moment($scope.params.comparedPeriod.endDate) };
-
 			}
 		    });
 		    
@@ -90,6 +72,8 @@ angular.module('FSCounterAggregatorApp').
 			    if($scope.comparisonRequired) {
 				$scope.params.loadDataCompared();
 			    }
+			    $scope.singleDateOpts.autoRangeDuration = duration;
+			    $scope.singleDateOpts.ranges = getRanges();
 			}
 		    });		    
 		}],
