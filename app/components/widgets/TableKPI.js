@@ -28,6 +28,8 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.rows = [];		   		    
 		    $scope.total = {};
 
+		    $scope.periodComparisonSelected = false;
+		    
 		    $scope.dtOptions = DTOptionsBuilder.newOptions();
 
 		    $scope.$watch('params.data', function(newData, oldData) {
@@ -36,6 +38,14 @@ angular.module('FSCounterAggregatorApp')
 			}
 		    });
 
+		    $scope.$watch('params.comparedData', function(newData, oldData) {
+			if(newData !== undefined && newData.length) {
+			    $scope.periodComparisonSelected = true;
+			} else if($scope.periodComparisonSelected) {
+			    $scope.periodComparisonSelected = false;
+			}
+		    });
+		    
 		    $scope.updateTotal = function() {
 			var indicators = $scope.indicators;
 			var newTotal = {};
