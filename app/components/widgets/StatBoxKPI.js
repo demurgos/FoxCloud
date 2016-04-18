@@ -10,10 +10,10 @@ angular.module('FSCounterAggregatorApp').
 		indicator: '@',
 		label: '@?',
         description: '@?',
+        period:'@?',
         unit: '@?',
 		params: '=',
 		kpi: '=',
-		bgColor: '@?',
 		icon: '@?',
 		displayFilters: '@?'
 	    },
@@ -86,7 +86,6 @@ angular.module('FSCounterAggregatorApp').
 		    
 		}],
 	    link: function(scope, element, attr) {
-		scope.bgColor = scope.bgColor !== undefined ? scope.bgColor : 'bg-aqua';
 		scope.icon = scope.icon !== undefined ? scope.icon : 'ion-ios-download';
 	    },
 	    templateUrl: 'build/html/StatBoxKPIView.html'

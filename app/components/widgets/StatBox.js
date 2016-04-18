@@ -7,12 +7,13 @@ angular.module('FSCounterAggregatorApp').
     directive('fcaStatBox', function() {
 	return {
 	    scope: {
-		bgColor: '=?',
+		bgColor: '@?',
 		icon: '=?',
 		label: '=?',
         description: '=?',
         unit: '=?',
-		value: '=?'
+		value: '=?',
+        period: '=?',
 	    },
 	    link: function(scope, element, attr) {
 		//scope.bgColor = scope.bgColor !== undefined ? scope.bgColor : 'bg-aqua';
