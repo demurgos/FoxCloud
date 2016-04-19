@@ -1,0 +1,28 @@
+/**
+ * content.scss
+ * --------------------------------------------------
+ * Custom dashboard styling
+ */
+
+// Basic layout
+// ==========================================================================
+
+.skin-foxstream .wrapper {
+  background-color: #f9fafc;
+}
+
+.skin-foxstream .content-wrapper,
+.skin-foxstream .main-footer {
+  border-left: 1px solid #d2d6de;
+}
+
+// Box
+// ==========================================================================
+
+.row .box-header {
+  margin: 0px;
+}
+
+.box-header.with-border {
+  border-bottom: 2px solid lighten($color-primary,10);
+}

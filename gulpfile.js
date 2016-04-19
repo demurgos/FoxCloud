@@ -13,6 +13,8 @@ var mkdirp = require('mkdirp');
 var jsdoc = require('gulp-jsdoc');
 var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
 
 var usageCmd = '\nUsage: gulp build|release|docs|install [--local] [--dest]\n \
 \t--local\tUse fake data instead of retrieving them from the server.\n \
@@ -34,8 +36,9 @@ var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 		   "node_modules/bootstrap-daterangepicker/daterangepicker.css",
 		   "node_modules/nvd3/build/nv.d3.css",
 		   "node_modules/datatables.net-bs/css/dataTables.bootstrap.css",
-		   "lib/Styles/*.css",
-		   "app/assets/css/*.css" ];
+		   "lib/Styles/*.css"];
+
+var scssSources = ["app/assets/scss/src/**/*.scss"];
 
 var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
@@ -122,15 +125,25 @@ gulp.task('prepare-assets', function() {
 	.pipe(gulp.dest('wwwroot/build/fonts/'));
 });
 
-function buildCSS(files, minify) {
-    var g = gulp.src(files)
-	.pipe(less({plugins: [cleancss]}))
+function buildCSS(cssFiles, scssFiles, minify) {
+
+    // Compile scss sources first
+   gulp.src(scssFiles)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(rename("compiled_main.css"))
+        .pipe(gulp.dest('app/assets/scss/build'))
+        .pipe(duration('Execution Time: '));
+
+    // Merge with external css sources
+    var sources = cssFiles.concat(["app/assets/scss/build/compiled_main.css"]);
+    var g = gulp.src(sources)
 	.pipe(concat_css('style.min.css',
 			 { rebaseUrls: false }));
     if(minify) {
 	g = g.pipe(minify_css({zindex: false}));
     }
-    return g.pipe(duration('Execution Time: '))
+
+    return  g.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/css/'));
 }
 
@@ -153,11 +166,11 @@ gulp.task('prepare-js-release', function() {
 });
 
 gulp.task('prepare-css', function() {
-    return buildCSS(cssSources, false);
+    return buildCSS(cssSources, scssSources, false);
 });
 
 gulp.task('prepare-css-release', function() {
-    return buildCSS(cssSources, true);
+    return buildCSS(cssSources, scssSources, true);
 });
 
 gulp.task('copy-files', function() {

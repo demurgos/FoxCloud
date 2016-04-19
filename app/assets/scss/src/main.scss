@@ -1,0 +1,12 @@
+/**
+ * main.css
+ * --------------------------------------------------
+ * Main stylesheet that includes all partials
+ */
+
+// Include all partials
+@import 'base/module';
+@import 'components/module';
+@import 'helpers/module';
+@import 'layout/module';
+
