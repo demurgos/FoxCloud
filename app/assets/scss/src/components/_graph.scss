@@ -4,6 +4,8 @@
  * Custom style for graph view
  */
 
+@import '../base/variables';
+
 // Colors
 // ==========================================================================
 
@@ -14,15 +16,18 @@
 // Indicator
 // ==========================================================================
 
-.indicator-value{
+.indicator-value {
+
   padding-left: 10px;
-}
-.indicator-value:hover {
-  background-color: #eeeeee;
+
+  &:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
 }
 
 .indicator-value-active {
-  color: #dd4b39;
+  color: $color-link;
 }
 
 // Caption

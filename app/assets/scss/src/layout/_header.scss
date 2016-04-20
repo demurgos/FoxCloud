@@ -3,70 +3,77 @@
  * --------------------------------------------------
  * Custom style for header including nav bar and control sidebar
  */
-
 @import '../base/variables';
 
-// Navbar
-// ==========================================================================
+.skin-foxstream {
 
-.skin-foxstream .main-header .navbar {
-  background-color: $color-primary;
-}
+  .main-header {
 
-.skin-foxstream .main-header .navbar .nav > li > a {
-  color: #ffffff;
-}
-.skin-foxstream .main-header .navbar .nav > li > a:hover,
-.skin-foxstream .main-header .navbar .nav > li > a:active,
-.skin-foxstream .main-header .navbar .nav > li > a:focus,
-.skin-foxstream .main-header .navbar .nav .open > a,
-.skin-foxstream .main-header .navbar .nav .open > a:hover,
-.skin-foxstream .main-header .navbar .nav .open > a:focus,
-.skin-foxstream .main-header .navbar .nav > .active > a {
-  background: rgba(0, 0, 0, 0.1);
-  color: #f6f6f6;
-}
+    // Nav bar
+    // ==========================================================================
 
-.skin-foxstream .main-header .navbar .sidebar-toggle {
-  color: #ffffff;
-}
-.skin-foxstream .main-header .navbar .sidebar-toggle:hover {
-  color: #f6f6f6;
-  background: rgba(0, 0, 0, 0.1);
-}
+    .navbar {
 
-.skin-foxstream .main-header .navbar .sidebar-toggle {
-  color: #fff;
-}
+      background-color: $color-primary;
 
-.skin-foxstream .main-header .navbar .sidebar-toggle:hover {
-  background-color: $color-primary-hover;
-}
+      .nav {
+        > li > a {
+          color: #ffffff;
+        }
 
-.skin-foxstream .content-header {
-  background: transparent;
-}
+        > li > a:hover,
+        > li > a:active,
+        > li > a:focus,
+        .open > a,
+        .open > a:hover,
+        .open > a:focus,
+        .active > a {
+          background: $color-primary-hover;
+          color: #f6f6f6;
+        }
+      }
 
-// Logo
-// ==========================================================================
+      .sidebar-toggle {
+        color: #ffffff;
 
-.skin-foxstream .main-header .logo {
-  background-color: #f9fafc;
-  color: #ffffff;
-  border-bottom: 0 solid transparent;
-  padding: 0px;
-}
+        &:hover {
+          background-color: $color-primary-hover;
+        }
+      }
+    }
 
-// User panel
-// ==========================================================================
+    // Logo
+    // ==========================================================================
 
-.skin-foxstream .main-header li.user-header {
-  background-color: #dd4b39;
-}
+    .logo {
 
-.skin-foxstream .user-panel > .info,
-.skin-foxstream .user-panel > .info > a {
-  color: #444444;
+      background-color: #f9fafc;
+      color: #ffffff;
+      border-bottom: 0 solid transparent;
+      padding: 0px;
+    }
+
+    li.user-header {
+      background-color: #dd4b39;
+    }
+
+    // Content header
+    // ==========================================================================
+
+    .content-header {
+      background: transparent;
+    }
+  }
+
+  // User panel
+  // ==========================================================================
+
+  .user-panel {
+    > .info,
+    > .info > a {
+      color: #444444;
+    }
+  }
 }
 
 // Media queries
@@ -74,30 +81,34 @@
 
 @media only screen and (max-width: $screen-xs-max) {
 
-  .main-header .logo {
-    display: none;
-  }
+  .skin-foxstream {
 
-  .skin-foxstream .main-header .navbar .dropdown-menu li.divider {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+    .main-header {
 
-  .skin-foxstream .main-header .navbar .dropdown-menu li a {
-    color: #fff;
-  }
+      .navbar {
+        margin-bottom: 0px;
 
-  .skin-foxstream .main-header .navbar .dropdown-menu li a:hover {
-    background: #d73925;
-  }
+        .dropdown-menu {
 
-  .main-header .logo, .main-header .navbar {
-    margin-bottom: 0px;
-  }
+          li.divider {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
 
-  .control-sidebar.control-sidebar-dark,
-  .control-sidebar.control-sidebar-open, .control-sidebar.control-sidebar-open+.control-sidebar-bg {
-    margin-top: 0px;
-    padding-top: 10px;
+          li a {
+            color: #fff;
+          }
+          li a:hover {
+            background: #d73925;
+          }
+        }
+      }
+
+      .logo {
+        display: none;
+        margin-bottom: 0px;
+      }
+
+    }
   }
 }
 

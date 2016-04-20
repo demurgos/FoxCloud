@@ -7,13 +7,16 @@
 // Basic layout
 // ==========================================================================
 
-.skin-foxstream .wrapper {
-  background-color: #f9fafc;
-}
+.skin-foxstream {
 
-.skin-foxstream .content-wrapper,
-.skin-foxstream .main-footer {
-  border-left: 1px solid #d2d6de;
+  .wrapper {
+    background-color: #f9fafc;
+  }
+
+  .content-wrapper,
+  .main-footer {
+    border-left: 1px solid #d2d6de;
+  }
 }
 
 // Box

@@ -4,6 +4,7 @@
  * Define base for typo (a, h1, p, etc.)
  */
 
+@import "variables";
 a {
-  color:#dd4b39;
+  color: $color-link;
 }
