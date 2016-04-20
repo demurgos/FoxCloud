@@ -22,7 +22,7 @@
                 ng-change="update()">
         </select>
       </h3>
-      <h3 class="box-title"><span ng-show="params.sites.length > 1"> vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
+      <h3 class="box-title" ng-show="showsitecomparing"><span ng-show="params.sites.length > 1"> vs <a ng-click="params.sites.length > 1 && toggleSiteComparison(true)"
                                   ng-show="sitesSelected[1] === undefined"
                                   href="">select a site </a></span></h3>
       <div class="box-title" ng-show="sitesSelected[1] !== undefined">

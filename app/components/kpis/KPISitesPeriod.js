@@ -88,8 +88,8 @@
 			{ id: '15min', name: 'Minutes' },
 			{ id: 'hours', name: 'Hours' },
 			{ id: 'days', name: 'Days' },
-			{ id: 'week', name: 'Week' },
-			{ id: 'month', name: 'Month' }
+			{ id: 'week', name: 'Weeks' },
+			{ id: 'month', name: 'Months' }
 		    ],
 
 		    indicators: [

@@ -16,31 +16,31 @@
      this.NSEC_WEEK = 604800;
 
      this.rangeFunc = {
-	 '5min': { 
+	 '5min': {
 	     init: function(date) {
 		 return date.minute(Math.floor(date.minute() / 5) * 5);
 	     },
-	     step: function(date) { 
-		 return date.add(5,"m"); 
+	     step: function(date) {
+		 return date.add(5,"m");
 	     },
 	     dist: function(date, dateStart) {
 		 return that.getTimeIndex(date.unix(),
 					  dateStart.unix(),
 					  that.NSEC_5MIN);
 	     }},
-	 '15min': { 
+	 '15min': {
 	     init: function(date) {
 		 return date.minute(Math.floor(date.minute() / 15) * 15);
 	     },
-	     step: function(date) { 
-		 return date.add(15,"m"); 
+	     step: function(date) {
+		 return date.add(15,"m");
 	     },
 	     dist: function(date, dateStart) {
 		 return that.getTimeIndex(date.unix(),
 					  dateStart.unix(),
 					  that.NSEC_15MIN);
 	     }},
-	 'hours': { 
+	 'hours': {
 	     init: function(date) {
 		 return date.minute(0);
 	     },
@@ -50,7 +50,7 @@
 					  dateStart.unix(),
 					  that.NSEC_HOUR);
 	     }},
-	 'days': { 
+	 'days': {
 	     init: function(date) {
 		 return date.minute(0).hour(0);
 	     },
@@ -60,7 +60,7 @@
 					  dateStart.unix(),
 					  that.NSEC_DAY);
 	     }},
-	 'week': { 
+	 'week': {
 	     init: function(date) {
 		 return date.day(1);
 	     },
@@ -70,14 +70,14 @@
 					  dateStart.unix(),
 					  that.NSEC_WEEK);
 	     }},
-	 'month': { 
+	 'month': {
 	     init: function(date) {
 		 return date.date(1);
 	     },
 	     step: function(date) { return date.add(1,"M"); },
 	     dist: function(date, dateStart) {
 		 //return date.diff(dateStart, "months");
-		 return (date.year()*12 + date.month()) - 
+		 return (date.year()*12 + date.month()) -
 		     (dateStart.year()*12 + dateStart.month());
 	     }}
      };
@@ -89,7 +89,7 @@
       */
      this.getTimeIndex = function(time, timeStart, step) {
 	 return Math.floor((time - timeStart) / step);
-     };    
+     };
 
      /**
       * @function getTimeIterator
@@ -131,7 +131,7 @@
      this.fillIndex = function(data, index, idxFunc) {
 	 for(var i = 0; i < data.length; ++i) {
 	     var idx = idxFunc(data[i]);
-	     if(idx !== undefined && 
+	     if(idx !== undefined &&
 		idx >= 0 &&
 		idx < index.length) {
 		 if(index[idx].y === undefined) {
@@ -163,7 +163,7 @@
 	     res.push(cumul);
 	 }
 	 return res;
-     };    
+     };
 
      /**
       * @function split
@@ -201,7 +201,7 @@
 	 return x;
      };
 
-     
+
      /**
       * @function cSum
       * @memberOf FSCounterAggregatorApp.ComputeService
@@ -221,15 +221,15 @@
       * @description Returns the mean of all elements in a array
       */
      this.cMean = function(data, fsum) {
-	 return data.length === 0 ? 0 : this.cSum(data, fsum) / data.length;	 
-     };     
+	 return data.length === 0 ? 0 : this.cSum(data, fsum) / data.length;
+     };
 
      /**
       * @function cMax
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description Returns the array element which have the max value
       */
-     this.cMax = function(data, fvalue) {	 
+     this.cMax = function(data, fvalue) {
 	 var maxElt;
 	 if(data.length > 0) {
 	     var maxIdx = 0;
@@ -249,7 +249,7 @@
       * @description aggregate data on a period grouped by step duration
       */
      this.cFuncForPeriod = function(data, period, step, id, func) {
-	 
+
 	 var that = this;
 
 	 var timeIndex = this.createTimeIndex(period,
@@ -263,7 +263,7 @@
 					    moment(elt.time*1000), period.startDate);
 				    }
 				   );
-	 var tdata = this.aggregate(data, 
+	 var tdata = this.aggregate(data,
 				    timeIndex,
 				    func);
 	 return tdata;
@@ -275,10 +275,10 @@
       * @description aggregate data on a period grouped by step duration
       */
      this.cSumForPeriod = function(data, period, step, id) {
-	 
-	 return this.cFuncForPeriod(data, period, step, id, 
+
+	 return this.cFuncForPeriod(data, period, step, id,
 				    function(elt, curCumul) {
-					return curCumul !== undefined ? 
+					return curCumul !== undefined ?
 					    curCumul + elt[id] : 0;
 				    });
      };
@@ -289,12 +289,12 @@
       * @description aggregate data on a period grouped by step duration
       */
      this.cMeanForPeriod = function(data, period, step, id) {
-	 
+
 	 return this.cFuncForPeriod(data, period, step, id,
 				    function(elt, curCumul, pos, length) {
 					if(curCumul !== undefined) {
-					    return pos == (length - 1) ? 
-						Math.round((curCumul + elt[id])/length) : 
+					    return pos == (length - 1) ?
+						Math.round((curCumul + elt[id])/length) :
 						curCumul + elt[id];
 					} else {
 					    return 0;
@@ -308,16 +308,17 @@
       * @description aggregate data on a period grouped by step duration
       */
      this.cMaxForPeriod = function(data, period, step, id) {
-	 
+
 	 return this.cFuncForPeriod(data, period, step, id,
-				    function(elt, curCumul, pos, length) {					
+				    function(elt, curCumul, pos, length) {
 					if(curCumul !== undefined) {
 					    return elt[id] > curCumul ? elt[id]: curCumul;
-					} else {					    
+					} else {
 					    return 0;
 					}
 				    });
      };
+
 
      /**
       * @function cOccupancy
@@ -325,7 +326,7 @@
       * @description Compute occupancy values based on in/out
       */
      this.cOccupancy = function(data, idIn, idOut, idOcc) {
-	 var occupancy = 0;	 
+	 var occupancy = 0;
 	 for(var i = 0; i < data.length; ++i) {
 	     occupancy = Math.max(0, occupancy + (data[i][idIn] - data[i][idOut]));
 	     data[i][idOcc] = occupancy;

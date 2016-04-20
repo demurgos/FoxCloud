@@ -8,7 +8,8 @@ angular.module('FSCounterAggregatorApp').
 	return {
 	    scope: {
 		params: '=',
-		kpi: '='
+		kpi: '=',
+        sitecomparing: '@'
 	    },
 	    controller: [
 		'$scope',
@@ -19,6 +20,7 @@ angular.module('FSCounterAggregatorApp').
 		    WidgetStyleService,
 		    $sce
 		) {
+            $scope.showsitecomparing = ($scope.sitecomparing===undefined) || ($scope.sitecomparing==="true");
 
 		    //var $injector = angular.injector(['FSCounterAggregatorApp']);
 		    //var s = $injector.get('WidgetStyleService');
@@ -43,7 +45,7 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.periodComparisonSelected = false;
 		    $scope.periodComparisonMoments = [];
 		    $scope.periodComparisonLabels = {};
-		    
+
 		    $scope.style = undefined;
 		    $scope.countingChartOptions = undefined;
 		    $scope.countingChartData = undefined;
@@ -90,7 +92,7 @@ angular.module('FSCounterAggregatorApp').
 			    $scope.periodComparisonSelected = false;
 			}
 		    });
-		    
+
 		    $scope.$watch('rangeSelected.id', function(newId, oldId) {
 			if(oldId !== newId) {
 			    $scope.update();
@@ -183,7 +185,7 @@ angular.module('FSCounterAggregatorApp').
 			    }
 			}
 		    }
-		    
+
 		    $scope.update = function() {
 
 			WidgetStyleService.getStyle($scope.widgetId).
@@ -192,23 +194,23 @@ angular.module('FSCounterAggregatorApp').
 				$scope.setWidgetStyle(style);
 
 				$scope.periodComparisonLabels = {};
-				
+
 				var chartsData = [];
 				var chartsLegends = [];
 				var chartsLegendsCompared = [];
-				
+
 				updateOnPeriod($scope.params.period, $scope.params.data,
 					       $scope.style.chartData,
 					       chartsData, chartsLegends, "");
-				
+
 				if($scope.periodComparisonSelected) {
-				    
+
 				    updateOnPeriod($scope.params.comparedPeriod, $scope.params.comparedData,
 						   $scope.style.chartDataCompared,
 						   chartsData, chartsLegendsCompared, "comp");
 
 				    $scope.periodComparisonMoments = [];
-				    
+
 				    if($scope.sitesSelected[1] === undefined) {
 					replaceXaxis(chartsData[1].values, chartsData[0].values,
 						     $scope.periodComparisonMoments);
@@ -220,14 +222,14 @@ angular.module('FSCounterAggregatorApp').
 
 				    $scope.chartLegendsCompared = chartsLegendsCompared;
 				}
-				
+
 				$scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 										   $scope.rangeSelected.id);
 
 				$scope.chartLegends = chartsLegends;
 				$scope.chartLegendsCompared = chartsLegendsCompared;
-				
-				$scope.countingChartOptions = $scope.style.nvd3;			
+
+				$scope.countingChartOptions = $scope.style.nvd3;
 				$scope.countingChartOptions.chart.xScale = d3.time.scale();
 				$scope.countingChartData = chartsData;
 
@@ -242,7 +244,7 @@ angular.module('FSCounterAggregatorApp').
 			$scope.style.nvd3.chart.yAxis.tickFormat = function(d) {
 			    return d3.format('d')(d);
 			};
-			
+
 			if($scope.periodComparisonSelected) {
 
 			    var tooltip = nv.models.tooltip();
@@ -250,14 +252,14 @@ angular.module('FSCounterAggregatorApp').
 			    tooltip._options.keyFormatter = function(d) {
 				return $scope.periodComparisonLabels[d];
 			    };
-			    
+
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.contentGenerator = function(d) {
 
 				// async call pb : called while countingChartData is undefined
 				if(d.series.length === 2 && $scope.sitesSelected[1]) {
 				    return false;
 				}
-				
+
 				return contentGenerator({
 				    "value": $scope.kpi.getRangeTimeFormat($scope.rangeSelected.id)(d.value, $scope.params.period),
 				    "series": $scope.sitesSelected[1] ? [ d.series[0], d.series[1] ] : [ d.series[0] ]
@@ -267,7 +269,7 @@ angular.module('FSCounterAggregatorApp').
 				    "series": $scope.sitesSelected[1] ? [ d.series[2], d.series[3] ] : [ d.series[1] ]
 				});
 			    };
-			    
+
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.headerFormatter = undefined;
 			    $scope.style.nvd3.chart.interactiveLayer.tooltip.keyFormatter = undefined;
 
@@ -283,8 +285,8 @@ angular.module('FSCounterAggregatorApp').
 
 			$scope.countingCharOptions = undefined;
 			$scope.countingChartData = undefined;
-			
-		    };		    
+
+		    };
 		}],
 	    link: function(scope, element, attr) {
 	    },
