@@ -29,7 +29,8 @@ angular.module('FSCounterAggregatorApp').
             elementId: 'firstCalendar',
 			locale: {
 			    format: 'MMM D,YYYY'
-			}
+			},
+			opens: 'left'
 		    };
 
 		    
@@ -47,7 +48,8 @@ angular.module('FSCounterAggregatorApp').
 			ranges: getRanges(),
 			locale: {
 			    format: 'MMM D,YYYY'
-			}
+			},
+			opens: 'left'
 		    };
 
 		    $scope.$watch('comparisonRequired', function(newComp) {
