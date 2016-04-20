@@ -11,14 +11,14 @@
 	    function(
 		ComputeService
 	    ) {
-        var _startDate = moment([1970, 0, 4]);
+        var _startDate = moment().startOf('week');
 		this.rangeParams = {
 		    'days': {
     			label: function(d, p) {
     			    return moment(d).format("HH:mm");
     			},
     			isPeriodComputable: function(period) {
-    			    return period.endDate.diff(period.startDate, "days") >= 1;
+    			    return true;
     			},
                 getGroupingTimestamp : function(timestamp) //return the function to be used when grouping timestmaps
                 {
@@ -44,10 +44,10 @@
     			},
                 getGroupingTimestamp : function(timestamp) //return the function to be used when grouping timestmaps
                 {
-                    return moment.unix(timestamp).hours(0).minutes(0).seconds(0).millisecond(0);
+                    return moment.unix(timestamp).hours(0).minutes(0).seconds(0).millisecond(0).unix();
                 },
                 getNormalisedTimestamp: function(timestamp){
-                    return _startDate.clone().add(moment.unix(timestamp).days(), "days").unix().unix();
+                    return _startDate.clone().add(moment.unix(timestamp).days(), "days").unix();
                 },
                 getDefaultValues : function(){
                     var ret={};
@@ -101,7 +101,7 @@
 		 * @description return whether or not we can compute the KPI
 		 * for a specific period size
 		 */
-		this.isPeriodComputable = function(period, rangeId) { return true; };
+		this.isPeriodComputable = function(period, rangeId) { return this.getRangeParams(rangeId).isPeriodComputable(period); };
 
 		/**
 		 * @function isPeriodComparable
