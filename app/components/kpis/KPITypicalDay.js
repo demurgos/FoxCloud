@@ -203,6 +203,8 @@
                 .value();
 
             res.value = _.sumBy(res.data, "y");
+            if (query.indicator=='occ' && res.data.length>0) res.value = Math.floor(res.value / res.data.length);
+
 		    return res;
 		};
 
