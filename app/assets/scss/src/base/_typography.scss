@@ -1,0 +1,10 @@
+/**
+ * typography.scss
+ * --------------------------------------------------
+ * Define base for typo (a, h1, p, etc.)
+ */
+
+@import "variables";
+a {
+  color: $color-link;
+}

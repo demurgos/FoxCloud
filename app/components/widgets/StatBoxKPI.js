@@ -10,10 +10,10 @@ angular.module('FSCounterAggregatorApp').
 		indicator: '@',
 		label: '@?',
         description: '@?',
+        period:'@?',
         unit: '@?',
 		params: '=',
 		kpi: '=',
-		bgColor: '@?',
 		icon: '@?',
 		displayFilters: '@?'
 	    },
@@ -37,8 +37,11 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.label = $scope.label !== undefined ? $scope.label :
 			$scope.kpi.getLabel($scope.indicator);
 		    $scope.value = 0;
+		    $scope.valueCompared = 0;
 		    $scope.widgetId = 'statbox/' + $scope.kpi + '/' + $scope.indicator;
 
+		    $scope.periodComparisonSelected = false;
+		    
 		    WidgetStyleService.getStyle($scope.widgetId)
 			.then(function(data) {
 			});
@@ -49,18 +52,42 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    });
 
-		    $scope.update = function() {
-			var res = $scope.kpi.compute({ allsitedata : $scope.params.data,
-						       period: $scope.params.period,
-						       indicator: $scope.indicator,
+		    $scope.$watch('params.comparedData', function(newData, oldData) {
+			if(newData !== undefined && newData.length) {
+			    $scope.periodComparisonSelected = true;
+			    $scope.updateCompared();
+			} else if($scope.periodComparisonSelected) {
+			    $scope.periodComparisonSelected = false;
+			}
+		    });
+
+		    function getValue(data, period, indicator) {
+			var res = $scope.kpi.compute({ allsitedata : data,
+						       period: period,
+						       indicator: indicator,
 						       omitTable: true });
-			$scope.value = applyFilters(res.value);
+			return applyFilters(res.value);
+		    }
+		    
+		    $scope.update = function() {
+			$scope.value = getValue($scope.params.data,
+						$scope.params.period,
+						$scope.indicator);
 		    };
+
+		    $scope.updateCompared = function() {
+			if($scope.periodComparisonSelected) {
+			    $scope.valueCompared = getValue($scope.params.comparedData,
+							    $scope.params.comparedPeriod,
+							    $scope.indicator);
+			}
+		    };
+		    
+		    
 		}],
 	    link: function(scope, element, attr) {
-		scope.bgColor = scope.bgColor !== undefined ? scope.bgColor : 'bg-aqua';
 		scope.icon = scope.icon !== undefined ? scope.icon : 'ion-ios-download';
 	    },
-	    template: '<fca-stat-box unit="unit" description="description" value="value" label="label" bg-color="bgColor" icon="icon"></fca-stat-box>'
+	    templateUrl: 'build/html/StatBoxKPIView.html'
 	};
     });

@@ -90,6 +90,7 @@ angular.module('FSCounterAggregatorApp').
 			    $scope.periodComparisonSelected = true;
 			} else if($scope.periodComparisonSelected) {
 			    $scope.periodComparisonSelected = false;
+			    $scope.update();
 			}
 		    });
 

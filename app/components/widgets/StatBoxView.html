@@ -1,7 +1,7 @@
 <div class="small-box {{bgColor}}" title="{{description}}">
   <div class="inner">
     <h3>{{value}} {{unit}}</h3>
-    <p>{{label}}</p>
+    <p>{{label}}<span ng-show="period"><br/>{{period.startDate.format('MMM DD, YYYY')}} - {{period.endDate.format('MMM DD,YYYY')}}</span></p>
   </div>
   <div class="icon">
     <i class="ion {{icon}}"></i>

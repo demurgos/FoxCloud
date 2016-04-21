@@ -1,0 +1,43 @@
+/**
+ * graph.scss
+ * --------------------------------------------------
+ * Custom style for graph view
+ */
+
+@import '../base/variables';
+
+// Colors
+// ==========================================================================
+
+.btn-box {
+  background-color: #ffffff;
+}
+
+// Indicator
+// ==========================================================================
+
+.indicator-value {
+
+  padding-left: 10px;
+
+  &:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
+}
+
+.indicator-value-active {
+  color: $color-link;
+}
+
+// Caption
+// ==========================================================================
+
+.caption {
+  float: left;
+  margin-right: 20px;
+}
+
+.caption-date {
+  width: 165px;
+}

@@ -28,14 +28,33 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.rows = [];		   		    
 		    $scope.total = {};
 
+		    $scope.periodComparisonSelected = false;
+		    
 		    $scope.dtOptions = DTOptionsBuilder.newOptions();
 
+		    $scope.$on('event:dataTableLoaded', function(event, loadedDT) {
+			// loadedDT === {"id": "foobar", "DataTable": oTable, "dataTable": $oTable}			
+			// loadedDT.DataTable is the DataTable API instance
+			// loadedDT.dataTable is the jQuery Object
+			// See http://datatables.net/manual/api#Accessing-the-API
+			loadedDT.dataTable.rowGrouping();
+		    });
+		    
 		    $scope.$watch('params.data', function(newData, oldData) {
 			if(newData !== undefined && newData.length) {
 			    $scope.update();
 			}
 		    });
 
+		    $scope.$watch('params.comparedData', function(newData, oldData) {
+			if(newData !== undefined && newData.length) {
+			    $scope.periodComparisonSelected = true;
+			} else if($scope.periodComparisonSelected) {
+			    $scope.periodComparisonSelected = false;
+			    $scope.update();
+			}
+		    });
+		    
 		    $scope.updateTotal = function() {
 			var indicators = $scope.indicators;
 			var newTotal = {};
@@ -53,20 +72,36 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.updateSites = function() {
 			var newTableRows = [];
 			var indicators = $scope.indicators;
+			var idx, res, j;
 			for(var i = 0; i < $scope.params.sites.length; ++i) {
 			    var rowSite = {
 				"name": $scope.params.sites[i].name,
 				"id": $scope.params.sites[i].id
 			    };
-			    for(var j = 0; j < indicators.length; ++j) {
-				var idx = _.findIndex($scope.params.data, {
+			    for(j = 0; j < indicators.length; ++j) {
+				idx = _.findIndex($scope.params.data, {
 				    "id": $scope.params.sites[i].id });					
-				var res = $scope.kpi.compute({
+				res = $scope.kpi.compute({
 				    "indicator": indicators[j].id,
 				    "sitedata": $scope.params.data[idx] });
 				rowSite[indicators[j].id] = res.value;
 			    }
 			    newTableRows.push(rowSite);
+			    rowSite = {
+				"name": $scope.params.sites[i].name,
+				"id": $scope.params.sites[i].id
+			    };
+			    if($scope.periodComparisonSelected) {
+				for(j = 0; j < indicators.length; ++j) {
+				    idx = _.findIndex($scope.params.comparedData, {
+					"id": $scope.params.sites[i].id });					
+				    res = $scope.kpi.compute({
+					"indicator": indicators[j].id,
+					"sitedata": $scope.params.comparedData[idx] });
+				    rowSite[indicators[j].id] = res.value;
+				}
+				newTableRows.push(rowSite);				
+			    }
 			}
 			$scope.rows = newTableRows;			
 		    };

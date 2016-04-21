@@ -1,0 +1,21 @@
+<fca-stat-box
+   unit="unit"
+   description="description"
+   value="value"
+   label="label"
+   bg-color="bg-period"
+   icon="icon"
+   period="periodComparisonSelected ? params.period : undefined">
+</fca-stat-box>
+
+<div ng-show="periodComparisonSelected">
+  <fca-stat-box
+     unit="unit"
+     description="description"
+     value="valueCompared"
+     label="label"
+     bg-color="bg-compared-period"
+     icon="icon"
+     period="params.comparedPeriod">
+  </fca-stat-box>
+</div>

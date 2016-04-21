@@ -1,0 +1,119 @@
+/**
+ * header.scss
+ * --------------------------------------------------
+ * Custom style for header including nav bar and control sidebar
+ */
+@import '../base/variables';
+
+.skin-foxstream {
+
+  .main-header {
+
+    // Nav bar
+    // ==========================================================================
+
+    .navbar {
+
+      background-color: $color-primary;
+
+      .nav {
+        > li > a {
+          color: #ffffff;
+        }
+
+        > li > a:hover,
+        > li > a:active,
+        > li > a:focus,
+        .open > a,
+        .open > a:hover,
+        .open > a:focus,
+        .active > a {
+          background: $color-primary-hover;
+          color: #f6f6f6;
+        }
+      }
+
+      .sidebar-toggle {
+        color: #ffffff;
+
+        &:hover {
+          background-color: $color-primary-hover;
+        }
+      }
+    }
+
+    // Logo
+    // ==========================================================================
+
+    .logo {
+
+      background-color: #f9fafc;
+      color: #ffffff;
+      border-bottom: 0 solid transparent;
+      padding: 0px;
+    }
+
+    li.user-header {
+      background-color: #dd4b39;
+    }
+
+    // Content header
+    // ==========================================================================
+
+    .content-header {
+      background: transparent;
+    }
+  }
+
+  // User panel
+  // ==========================================================================
+
+  .user-panel {
+    > .info,
+    > .info > a {
+      color: #444444;
+    }
+  }
+}
+
+// Media queries
+// ==========================================================================
+
+@media only screen and (max-width: $screen-xs-max) {
+
+  .skin-foxstream {
+
+    .main-header {
+
+      .navbar {
+        margin-bottom: 0px;
+
+        .dropdown-menu {
+
+          li.divider {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+
+          li a {
+            color: #fff;
+          }
+          li a:hover {
+            background: #d73925;
+          }
+        }
+      }
+
+      .logo {
+        display: none;
+        margin-bottom: 0px;
+      }
+
+    }
+  }
+}
+
+@media only screen and (min-width: $screen-sm-min) {
+  .logo-xs {
+    display: none;
+  }
+}

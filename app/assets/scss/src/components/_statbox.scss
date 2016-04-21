@@ -1,0 +1,17 @@
+/**
+ * statbox.scss
+ * --------------------------------------------------
+ * Custom style for stat box component
+ */
+
+@import '../base/variables';
+
+.bg-period {
+  background-color: $color-first-period;
+  color:#fff!important;
+}
+
+.bg-compared-period{
+  background-color: $color-second-period;
+  color:#fff!important;
+}

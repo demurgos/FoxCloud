@@ -1,0 +1,61 @@
+/**
+ * datarangepicker.scss
+ * --------------------------------------------------
+ * Custom style for datarangepicker
+ */
+
+@import '../base/variables';
+
+.daterangepicker .dropdown-menu {
+  z-index: 13;
+}
+
+// First calendar
+// ==========================================================================
+
+/*
+#firstCalendar {
+  td.active,
+  td.active:hover {
+    background: $color-first-period;
+    background-color: $color-first-period;
+    border-color: $color-first-period;
+  }
+
+  .ranges li.active,
+  .ranges li:hover {
+    background: $color-first-period;
+    border: 1px solid $color-first-period;
+  }
+}*/
+
+// Compared calendar
+// ==========================================================================
+
+#compCalendar {
+
+  &.daterangepicker {
+
+    td.in-range {
+      background: #f2d5bd;
+    }
+
+    td.available:hover,
+    th.available:hover {
+      background: #eee;
+    }
+
+    td.active,
+    td.active:hover {
+      background: $color-second-period;
+      background-color: $color-second-period;
+      border-color: $color-second-period;
+    }
+
+    .ranges li.active,
+    .ranges li:hover {
+      background: $color-second-period;
+      border: 1px solid $color-second-period;
+    }
+  }
+}
