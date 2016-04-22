@@ -10,7 +10,10 @@
 
 // Background color
 $color-primary: #CCCDD3;
+$color-primary-typo: darken($color-primary,50%);
 $color-primary-hover: darken($color-primary,5);
+$color-primary-hover-typo: darken($color-primary-typo,5%);
+
 $color-secondary: #E63220;
 $color-secondary-hover: darken($color-secondary,5);
 
