@@ -11,3 +11,15 @@
 .dataTable {
   width: 100%;
 }
+
+table.table-comparison.dataTable td {
+    border-left-width: 2px;
+}
+
+.table-comparison > tbody > tr > td.cell-period {
+    border-left: solid $color-first-period;
+}
+
+.table-comparison > tbody > tr > td.cell-compared-period {
+    border-left: solid $color-second-period;
+}

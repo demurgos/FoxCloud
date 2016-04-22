@@ -92,7 +92,8 @@ angular.module('FSCounterAggregatorApp')
 				rowSite = {
 				    "name": $scope.params.sites[i].name,
 				    "period": $scope.params.comparedPeriod,
-				    "id": $scope.params.sites[i].id
+				    "id": $scope.params.sites[i].id,
+				    "comparedPeriod": true
 				};
 				for(j = 0; j < indicators.length; ++j) {
 				    idx = _.findIndex($scope.params.comparedData, {

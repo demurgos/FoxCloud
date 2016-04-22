@@ -9,7 +9,7 @@
 
   <div class="box-body">
     <div class="table-responsive">
-      <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped table-hover">
+      <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped table-hover {{periodComparisonSelected ? 'table-comparison' : ''}}">
 	<thead>
 	  <tr>
             <th>Site name</th>
@@ -26,9 +26,9 @@
 	</tfoot>
 	<tbody>
           <tr ng-repeat="row in rows">
-            <td>{{row.name}}</td>
-	    <td ng-show="periodComparisonSelected">{{row.period.startDate.format('MMM DD, YYYY')}} - {{row.period.endDate.format('MMM DD,YYYY')}}</td>
-	    <td ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
+            <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}">{{row.name}}</td>
+	    <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-show="periodComparisonSelected">{{row.period.startDate.format('MMM DD, YYYY')}} - {{row.period.endDate.format('MMM DD,YYYY')}}</td>
+	    <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
           </tr>
 	</tbody>
       </table>
