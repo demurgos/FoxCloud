@@ -13,18 +13,21 @@
 	<thead>
 	  <tr>
             <th>Site name</th>
+	    <th ng-show="periodComparisonSelected">Period</th>
             <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
 	  </tr>
 	</thead>
 	<tfoot>
 	  <tr>
-	    <th>Total:</th>
+	    <th ng-show="periodComparisonSelected"></th>
+	    <th>Total</th>
 	    <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
 	  </tr>
 	</tfoot>
 	<tbody>
           <tr ng-repeat="row in rows">
             <td>{{row.name}}</td>
+	    <td ng-show="periodComparisonSelected">{{row.period.startDate.format('MMM DD, YYYY')}} - {{row.period.endDate.format('MMM DD,YYYY')}}</td>
 	    <td ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
           </tr>
 	</tbody>

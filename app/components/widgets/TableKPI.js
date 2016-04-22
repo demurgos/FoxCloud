@@ -76,6 +76,7 @@ angular.module('FSCounterAggregatorApp')
 			for(var i = 0; i < $scope.params.sites.length; ++i) {
 			    var rowSite = {
 				"name": $scope.params.sites[i].name,
+				"period": $scope.params.period,
 				"id": $scope.params.sites[i].id
 			    };
 			    for(j = 0; j < indicators.length; ++j) {
@@ -87,11 +88,12 @@ angular.module('FSCounterAggregatorApp')
 				rowSite[indicators[j].id] = res.value;
 			    }
 			    newTableRows.push(rowSite);
-			    rowSite = {
-				"name": $scope.params.sites[i].name,
-				"id": $scope.params.sites[i].id
-			    };
 			    if($scope.periodComparisonSelected) {
+				rowSite = {
+				    "name": $scope.params.sites[i].name,
+				    "period": $scope.params.comparedPeriod,
+				    "id": $scope.params.sites[i].id
+				};
 				for(j = 0; j < indicators.length; ++j) {
 				    idx = _.findIndex($scope.params.comparedData, {
 					"id": $scope.params.sites[i].id });					
