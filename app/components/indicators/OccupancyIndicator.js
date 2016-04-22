@@ -12,11 +12,20 @@
 		ComputeService
 	    ) {
 
+        var prevDate = "";
+        function ResetOccupancyAtMidnight(timestamp)
+        {
+            var currDate = moment.unix(timestamp).format("YYYY MM DD");
+            var sameDate = (currDate === prevDate);
+            prevDate = currDate;
+            return !sameDate;
+        }
+
 	    this.compute = function(data) {
 
 		for(var i = 0; i < data.length; ++i) {
 		    ComputeService.cOccupancy(data[i].data,
-					      'in', 'out', 'occ');
+					      'in', 'out', 'occ', ResetOccupancyAtMidnight);
 		}
 	    };
 	}]);

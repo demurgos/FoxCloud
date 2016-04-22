@@ -185,14 +185,6 @@
      };
 
      /**
-      * @function merge
-      * @memberOf FSCounterAggregatorApp.ComputeService
-      * @description transpose a javascript object into a javascript array
-      */
-     this.merge = function(data) {
-     };
-
-     /**
       * @function IdentityFunc
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description f(x) = x
@@ -325,13 +317,15 @@
       * @memberOf FSCounterAggregatorApp.ComputeService
       * @description Compute occupancy values based on in/out
       */
-     this.cOccupancy = function(data, idIn, idOut, idOcc) {
+     this.cOccupancy = function(data, idIn, idOut, idOcc, shouldResetValueFnct) {
 	 var occupancy = 0;
 	 for(var i = 0; i < data.length; ++i) {
 	     occupancy = Math.max(0, occupancy + (data[i][idIn] - data[i][idOut]));
+
+         if(shouldResetValueFnct && shouldResetValueFnct(data[i].time))
+            occupancy = 0;
+
 	     data[i][idOcc] = occupancy;
-	     //data[i].date = moment(data[i].time*1000).format("YYYY MM DD HH:mm");
-	     //data[i].time = _.isString(data[i].time) ? parseInt(data[i].time) : data[i].time;
 	 }
      };
 
