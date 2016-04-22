@@ -18,7 +18,7 @@
 
       .nav {
         > li > a {
-          color: #ffffff;
+          color: $color-primary-typo;
         }
 
         > li > a:hover,
@@ -29,7 +29,7 @@
         .open > a:focus,
         .active > a {
           background: $color-primary-hover;
-          color: #f6f6f6;
+          color: $color-primary-hover-typo;
         }
       }
 
@@ -54,9 +54,17 @@
     }
 
     li.user-header {
-      background-color: $color-primary-hover;
+	background-color: $color-primary-hover;
+	color: $color-primary-hover-typo;
     }
 
+    .navbar-nav {
+    
+	li.user-header > p {
+	    color: $color-primary-hover-typo;
+	}
+    }
+    
     // Content header
     // ==========================================================================
 
