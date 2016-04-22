@@ -115,7 +115,9 @@ angular.module('FSCounterAggregatorApp')
 			    .then(function(style) {
 				$scope.setWidgetStyle(style);
 				$scope.updateSites();
-				$scope.updateTotal();
+				if(!$scope.periodComparisonSelected) {
+				    $scope.updateTotal();
+				}
 			    });	
 		    };
 		    
