@@ -10,12 +10,45 @@
 	.controller('SettingsSites', [
 	    '$scope',
 	    'SiteService',
+	    'DTOptionsBuilder',
+	    'DTColumnDefBuilder',
 	    function(
 		$scope,
-		SiteService
+		SiteService,
+		DTOptionsBuilder,
+		DTColumnDefBuilder
 	    ) {
 
 		var SiteResources = SiteService.getResource();
+
+		$scope.selectAll = false;
+		$scope.selectedLength = 0; // select all checkbox optimization
+		$scope.selectedSites = {};
+		
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		
+		$scope.dtColumnDefs = [
+		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
+		    DTColumnDefBuilder.newColumnDef(1),
+		    DTColumnDefBuilder.newColumnDef(2)
+		];
+
+		$scope.toggleAll = function() {
+		    for(var key in $scope.selectedSites) {
+			$scope.selectedSites[key].selected = $scope.selectAll;
+		    }
+		    $scope.selectedLength = $scope.selectAll ? $scope.sites.length : 0;
+		};
+
+		$scope.toggleOne = function(_id) {
+		    if($scope.selectedSites[_id].selected) {
+			$scope.selectedLength++;
+			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
+		    } else {
+			$scope.selectedLength--;
+			$scope.selectAll = false;
+		    }
+		};
 		
 		function initScope()
 		{
@@ -23,7 +56,13 @@
 			if ($scope.sites.length > 0) {
 			    $scope.selectedsite = $scope.sites[0];
 			}
+			
+			for(var i = 0; i < $scope.sites.length; ++i) {
+			    $scope.selectedSites[$scope.sites[i]._id] = { selected: false };
+			}			
+			
 		    });
+
 		    
 		    $scope.editing_site = "";
 		    $scope.editing_user = "";
@@ -33,7 +72,7 @@
 			    $scope.selecteduser = newVal.usersadmin[0];
 		    });            
 		}
-        
+		
 		function removeSelectedSiteFromArray()
 		{                                    
 		    var pos = $scope.sites.indexOf($scope.selectedsite);            
@@ -77,7 +116,7 @@
 			$scope.selecteduser = $scope.selectedsite.usersadmin[0];
 		    }
 		};
-        
+		
 		$scope.delete_user = function () {
 		    var pos = $scope.selectedsite.usersadmin
 			.indexOf($scope.selecteduser);
@@ -91,7 +130,7 @@
 		    $scope.selectedsite.$save();                                    
 		};
 
-        initScope();    
+		initScope();    
 
 
 	    }]);

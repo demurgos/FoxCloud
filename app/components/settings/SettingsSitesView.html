@@ -12,15 +12,21 @@
 	  </div>	  
 	  <div class="box-body">
 	    <div class="table-responsive">
-	      <table datatable="sites" dt-options="dtOptions" class="table table-bordered table-striped table-hover">
+	      <table datatable="ng"
+		     dt-options="dtOptions"
+		     dt-column-defs="dtColumnDefs"
+		     class="table table-bordered table-striped table-hover">
 		<thead>
 		  <tr>
+		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
 		    <th>Site name</th>
 		    <th>Users</th>
 		  </tr>
 		</thead>
 		<tbody>
 		  <tr ng-repeat="site in sites">
+		    <td><input type="checkbox" ng-model="selectedSites[site._id].selected"
+			       ng-click="toggleOne(site._id)"></td>
 		    <td>{{site.name}}</td>
 		    <td>USERS</td>
 		  </tr>
