@@ -1,0 +1,72 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <section class="col-md-12">
+	
+	<div class="box">    
+	  <div class="box-header with-border row">
+	    
+	    <div class="col-md-7 col-xs-12">
+
+	      <h3 class="box-title">
+		<i class="fa fa-table box-title"></i>
+		<span>Sites - Users management</span>
+	      </h3>
+
+	    </div>
+	      
+	    <div class="col-md-5 col-xs-12 text-right">
+
+		<button type="button" class="btn btn-primary">
+		  New Site
+		</button>
+
+		<button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
+		  Change Users
+		</button>
+
+		<button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
+		  Delete
+		</button>
+
+	    </div>
+
+	  </div>
+	  
+	  <div class="box-body">
+	    <div class="table-responsive">
+	      <table datatable="ng"
+		     dt-options="dtOptions"
+		     dt-column-defs="dtColumnDefs"
+		     class="table table-bordered table-striped table-hover">
+		<thead>
+		  <tr>
+		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
+		    <th>Site name</th>
+		    <th>Users</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="site in sites">
+		    <td><input type="checkbox" ng-model="selectedElts[site._id].selected"
+			       ng-click="toggleOne(site._id)"></td>
+		    <td>{{site.name}}</td>
+		    <td ng-init="usersCount = site.users.length + site.usersadmin.length">
+		      <span ng-show="{{!usersCount}}">
+			no users
+		      </span>
+		      <span ng-show="{{usersCount}}">
+			<a href="#/settings_per_site/{{site._id}}">{{usersCount}} user{{usersCount > 1 ? 's':''}} ({{site.users.length}} viewer{{site.users.length > 1 ? 's':''}} - {{site.usersadmin.length}} admin{{site.usersadmin.length > 1 ? 's' : ''}})</a>
+		      </span>
+		    </td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </div>
+	  
+	</div>
+      </section>
+    </div>
+  </section>
+</div>

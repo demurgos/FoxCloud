@@ -1,19 +1,21 @@
 /**
- * @class SettingsSites
+ * @class SettingsSitesUsers
  * @memberof FSCounterAggregatorApp
- * @description Controller that manages sites
+ * @description Controller that manages sites and users
  * require administrator rights
  */
 (function() {
 
     angular.module('FSCounterAggregatorApp')
-	.controller('SettingsSites', [
+	.controller('SettingsSitesUsers', [
 	    '$scope',
+	    '$compile',
 	    'SiteService',
 	    'DTOptionsBuilder',
 	    'DTColumnDefBuilder',
 	    function(
 		$scope,
+		$compile,
 		SiteService,
 		DTOptionsBuilder,
 		DTColumnDefBuilder
@@ -23,9 +25,15 @@
 
 		$scope.selectAll = false;
 		$scope.selectedLength = 0; // select all checkbox optimization
-		$scope.selectedSites = {};
+		$scope.selectedElts = {};
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		    .withOption('headerCallback', function(header) {
+			$compile(angular.element(header).contents())($scope);
+		    })
+		    .withOption('createdRow', function(row, data, dataIndex) {
+			$compile(angular.element(row).contents())($scope);
+		    });
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -34,14 +42,14 @@
 		];
 
 		$scope.toggleAll = function() {
-		    for(var key in $scope.selectedSites) {
-			$scope.selectedSites[key].selected = $scope.selectAll;
+		    for(var key in $scope.selectedElts) {
+			$scope.selectedElts[key].selected = $scope.selectAll;
 		    }
 		    $scope.selectedLength = $scope.selectAll ? $scope.sites.length : 0;
 		};
 
-		$scope.toggleOne = function(_id) {
-		    if($scope.selectedSites[_id].selected) {
+		$scope.toggleOne = function(id) {
+		    if($scope.selectedElts[id].selected) {
 			$scope.selectedLength++;
 			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
 		    } else {
@@ -52,15 +60,13 @@
 		
 		function initScope()
 		{
-		    $scope.sites = SiteResources.query(function () {
+		    $scope.sites = SiteResources.query(function() {
 			if ($scope.sites.length > 0) {
 			    $scope.selectedsite = $scope.sites[0];
-			}
-			
+			}		
 			for(var i = 0; i < $scope.sites.length; ++i) {
-			    $scope.selectedSites[$scope.sites[i]._id] = { selected: false };
+			    $scope.selectedElts[$scope.sites[i]._id] = { selected: false };
 			}			
-			
 		    });
 
 		    

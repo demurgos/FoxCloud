@@ -9,19 +9,67 @@
     angular.module('FSCounterAggregatorApp')
 	.controller('SettingsUsers', [
 	    '$scope',
+	    '$compile',
 	    'UserService',
+	    'DTOptionsBuilder',
+	    'DTColumnDefBuilder',
 	    function(
 		$scope,
-		UserService
-	    ) {
-		
+		$compile,
+		UserService,
+		DTOptionsBuilder,
+		DTColumnDefBuilder
+	    ) {		
 		var UserResources = UserService.getResource();
+
+		$scope.selectAll = false;
+		$scope.selectedLength = 0;
+		$scope.selectedElts = {};
+
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		    .withOption('headerCallback', function(header) {
+			$compile(angular.element(header).contents())($scope);
+		    })
+		    .withOption('createdRow', function(row, data, dataIndex) {
+			$compile(angular.element(row).contents())($scope);
+		    });
+
+		$scope.dtColumnDefs = [
+		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
+		    DTColumnDefBuilder.newColumnDef(1),
+		    DTColumnDefBuilder.newColumnDef(2),
+		    DTColumnDefBuilder.newColumnDef(3),
+		    DTColumnDefBuilder.newColumnDef(4)
+		];
+
+		$scope.toggleAll = function() {
+		    for(var key in $scope.selectedElts) {
+			$scope.selectedElts[key].selected = $scope.selectAll;
+		    }
+		    $scope.selectedLength = $scope.selectAll ? $scope.users.length : 0;
+		};
+
+		$scope.toggleOne = function(id) {
+		    if($scope.selectedElts[id].selected) {
+			$scope.selectedLength++;
+			$scope.selectAll = $scope.selectedLength == $scope.users.length;
+		    } else {
+			$scope.selectedLength--;
+			$scope.selectAll = false;
+		    }
+		};
 		
 		function initScope()
 		{
 		    $scope.users = UserResources.query(function () {
-			if($scope.users.length>0)
+			if($scope.users.length>0) {
 			    $scope.selecteduser = $scope.users[0];
+			}
+
+			for(var i = 0; i < $scope.users.length; ++i) {
+			    $scope.selectedElts[$scope.users[i]._id] = { selected: false };
+			}			
+
 		    });
 		    
 		}

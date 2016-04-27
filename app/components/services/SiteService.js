@@ -52,6 +52,22 @@
 			return item;
 		    });			
 	    };
+
+	    this.getItems = function(siteId, items) {
+		return this.getSite(siteId)
+		    .then(function(site) {
+			var itemsFull = [];
+			if(site !== undefined) {
+			    for(var i = 0; i < items.length; ++i) {
+				var item = _.find(site.items, [ "_id", items[i]._id ]);
+				if(item) {
+				    itemsFull.push(item);
+				}
+			    }
+			}
+			return itemsFull;
+		    });			
+	    };
 	    
             this.addUser = function(siteId, userEmail, addAsAdmin) {
 		if(myconfig.debug) {
@@ -120,6 +136,14 @@
 		return elem ? elem._id : null;
 	    };
 
+	    this.getSiteFromId = function(siteLists, id) {
+		return _.find(siteLists, "_id", id);
+	    };
+
+	    this.getFirstSiteAdmin = function(siteLists) {
+		return _.find(siteLists, "isadmin", true);
+	    };
+	    
 	    this.isSiteAdmin = function(site) {
 		return site.isadmin;
 	    };

@@ -1,0 +1,82 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <section class="col-md-12">
+	
+	<div class="box">    
+	  <div class="box-header with-border row">
+	    
+	    <div class="col-md-7 col-xs-12">
+
+	      <div class="btn-gourp" uib-dropdown>
+		<button id="btn-append-to-single-button" type="button" class="btn btn-box" uib-dropdown-toggle>
+		  <i class="fa fa-table box-title"></i>
+		  {{selectedSite.name}} <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+		    aria-labelledby="btn-append-to-single-button">
+		  <li class="indicator-value"
+		      ng-repeat="site in sites"
+		      ng-click="selectSite(site)"
+		      ng-class="{'indicator-value-active':site._id==selectedSite._id}">
+		    {{site.name}}
+		  </li>
+		</ul>
+	      </div>
+	      
+	    </div>
+	      
+	    <div class="col-md-5 col-xs-12 text-right">
+
+		<button type="button" class="btn btn-primary">
+		  Invite Member
+		</button>
+
+		<button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
+		  Change Roles
+		</button>
+
+		<button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
+		  Remove
+		</button>
+
+	    </div>
+
+	  </div>
+	  
+	  <div class="box-body">
+	    <div class="table-responsive">
+	      <table datatable="ng"
+		     dt-options="dtOptions"
+		     dt-column-defs="dtColumnDefs"
+		     class="table table-bordered table-striped table-hover">
+		<thead>
+		  <tr>
+		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
+		    <th>Member name</th>
+		    <th>Role</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="user in users">
+		    <td><input type="checkbox" ng-model="selectedElts[user].selected"
+			       ng-click="toggleOne(user)"></td>
+		    <td>{{user}}</td>
+		    <td>Viewer</td>
+		  </tr>
+		  <tr ng-repeat="user in usersadmin">
+		    <td><input type="checkbox" ng-model="selectedElts[user].selected"
+			       ng-click="toggleOne(user)"></td>
+		    <td>{{user}}</td>
+		    <td>Admin</td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </div>
+	  
+	</div>
+      </section>
+    </div>
+  </section>
+</div>

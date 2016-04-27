@@ -35,22 +35,40 @@
                     pageName : "Site cameras",
                     category : "Settings"
                 }).
-                when('/settings_users', {
-                    templateUrl: 'build/html/SettingsUsersView.html',
-                    controller: 'SettingsUsers',
-                    pageName : "User management",
-                    category : "Settings"
-                }).
-                when('/settings_sites', {
-                    templateUrl: 'build/html/SettingsSitesView.html',
-                    controller: 'SettingsSites',
-                    pageName : "Site management",
-                    category : "Settings"
-                }).
-                when('/settings_site_users', {
+		when('/settings_site_users', {
                     templateUrl: 'build/html/SettingsSiteUsersView.html',
                     controller: 'SettingsSiteUsers',
                     pageName : "Site users",
+                    category : "Settings"
+                }).
+                when('/settings_users', {
+                    templateUrl: 'build/html/SettingsUsersView.html',
+                    controller: 'SettingsUsers',
+                    pageName : "Users management",
+                    category : "Settings"
+                }).
+		when('/settings_sites_users', {
+                    templateUrl: 'build/html/SettingsSitesUsersView.html',
+                    controller: 'SettingsSitesUsers',
+                    pageName : "Sites - Users management",
+                    category : "Settings"
+                }).
+                when('/settings_per_site/:siteId?', {
+                    templateUrl: 'build/html/SettingsPerSiteView.html',
+                    controller: 'SettingsPerSite',
+                    pageName : "Per Site management",
+                    category : "Settings"
+                }).
+		when('/settings_users_sites', {
+                    templateUrl: 'build/html/SettingsUsersSitesView.html',
+                    controller: 'SettingsUsersSites',
+                    pageName : "Users - Sites management",
+                    category : "Settings"
+                }).
+                when('/settings_per_user/:userId?', {
+                    templateUrl: 'build/html/SettingsPerUserView.html',
+                    controller: 'SettingsPerUser',
+                    pageName : "Per User management",
                     category : "Settings"
                 }).
                 otherwise({
