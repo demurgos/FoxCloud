@@ -15,7 +15,6 @@
     .navbar {
 
       background-color: $color-primary;
-
       .nav {
         > li > a {
           color: $color-primary-typo;
@@ -51,6 +50,7 @@
       color: #ffffff;
       border-bottom: 0 solid transparent;
       padding: 0px;
+      border-right: 1px solid #d2d6de;
     }
 
     li.user-header {
