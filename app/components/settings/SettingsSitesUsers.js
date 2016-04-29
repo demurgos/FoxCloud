@@ -26,14 +26,15 @@
 		$scope.selectAll = false;
 		$scope.selectedLength = 0; // select all checkbox optimization
 		$scope.selectedElts = {};
+		$scope.site = undefined;
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('headerCallback', function(header) {
-			$compile(angular.element(header).contents())($scope);
-		    })
-		    .withOption('createdRow', function(row, data, dataIndex) {
-			$compile(angular.element(row).contents())($scope);
-		    });
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
+//		    .withOption('headerCallback', function(header) {
+//			$compile(angular.element(header).contents())($scope);
+//		    })
+//		    .withOption('createdRow', function(row, data, dataIndex) {
+//			$compile(angular.element(row).contents())($scope);
+//		    });
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -88,17 +89,26 @@
 			       pos : $scope.sites.length - 1];
 		}
 		
-		$scope.add_site = function () {
-		    $scope.sites.push(new SiteResources(
-			{
-			    name: $scope.editing_site,
-			    usersadmin : [],
-			    users : [],
-			    items : []
-			}));
-		    $scope.selectedsite = $scope.sites[$scope.sites.length - 1];
-		    $scope.selectedsite.$save();
-		    $scope.editing_site = "";
+		$scope.newSite = function () {
+//		    $scope.sites.push(new SiteResources(
+//			{
+//			    name: $scope.editing_site,
+//			    usersadmin : [],
+//			    users : [],
+//			    items : []
+//			}));
+//		    $scope.selectedsite = $scope.sites[$scope.sites.length - 1];
+//		    $scope.selectedsite.$save();
+		    //		    $scope.editing_site = "";
+		    $scope.site = new SiteResources();
+		};
+
+		$scope.clearSite = function() {
+		    $scope.site = undefined;
+		};
+
+		$scope.saveSite = function() {
+		    $scope.site = undefined;
 		};
 		
 		$scope.delete_site = function ()

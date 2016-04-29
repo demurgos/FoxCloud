@@ -1,38 +1,27 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row">
-      <section class="col-md-12">
-	
+    <div class="row" ng-show="!site">
+      <section class="col-md-12">	
 	<div class="box">    
-	  <div class="box-header with-border row">
-	    
+	  <div class="box-header with-border row">	    
 	    <div class="col-md-7 col-xs-12">
-
 	      <h3 class="box-title">
 		<i class="fa fa-table box-title"></i>
 		<span>Sites - Users management</span>
 	      </h3>
-
-	    </div>
-	      
+	    </div>	      
 	    <div class="col-md-5 col-xs-12 text-right">
-
-		<button type="button" class="btn btn-primary">
+		<button type="button" ng-click="newSite()" class="btn btn-primary">
 		  New Site
 		</button>
-
 		<button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
 		  Change Users
 		</button>
-
 		<button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
 		  Delete
 		</button>
-
 	    </div>
-
-	  </div>
-	  
+	  </div>	  
 	  <div class="box-body">
 	    <div class="table-responsive">
 	      <table datatable="ng"
@@ -63,10 +52,26 @@
 		</tbody>
 	      </table>
 	    </div>
-	  </div>
-	  
+	  </div>	 
 	</div>
       </section>
-    </div>
+    </div> <!-- end row -->
+    <div class="row" ng-show="site">
+      <section class="col-md-12">
+	<div class="panel panel-default">      
+	  <div class="panel-heading">
+	    <div>Create a new site</div>
+	  </div> 
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label>Name: </label>
+	      <input class="form-control" ng-model="site.name" type='text'/> 
+	    </div>
+	    <button class='btn btn-default' ng-click="saveSite()">Apply</button>
+	    <button class='btn btn-default' ng-click="clearSite()">Cancel</button>
+	  </div>    
+	</div> 
+      </section>
+    </div> <!-- end row -->
   </section>
 </div>

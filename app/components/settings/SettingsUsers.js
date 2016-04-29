@@ -25,14 +25,15 @@
 		$scope.selectAll = false;
 		$scope.selectedLength = 0;
 		$scope.selectedElts = {};
+		$scope.user = undefined;
 
-		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('headerCallback', function(header) {
-			$compile(angular.element(header).contents())($scope);
-		    })
-		    .withOption('createdRow', function(row, data, dataIndex) {
-			$compile(angular.element(row).contents())($scope);
-		    });
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
+//		    .withOption('headerCallback', function(header) {
+//			$compile(angular.element(header).contents())($scope);
+//		    })
+//		    .withOption('createdRow', function(row, data, dataIndex) {
+//			$compile(angular.element(row).contents())($scope);
+//		    });
 
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -81,9 +82,18 @@
 		    $scope.selecteduser = $scope.users[pos < $scope.users.length ? pos : $scope.users.length - 1];
 		}
 
-		$scope.new_user = function () {            
-		    $scope.users.push(new UserResources());
-		    $scope.selecteduser = $scope.users[$scope.users.length - 1];
+		$scope.newUser = function () { 
+		    //$scope.users.push(new UserResources());
+		    //$scope.selecteduser = $scope.users[$scope.users.length - 1];
+		    $scope.user = new UserResources();
+		};
+
+		$scope.clearUser = function() {
+		    $scope.user = undefined;
+		};
+
+		$scope.saveUser = function() {
+		    $scope.user = undefined;
 		};
 		
 		$scope.delete_user = function () {            
