@@ -26,7 +26,7 @@
 	    </div>
 	      
 	    <div class="col-md-5 col-xs-12 text-right">
-	      <button type="button" class="btn btn-primary">
+	      <button type="button" class="btn btn-primary" ng-click="addItem()">
 		New Camera
 	      </button>
 	      <button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
@@ -57,7 +57,10 @@
 		<tbody>
 		  <tr ng-repeat="item in itemsFull">
 		    <td><input type="checkbox" ng-model="selectedElts[item._id].selected"
-			       ng-click="toggleOne(item._id)"></td>
+			       ng-click="toggleOne(item._id)">
+		      <button type="button" ng-click="unlinkItem(item)" class="btn btn-default">Unlink</button>
+		      <button type="button" ng-click="removeItem(item)" class="btn btn-default">Delete</button>
+		    </td>
 		    <td>{{item.name}}</td>
 		    <td>{{item.lastUpdateTime}}</td>
 		    <td>{{item.itemid ? item.itemid : 'not defined'}}</td>

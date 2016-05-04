@@ -27,14 +27,9 @@
 		$scope.selectedLength = 0; // select all checkbox optimization
 		$scope.selectedElts = {};
 		$scope.site = undefined;
+		$scope.isNewSite = false;
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions();
-//		    .withOption('headerCallback', function(header) {
-//			$compile(angular.element(header).contents())($scope);
-//		    })
-//		    .withOption('createdRow', function(row, data, dataIndex) {
-//			$compile(angular.element(row).contents())($scope);
-//		    });
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -62,92 +57,60 @@
 		function initScope()
 		{
 		    $scope.sites = SiteResources.query(function() {
-			if ($scope.sites.length > 0) {
-			    $scope.selectedsite = $scope.sites[0];
-			}		
-			for(var i = 0; i < $scope.sites.length; ++i) {
-			    $scope.selectedElts[$scope.sites[i]._id] = { selected: false };
-			}			
-		    });
 
-		    
-		    $scope.editing_site = "";
-		    $scope.editing_user = "";
-		    
-		    $scope.$watch("selectedsite", function (newVal) {
-			if(newVal && newVal.usersadmin.length>0)            
-			    $scope.selecteduser = newVal.usersadmin[0];
-		    });            
+			for(var i = 0; i < $scope.sites.length; ++i) {
+			    $scope.selectedElts[$scope.sites[i]._id] = { selected: false,
+									 site: $scope.sites[i]
+								       };
+			}
+			
+		    });
 		}
 		
-		function removeSelectedSiteFromArray()
+		function removeSiteFromArray(site)
 		{                                    
-		    var pos = $scope.sites.indexOf($scope.selectedsite);            
+		    var pos = $scope.sites.indexOf(site);            
 		    $scope.sites.splice(pos, 1);
-		    $scope.selectedsite = $scope
-			.sites[pos < $scope.sites.length ? 
-			       pos : $scope.sites.length - 1];
+		    var sel = $scope.selectedElts[site._id];
+		    if(sel.selected) {
+			$scope.selectedLength--;
+		    }
+		    sel = undefined;
+		    $scope.selectAll = $scope.selectedLength == $scope.sites.length;
 		}
 		
 		$scope.newSite = function () {
-//		    $scope.sites.push(new SiteResources(
-//			{
-//			    name: $scope.editing_site,
-//			    usersadmin : [],
-//			    users : [],
-//			    items : []
-//			}));
-//		    $scope.selectedsite = $scope.sites[$scope.sites.length - 1];
-//		    $scope.selectedsite.$save();
-		    //		    $scope.editing_site = "";
+		    $scope.isNewSite = true;
 		    $scope.site = new SiteResources();
 		};
 
+		$scope.editSite = function(site) {
+		    $scope.isNewSite = false;
+		    $scope.site = site;
+		};
+		
 		$scope.clearSite = function() {
 		    $scope.site = undefined;
 		};
 
 		$scope.saveSite = function() {
+		    if($scope.isNewSite) {
+			$scope.sites.push($scope.site);
+			$scope.selectedElts[$scope.site._id] = { selected: false,
+								 site: $scope.site };
+			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
+		    } else {
+			$scope.site.$save();
+		    }
 		    $scope.site = undefined;
 		};
 		
-		$scope.delete_site = function ()
-		{            
-		    $scope.selectedsite.$delete();
-		    removeSelectedSiteFromArray();
-		};
-		
-		$scope.rename_site = function () {
-		    $scope.selectedsite.name = $scope.editing_site;
-		    $scope.selectedsite.$save();
-		};
-		
-		$scope.add_user = function ()
-		{
-		    $scope.selectedsite.usersadmin.push($scope.editing_user);
-		    $scope.selectedsite.$save();
-		    $scope.editing_user = "";
-		    
-		    if(!$scope.selecteduser) {
-			$scope.selecteduser = $scope.selectedsite.usersadmin[0];
-		    }
-		};
-		
-		$scope.delete_user = function () {
-		    var pos = $scope.selectedsite.usersadmin
-			.indexOf($scope.selecteduser);
-		    
-		    $scope.selectedsite.usersadmin.splice(pos, 1);
-		    $scope.selecteduser = 
-			$scope.selectedsite
-			.usersadmin[pos < $scope.selectedsite.usersadmin.length ? 
-				    pos : $scope.selectedsite.usersadmin.length - 1];
-		    
-		    $scope.selectedsite.$save();                                    
+		$scope.deleteSite = function(site) {
+		    site.$delete();
+		    removeSiteFromArray(site);
 		};
 
 		initScope();    
-
 
 	    }]);
 })();

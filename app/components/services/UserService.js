@@ -73,7 +73,13 @@
 		    return $resource('assets/users.json');
 		} else {
 		    return $resource('/users/:userId',
-				     { userId: '@_id' });
+				     { userId: '@_id' },
+				     {
+					 resetPassword: {
+					     method: 'POST',
+					     url: '/users/:userId/passwordreset'
+					 }
+				     });
 		}
 	    };
 	    

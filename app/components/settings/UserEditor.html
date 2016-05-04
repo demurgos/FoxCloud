@@ -1,0 +1,35 @@
+<div class="panel panel-default">      
+  <div class="panel-heading">
+    <div>{{isNewUser ? 'Create a new user' : 'Edit user settings'}}</div>
+  </div> 
+  <div class="panel-body">
+    <form name="form">
+      <div class="form-group">
+	<label>Display name: </label>
+	<input class="form-control"
+	       ng-model="currentUser.name"
+	       type="text"
+	       ng-required="required" /> 
+      </div>
+      <div class="form-group">
+	<label>Email: </label>
+	<input class="form-control"
+	       ng-model="currentUser.email"
+	       ng-disabled='!isNewUser'
+	       type="text"
+	       ng-required="required" /> 
+      </div>
+      <div class="form-group">
+	<label>Enabled</label>
+	<input type='checkbox' ng-model="currentUser.enabled" /> 
+      </div>
+      <div class="form-group">
+	<label>Administrator</label>
+	<input type='checkbox' ng-model="currentUser.admin" />
+      </div>
+      <button class='btn btn-default' ng-disabled="!isDirty()" ng-click="save()">Save</button>
+      <button class='btn btn-default' ng-disabled="isNewUser" ng-click="resetPassword()">Reset Password</button>
+      <button class='btn btn-default' ng-click="revert()">Cancel</button>
+    </form>
+  </div>    
+</div> 

@@ -38,7 +38,10 @@
 		<tbody>
 		  <tr ng-repeat="site in sites">
 		    <td><input type="checkbox" ng-model="selectedElts[site._id].selected"
-			       ng-click="toggleOne(site._id)"></td>
+			       ng-click="toggleOne(site._id)">
+		      <button type="button" ng-click="editSite(site)" class="btn btn-default">Edit</button>
+		      <button type="button" ng-click="deleteSite(site)" class="btn btn-default">Delete</button>
+		    </td>
 		    <td>{{site.name}}</td>
 		    <td ng-init="usersCount = site.users.length + site.usersadmin.length">
 		      <span ng-show="{{!usersCount}}">
@@ -58,19 +61,10 @@
     </div> <!-- end row -->
     <div class="row" ng-show="site">
       <section class="col-md-12">
-	<div class="panel panel-default">      
-	  <div class="panel-heading">
-	    <div>Create a new site</div>
-	  </div> 
-	  <div class="panel-body">
-	    <div class="form-group">
-	      <label>Name: </label>
-	      <input class="form-control" ng-model="site.name" type='text'/> 
-	    </div>
-	    <button class='btn btn-default' ng-click="saveSite()">Apply</button>
-	    <button class='btn btn-default' ng-click="clearSite()">Cancel</button>
-	  </div>    
-	</div> 
+	<fca-site-editor site='site' is-new-user='isNewSite'
+			 onsave='saveSite()'
+			 oncancel='clearSite()'
+			 />
       </section>
     </div> <!-- end row -->
   </section>

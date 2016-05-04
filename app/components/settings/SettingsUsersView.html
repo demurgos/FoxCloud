@@ -15,9 +15,6 @@
 		New User
 	      </button>	     
 	      <button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
-		Change Rights
-	      </button>	      
-	      <button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
 		Reset Password
 	      </button>	      
 	      <button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
@@ -33,21 +30,26 @@
 		     class="table table-bordered table-striped table-hover">
 		<thead>
 		  <tr>
-		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
+		    <th>
+		      <input type="checkbox" ng-model="selectAll" ng-click="toggleAll()" />
+		    </th>
 		    <th>User name</th>
 		    <th>E-mail</th>
 		    <th>Enabled</th>
-		    <th>Rights</th>
+		    <th>Administrator</th>
 		  </tr>
 		</thead>
 		<tbody>
 		  <tr ng-repeat="user in users">
 		    <td><input type="checkbox" ng-model="selectedElts[user._id].selected"
-			       ng-click="toggleOne(user._id)"></td>
+			       ng-click="toggleOne(user._id)">
+		      <button type="button" ng-click="editUser(user)" class="btn btn-default">Edit</button>
+		      <button type="button" ng-click="deleteUser(user)" class="btn btn-default">Delete</button>
+		    </td>
 		    <td>{{user.name}}</td>
 		    <td>{{user.email}}</td>
 		    <td>{{user.enabled}}</td>
-		    <td>{{user.admin ? 'Global' : 'Owned Site'}}</td>
+		    <td>{{user.admin}}</td>
 		  </tr>
 		</tbody>
 	      </table>
@@ -58,34 +60,11 @@
     </div> <!-- end row -->
     <div class="row" ng-show="user">
       <section class="col-md-12">
-	<div class="panel panel-default">      
-	  <div class="panel-heading">
-	    <div>Create a new user</div>
-	  </div> 
-	  <div class="panel-body">
-	    <div class="form-group">
-	      <label>Display name: </label>
-	      <input class="form-control" ng-model="user.name" type='text'/> 
-	    </div>
-	    <div class="form-group">
-	      <label>Email: </label>
-	      <input class="form-control" ng-model="user.email" type='text'/> 
-	    </div>
-	    <div class="form-group">
-	      <label>Enabled</label>
-	      <input type='checkbox' ng-model="user.enabled"/> 
-	    </div>
-	    <div class="form-group">
-	      <label>Rights</label>
-	      <div class="btn-group">
-		<button type="button" ng-model="user.admin" uib-btn-radio="true">Global</button>
-		<button type="button" ng-model="user.admin" uib-btn-radio="false">Owned Site</button>
-	      </div>
-	    </div>
-	    <button class='btn btn-default' ng-click="saveUser()">Apply</button>
-	    <button class='btn btn-default' ng-click="clearUser()">Cancel</button>
-	  </div>    
-	</div> 
+	<fca-user-editor user='user' is-new-user='isNewUser'
+			 onsave='saveUser()'
+			 oncancel='clearUser()'
+			 onpasswdrst='resetPassword()'
+			 />
       </section>
     </div> <!-- end row -->
   </section>

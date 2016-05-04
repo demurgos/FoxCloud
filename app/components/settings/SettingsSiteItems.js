@@ -32,13 +32,7 @@
 		$scope.selectedElts = {};
 		$scope.selectedElt = undefined;
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('headerCallback', function(header) {
-			$compile(angular.element(header).contents())($scope);
-		    })
-		    .withOption('createdRow', function(row, data, dataIndex) {
-			$compile(angular.element(row).contents())($scope);
-		    });
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -47,12 +41,10 @@
 		    DTColumnDefBuilder.newColumnDef(3),
 		    DTColumnDefBuilder.newColumnDef(4)
 		];
-
 		
 		$scope.update = function() {
 		    $scope.items = $scope.selectedElt.items;
 		    $scope.selectedElts = {};
-		    //$scope.itemsFull = [];
 
 		    var addItem = function(item) {
 			$scope.itemsFull.push(item);
@@ -60,7 +52,9 @@
 		    
 		    for(var i = 0; i < $scope.items.length; ++i) {
 			var item = $scope.items[i];
-			$scope.selectedElts[item._id] = { selected: false };
+			$scope.selectedElts[item._id] = { selected: false,
+							  item: $scope.items[i]
+							};
 		    }
 
 		    SiteService.getItems($scope.selectedElt._id, $scope.items)
@@ -74,6 +68,18 @@
 		    $scope.selectedLength = 0;
 		    $scope.selectAll = false;
 		    $scope.update();
+		};
+
+		$scope.addItem = function() {
+		    //SiteService.addItem($scope.site._id); 
+		};
+
+		$scope.removeItem = function(item) {
+		    //SiteService.removeItem(item); 
+		};
+
+		$scope.unlinkItem = function(item) {
+		    //SiteService.unlinkItem(item); 
 		};
 		
 		function initScope() {

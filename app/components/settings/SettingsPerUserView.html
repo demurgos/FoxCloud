@@ -28,7 +28,7 @@
 	      
 	    <div class="col-md-5 col-xs-12 text-right">
 		<button type="button" class="btn btn-primary">
-		  Add Site
+		  Invite Member
 		</button>
 		<button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
 		  Change Roles
@@ -48,24 +48,36 @@
 		<thead>
 		  <tr>
 		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
-		    <th>Site name</th>
+		    <th>User name</th>
 		    <th>Role</th>
 		  </tr>
 		</thead>
 		<tbody>
-		  <tr ng-repeat="site in userSites">
-		    <td><input type="checkbox" ng-model="selectedElts[site._id].selected"
-			       ng-click="toggleOne(site._id)"></td>
-		    <td>{{site.name}}</td>
-		    <td>{{site.role}}</td>
+		  <tr ng-repeat="user in userSites">
+		    <td><input type="checkbox" ng-model="selectedElts[user._id].selected"
+			       ng-click="toggleOne(user._id)">
+		      <button type="button" ng-click="editUser(user)" class="btn btn-default">Edit</button>
+		      <button type="button" ng-click="deleteUser(user)" class="btn btn-default">Delete</button>
+		    </td>
+		    <td>{{user.name}}</td>
+		    <td>{{user.role}}</td>
 		  </tr>
 		</tbody>
 	      </table>
 	    </div>
-	  </div>
-	  
+	  </div>	  
 	</div>
       </section>
     </div>
+
+    <div class="row" ng-show="user">
+      <section class="col-md-12">
+	<fca-member-editor user='user' is-new-user='isNewUser'
+			   onsave='saveUser()'
+			   oncancel='clearUser()'
+			   />
+      </section>
+    </div> 
+    
   </section>
 </div>

@@ -34,14 +34,9 @@
 		$scope.selectedLength = 0; // select all checkbox optimization
 		$scope.selectedElts = {};
 		$scope.selectedElt = undefined;
+		$scope.user = undefined;
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('headerCallback', function(header) {
-			$compile(angular.element(header).contents())($scope);
-		    })
-		    .withOption('createdRow', function(row, data, dataIndex) {
-			$compile(angular.element(row).contents())($scope);
-		    });
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -73,6 +68,12 @@
 		    $scope.update();
 		};
 
+		$scope.editUser = function(user) {
+		};
+
+		$scope.deleteUser = function(user) {
+		};
+		
 		function haveUser(userArray, user, key) {
 		    for(var i = 0; i < userArray.length; ++i) {
 			if(userArray[i] == user[key]) {

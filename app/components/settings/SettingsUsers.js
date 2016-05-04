@@ -26,14 +26,9 @@
 		$scope.selectedLength = 0;
 		$scope.selectedElts = {};
 		$scope.user = undefined;
+		$scope.isNewUser = false;
 
 		$scope.dtOptions = DTOptionsBuilder.newOptions();
-//		    .withOption('headerCallback', function(header) {
-//			$compile(angular.element(header).contents())($scope);
-//		    })
-//		    .withOption('createdRow', function(row, data, dataIndex) {
-//			$compile(angular.element(row).contents())($scope);
-//		    });
 
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -63,53 +58,64 @@
 		function initScope()
 		{
 		    $scope.users = UserResources.query(function () {
-			if($scope.users.length>0) {
-			    $scope.selecteduser = $scope.users[0];
-			}
 
 			for(var i = 0; i < $scope.users.length; ++i) {
-			    $scope.selectedElts[$scope.users[i]._id] = { selected: false };
+			    $scope.selectedElts[$scope.users[i]._id] = { selected: false,
+									 user: $scope.users[i]
+								       };
 			}			
 
-		    });
-		    
+		    });		    
 		}
 		
-		function removeSelectedUserFromArray()
+		function removeUserFromArray(user)
 		{                                    
-		    var pos = $scope.users.indexOf($scope.selecteduser);            
+		    var pos = $scope.users.indexOf(user);            
 		    $scope.users.splice(pos, 1);
-		    $scope.selecteduser = $scope.users[pos < $scope.users.length ? pos : $scope.users.length - 1];
+		    var sel = $scope.selectedElts[user._id];
+		    if(sel.selected) {
+			$scope.selectedLength--;
+		    }
+		    sel = undefined;
+		    $scope.selectAll = $scope.selectedLength == $scope.users.length;
 		}
 
 		$scope.newUser = function () { 
-		    //$scope.users.push(new UserResources());
-		    //$scope.selecteduser = $scope.users[$scope.users.length - 1];
+		    $scope.isNewUser = true;
 		    $scope.user = new UserResources();
 		};
 
+		$scope.editUser = function(user) {
+		    $scope.isNewUser = false;
+		    $scope.user = user;
+		};
+		
 		$scope.clearUser = function() {
 		    $scope.user = undefined;
 		};
 
 		$scope.saveUser = function() {
+		    if($scope.isNewUser) {
+			$scope.users.push($scope.user);
+			$scope.selectedElts[$scope.user._id] = { selected: false,
+								 user: $scope.user };
+			$scope.selectAll = $scope.selectedLength == $scope.users.length;
+		    } else {
+			$scope.user.$save();
+		    }
 		    $scope.user = undefined;
 		};
-		
-		$scope.delete_user = function () {            
-		    $scope.selecteduser.$delete();
-		    removeSelectedUserFromArray();
+
+		$scope.resetPassord = function() {
+		    $scope.user.$resetPassword();
+		    $scope.clearUser();
 		};
 		
-		$scope.user_updated = function () {
-		    $scope.selecteduser.$save();            
+		$scope.deleteUser = function(user) {
+		    user.$delete();
+		    removeUserFromArray(user);
 		};
-		
-		$scope.user_cancel = function () {
-		    if (!$scope.selecteduser._id)//if no id, it is a new object
-			removeSelectedUserFromArray();                            
-		};
-		
+
 		initScope();    		
 
 	    }]);
