@@ -124,13 +124,13 @@
 		    UserService.getSettings()
 			.then(function(userData) {
 			    if($routeParams.siteId !== undefined) {
-				var site = SiteService.getSiteFromId(userData.sites,
+				var site = UserService.getSiteFromId(userData.sites,
 								     $routeParams.siteId);
 				if(site !== undefined && site.isadmin) {
 				    $scope.selectedElt = site;
 				}
 			    } else {
-				$scope.selectedElt = SiteService.getFirstSiteAdmin(userData.sites);
+				$scope.selectedElt = UserService.getFirstSiteAdmin(userData.sites);
 			    }			    
 			    $scope.sites = userData.sites;
 			    $scope.update();

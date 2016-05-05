@@ -91,7 +91,7 @@
 		    $scope.member = undefined;
 		};
 
-		$scop.saveMember = function() {
+		$scope.saveMember = function() {
 		    if($scope.isNewMember) {
 			SiteService.addUser($scope.selectedElt._id,
 					    $scope.member.email,
