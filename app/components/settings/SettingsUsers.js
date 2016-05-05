@@ -97,18 +97,16 @@
 		$scope.saveUser = function() {
 		    if($scope.isNewUser) {
 			$scope.users.push($scope.user);
-			$scope.selectedElts[$scope.user._id] = { selected: false,
-								 user: $scope.user };
+			$scope.selectedElts[$scope.user._id] = { 'selected': false,
+							  'user': $scope.user };
 			$scope.selectAll = $scope.selectedLength == $scope.users.length;
 		    } else {
 			$scope.user.$save();
 		    }
-		    $scope.user = undefined;
 		};
 
-		$scope.resetPassord = function() {
+		$scope.resetPassword = function() {
 		    $scope.user.$resetPassword();
-		    $scope.clearUser();
 		};
 		
 		$scope.deleteUser = function(user) {
@@ -116,6 +114,22 @@
 		    removeUserFromArray(user);
 		};
 
+		$scope.resetSelectedUsers = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.selectedElts[key].user.$resetPassword();
+			}
+		    }
+		};
+
+		$scope.deleteSelectedUsers = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.deleteUser($scope.selectedElts[key].user);
+			}
+		    }
+		};
+		
 		initScope();    		
 
 	    }]);

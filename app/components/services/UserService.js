@@ -70,7 +70,22 @@
 
 	    this.getResource = function() {
 		if(myconfig.debug) {
-		    return $resource('assets/users.json');
+
+		    var fakeResource = $resource('assets/users.json');
+		    angular.extend(fakeResource.prototype,
+				   {
+				       '$save': function() {
+					   return {};
+				       },
+				       '$delete': function() {
+					   return {};
+				       },
+				       '$resetPassword': function() {
+					   return {};
+				       }
+				   });
+		    return fakeResource;
+		    //return $resource('assets/users.json');
 		} else {
 		    return $resource('/users/:userId',
 				     { userId: '@_id' },
@@ -82,6 +97,26 @@
 				     });
 		}
 	    };
+
+	    this.getIdOfFirstSiteWithAdminRights = function(siteLists) {
+		if(!siteLists) {
+		    return null;
+		}		
+		var elem = _.find(siteLists, "isadmin", true);		
+		return elem ? elem._id : null;
+	    };
+
+	    this.getSiteFromId = function(siteLists, id) {
+		return _.find(siteLists, "_id", id);
+	    };
+
+	    this.getFirstSiteAdmin = function(siteLists) {
+		return _.find(siteLists, "isadmin", true);
+	    };
+	    
+	    this.isSiteAdmin = function(site) {
+		return site.isadmin;
+	    };	    
 	    
 	}]);
     

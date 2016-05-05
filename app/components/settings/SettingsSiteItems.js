@@ -44,11 +44,12 @@
 		
 		$scope.update = function() {
 		    $scope.items = $scope.selectedElt.items;
+		    //$scope.itemsFull = [];
 		    $scope.selectedElts = {};
 
-		    var addItem = function(item) {
-			$scope.itemsFull.push(item);
-		    };		    
+		    //var addItem = function(item) {
+		    //$scope.itemsFull.push(item);
+		    //};		    
 		    
 		    for(var i = 0; i < $scope.items.length; ++i) {
 			var item = $scope.items[i];
@@ -71,16 +72,52 @@
 		};
 
 		$scope.addItem = function() {
-		    //SiteService.addItem($scope.site._id); 
+		    SiteService.addItem($scope.site._id)
+			.then(function(ret) {
+			    $scope.update();
+			});
 		};
 
 		$scope.removeItem = function(item) {
-		    //SiteService.removeItem(item); 
+		    SiteService.removeItem(item)
+			.then(function(ret) {
+			    removeItemFromArray(item);
+			});
 		};
 
 		$scope.unlinkItem = function(item) {
-		    //SiteService.unlinkItem(item); 
+		    SiteService.unlinkItem(item)
+			.then(function(ret) {
+			    $scope.update();
+			});
 		};
+
+		$scope.unlinkSelectedItems = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.unlinkItem($scope.selectedElts[key].item);
+			}
+		    }
+		};
+
+		$scope.removeSelectedItems = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.removeItem($scope.selectedElts[key].item);
+			}
+		    }
+		};
+
+		function removeItemFromArray(item) {                                    
+		    var pos = $scope.items.indexOf(item);            
+		    $scope.users.splice(pos, 1);
+		    var sel = $scope.selectedElts[item._id];
+		    if(sel.selected) {
+			$scope.selectedLength--;
+		    }
+		    sel = undefined;
+		    $scope.selectAll = $scope.selectedLength == $scope.items.length;
+		}
 		
 		function initScope() {
 

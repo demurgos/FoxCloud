@@ -29,10 +29,16 @@
 	      <button type="button" class="btn btn-primary" ng-click="addItem()">
 		New Camera
 	      </button>
-	      <button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
+	      <button type="button" class="btn btn-default"
+		      ng-disabled="selectedLength == 0"
+		      ng-really-click="unlinkSelectedItems()"
+		      ng-really-message="Do you really want to unlink <strong>{{selectedLength}}</strong> camera(s) ?">
 		Unlink
 	      </button>
-	      <button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
+	      <button type="button" class="btn btn-danger"
+		      ng-disabled="selectedLength == 0"
+		      ng-really-click="removeSelectedItems()"
+		      ng-really-message="Do you really want to remove <strong>{{selectedLength}}</strong> camera(s) ?">
 		Delete
 	      </button>
 	    </div>
@@ -58,8 +64,16 @@
 		  <tr ng-repeat="item in itemsFull">
 		    <td><input type="checkbox" ng-model="selectedElts[item._id].selected"
 			       ng-click="toggleOne(item._id)">
-		      <button type="button" ng-click="unlinkItem(item)" class="btn btn-default">Unlink</button>
-		      <button type="button" ng-click="removeItem(item)" class="btn btn-default">Delete</button>
+		      <button type="button"
+			      ng-really-click="unlinkItem(item)"
+			      ng-really-message="Do you really want to unlink the camera <strong>{{item.name}}</strong> ?"
+			      item="item"
+			      class="btn btn-default">Unlink</button>
+		      <button type="button"
+			      ng-really-click="removeItem(item)"
+			      ng-really-message="Do you really want to remove the camera <strong>{{item.name}}</strong> ?"
+			      item="item"
+			      class="btn btn-default">Delete</button>
 		    </td>
 		    <td>{{item.name}}</td>
 		    <td>{{item.lastUpdateTime}}</td>

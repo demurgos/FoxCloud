@@ -6,31 +6,39 @@ angular.module('FSCounterAggregatorApp')
 	return {
             restrict: 'E',
             scope : {
-		user: '=' ,
-		isNewUser: '=',
-		signal_save:'&onsave',
-		signal_cancel: '&oncancel'
+		member: '=' ,
+		isNewMember: '=',
+		signal_submit:'&onSubmit',
+		signal_close: '&onClose'
 	    },
             templateUrl: "build/html/MemberEditor.html",
             
-            link: function (scope) {
-		scope.currentUser = { name: "", email: "" };
+            link: function(scope) {
+		scope.currentMember = { email: false, isAdmin: false };
+
 		scope.isDirty = function() {
-                    return !angular.equals(scope.currentUser, scope.user) || !scope.user._id;
+                    return !angular.equals(scope.currentMember, scope.member) || !scope.member.email;
 		};
 
-		scope.save = function () {
-                    angular.copy(scope.currentUser, scope.user);
-                    if (scope.signal_save) scope.signal_save();
+		scope.submit = function () {
+                    angular.copy(scope.currentMember, scope.member);
+                    if(scope.signal_submit) {
+			scope.signal_submit();
+		    }
+		    scope.close();
 		};
 		
-		scope.revert = function () {
-                    scope.currentUser = angular.copy(scope.user);
-                    if (scope.signal_cancel) scope.signal_cancel();
+		scope.close = function () {
+                    scope.currentMember = angular.copy(scope.member);
+                    if(scope.signal_close) {
+			scope.signal_close();
+		    }
 		};
 		
-		scope.$watch("user", function (newVal) {
-                    if (newVal) scope.currentUser = angular.copy(newVal);
+		scope.$watch("member", function(newVal) {
+                    if(newVal) {
+			scope.currentMember = angular.copy(newVal);
+		    }
 		});
             }
 	};

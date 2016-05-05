@@ -11,7 +11,9 @@
 	'daterangepicker',
 	'nvd3',
 	'datatables',
-	'adminLTE']);
+	'adminLTE',
+	'ngReallyClickModule'
+    ]);
 
     // Configure routes
     app.config(['$routeProvider',
@@ -35,7 +37,7 @@
                     pageName : "Site cameras",
                     category : "Settings"
                 }).
-		when('/settings_site_users', {
+		when('/settings_site_users/:siteId?', {
                     templateUrl: 'build/html/SettingsSiteUsersView.html',
                     controller: 'SettingsSiteUsers',
                     pageName : "Site users",

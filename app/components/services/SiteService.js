@@ -127,26 +127,6 @@
 			});
 		}
 	    };
-
-	    this.getIdOfFirstSiteWithAdminRights = function(siteLists) {
-		if(!siteLists) {
-		    return null;
-		}		
-		var elem = _.find(siteLists, "isadmin", true);		
-		return elem ? elem._id : null;
-	    };
-
-	    this.getSiteFromId = function(siteLists, id) {
-		return _.find(siteLists, "_id", id);
-	    };
-
-	    this.getFirstSiteAdmin = function(siteLists) {
-		return _.find(siteLists, "isadmin", true);
-	    };
-	    
-	    this.isSiteAdmin = function(site) {
-		return site.isadmin;
-	    };
 	    
 	    this.getResource = function() {
 		if(myconfig.debug) {

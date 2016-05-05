@@ -14,10 +14,17 @@
 	      <button type="button" ng-click="newUser()" class="btn btn-primary">
 		New User
 	      </button>	     
-	      <button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
+	      <button type="button" class="btn btn-default"
+		      ng-disabled="selectedLength == 0"
+		      ng-really-click="resetSelectedUsers()"
+		      ng-really-message="Do you really want to reset the password for <strong>{{selectedLength}}</strong> user(s) ?">
 		Reset Password
 	      </button>	      
-	      <button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
+	      <button type="button"
+		      class="btn btn-danger"
+		      ng-disabled="selectedLength == 0"
+		      ng-really-click="deleteSelectedUsers()"
+		      ng-really-message="Do you really want to delete <strong>{{selectedLength}}</strong> user(s) ?">
 		Delete
 	      </button>	      
 	    </div>	    
@@ -31,7 +38,7 @@
 		<thead>
 		  <tr>
 		    <th>
-		      <input type="checkbox" ng-model="selectAll" ng-click="toggleAll()" />
+		      <input type="checkbox" ng-model="selectAll" ng-click="toggleAll()" />Select all
 		    </th>
 		    <th>User name</th>
 		    <th>E-mail</th>
@@ -44,7 +51,11 @@
 		    <td><input type="checkbox" ng-model="selectedElts[user._id].selected"
 			       ng-click="toggleOne(user._id)">
 		      <button type="button" ng-click="editUser(user)" class="btn btn-default">Edit</button>
-		      <button type="button" ng-click="deleteUser(user)" class="btn btn-default">Delete</button>
+		      <button type="button"			      
+			      ng-really-click="deleteUser(user)"
+			      ng-really-message="Do you really want to delete the user <strong>{{user.name}}</strong> ?"
+			      item="user"
+			      class="btn btn-default">Delete</button>
 		    </td>
 		    <td>{{user.name}}</td>
 		    <td>{{user.email}}</td>
@@ -61,9 +72,9 @@
     <div class="row" ng-show="user">
       <section class="col-md-12">
 	<fca-user-editor user='user' is-new-user='isNewUser'
-			 onsave='saveUser()'
-			 oncancel='clearUser()'
-			 onpasswdrst='resetPassword()'
+			 on-submit='saveUser()'
+			 on-close='clearUser()'
+			 on-passwdrst='resetPassword()'
 			 />
       </section>
     </div> <!-- end row -->

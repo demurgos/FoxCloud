@@ -8,133 +8,149 @@
     angular.module('FSCounterAggregatorApp')
 	.controller('SettingsSiteUsers', [
 	    '$scope',
+	    '$routeParams',
 	    'UserService',
 	    'SiteService',
+	    'DTOptionsBuilder',
+	    'DTColumnDefBuilder',
 	    function(
 		$scope,
+		$routeParams,
 		UserService,
-		SiteService
+		SiteService,
+		DTOptionsBuilder,
+		DTColumnDefBuilder
 	    ) {
 
 		$scope.members = [];
 
-		function initScope() {
+		$scope.selectAll = false;
+		$scope.selectedLength = 0;
+		$scope.selectedElts = {};
+		$scope.selectedElt = undefined;
+		$scope.member = undefined;
 
-		    var addMembers = function(site) {
-			var user;
-			
-			for(var i = 0; i < site.usersadmin.length; i++) {
-			    user = site.usersadmin[i];
-			    $scope.members.push({
-				"site_name": site.name,
-				"site_id": site._id,
-				"email": user});
+		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		
+		$scope.dtColumnDefs = [
+		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
+		    DTColumnDefBuilder.newColumnDef(1),
+		    DTColumnDefBuilder.newColumnDef(2),
+		];
+
+		$scope.update = function() {
+		    SiteService.getSite($scope.selectedElt._id)
+			.then(function(site) {
+
+			    var prefillMembers = [];
+			    $scope.selectedElts = {};
+			    $scope.selectedLength = 0;
+			    $scope.selectAll = false;
+
+			    var i;
+			    var member;
+			    for(i = 0; i < site.users.length; ++i) {
+				member = { site: $scope.selectedElt,
+					   email: site.users[i],
+					   isAdmin: false };
+				prefillMembers.push(member);
+				$scope.selectedElts[member.email] = { 'selected': false,
+								      'member': member };					   
+			    }
+
+			    for(i = 0; i < site.usersadmin.length; ++i) {
+				member = { site: $scope.selectedElt,
+					   email: site.usersadmin[i],
+					   isAdmin: true };
+				prefillMembers.push(member);
+				$scope.selectedElts[member.email] = { 'selected': false,
+								      'member': member };				
+			    }
+			    $scope.members = prefillMembers;
+			});
+		};
+
+		$scope.selectElt = function(elt) {
+		    $scope.selectedElt = elt;
+		    $scope.update();
+		};
+
+		$scope.inviteMember = function() {
+		    $scope.isNewMember = true;
+		    $scope.member = { site: $scope.selectedElt,
+				      email: "",
+				      isAdmin: false };		    
+		};
+
+		$scope.editMember = function(member) {
+		    $scope.isNewMember = false;
+		    $scope.member = member;
+		};
+
+		$scope.clearMember = function() {
+		    $scope.member = undefined;
+		};
+
+		$scop.saveMember = function() {
+		    if($scope.isNewMember) {
+			SiteService.addUser($scope.selectedElt._id,
+					    $scope.member.email,
+					    $scope.member.isAdmin)
+			    .then(function(ret) {
+				$scope.members.push($scope.member);
+				$scope.selectedElts[$scope.member.email] = { 'selected': false,
+									     'member': $scope.member };
+				$scope.selectAll = $scope.selectedLength == $scope.members.length;
+			    });
+		    } else {
+			// backend
+		    }
+		};
+
+		$scope.removeMember = function(member) {
+		    SiteService.removeUser($scope.selectedElt._id, member.email, member.isAdmin)
+			.then(function(ret) {
+			    removeMemberFromArray(member);
+			});
+		};
+
+		$scope.removeSelectedMembers = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.removeMember($scope.selectedElts[key].member);
 			}
-			for(i = 0; i < site.users.length; i++) {
-			    user = site.users[i];
-			    $scope.members.push({
-				"site_name": site.name,
-				"site_id": site._id,
-				"email": user});
-			}
-		    };
+		    }
+		};		
+		
+		function removeMemberFromArray(member) {                                    
+		    var pos = $scope.members.indexOf(member);            
+		    $scope.users.splice(pos, 1);
+		    var sel = $scope.selectedElts[member.email];
+		    if(sel.selected) {
+			$scope.selectedLength--;
+		    }
+		    sel = undefined;
+		    $scope.selectAll = $scope.selectedLength == $scope.members.length;
+		}
+		
+		function initScope() {
 
 		    UserService.getSettings()
 			.then(function(userData) {
-			    var sites = userData.sites;
-			    for(var i = 0; i < sites.length; ++i) {
-				// check here if user has admin rights for this site
-				var site = sites[i];
-				if(SiteService.isSiteAdmin(site)) {				  
-				    for(var j = 0; j < site.items.length; ++j) {
-					var item = site.items[j];
-					SiteService.getSite(site._id)
-					    .then(addMembers);
-				    }
+			    if($routeParams.siteId !== undefined) {
+				var site = UserService.getSiteFromId(userData.sites,
+								     $routeParams.siteId);
+				if(site !== undefined && site.isadmin) {
+				    $scope.selectedElt = site;
 				}
-			    }			
+			    } else {
+				$scope.selectedElt = UserService.getFirstSiteAdmin(userData.sites);
+			    }			    
+			    $scope.sites = userData.sites;
+			    $scope.update();
 			});    
-
 		}
 		
-		var pos1 = 0, pos2 = 0;
-		
-		function saveSelection()
-		{
-		    pos1 = $scope.site.usersadmin.indexOf($scope.selectedAdminUser);
-		    pos2 = $scope.site.users.indexOf($scope.selectedUser);
-		}
-        
-		function updateSiteData(newSiteInfo) {
-		    if(newSiteInfo) {
-			$scope.site = newSiteInfo;
-			
-			if(pos1 < 0) {
-			    pos1 = 0;
-			}
-			if(pos1 >= $scope.site.usersadmin.length) {
-			    pos1 = $scope.site.usersadmin.length - 1;
-			}
-			$scope.selectedAdminUser = $scope.site.usersadmin[pos1];
-			
-			if(pos2 < 0) {
-			    pos2 = 0;
-			}
-			if(pos2 >= $scope.site.users.length) {
-			    pos2 = $scope.site.users.length - 1;
-			}
-			$scope.selectedUser = $scope.site.users[pos2];
-		    }		    
-		}
-		
-		$scope.$watch("siteId", function(newVal) {
-		    if(newVal) {
-			siteservice.getSite(newVal)
-			    .then(updateSiteData);
-		    }
-		});             
-		
-		$scope.add_admin_user = function() {
-		    saveSelection();
-		    siteservice.addUser($scope.site._id, 
-					$scope.editing_admin_user, 
-					true)
-		    .then(updateSiteData, 
-			  function(err) {                
-			      $scope.editing_admin_user = '';
-			  });
-		};
-		
-		$scope.add_user = function () {
-		    saveSelection();
-		    siteservice.addUser($scope.site._id, 
-					$scope.editing_user, 
-					false)
-		    .then(updateSiteData,
-			  function(err) {
-			      $scope.editing_user = '';
-			  });
-		};
-		
-		$scope.delete_admin_user = function () {
-		    saveSelection();
-		    siteservice.removeUser($scope.site._id, 
-					   $scope.selectedAdminUser, 
-					   true)
-		    .then(updateSiteData);
-		};
-		
-		$scope.delete_user = function () {
-		    saveSelection();
-		    siteservice.removeUser($scope.site._id, 
-					   $scope.selectedUser, 
-					   false)
-		    .then(updateSiteData);
-		};
-		
-		$scope.siteId = SiteService
-		    .getIdOfFirstSiteWithAdminRights($scope.currentUserSites);		
-
 		initScope();
 		
 	    }]);

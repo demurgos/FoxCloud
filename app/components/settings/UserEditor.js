@@ -8,14 +8,16 @@ angular.module('FSCounterAggregatorApp')
             scope : {
 		user: '=' ,
 		isNewUser: '=',
-		signal_save:'&onsave',
-		signal_cancel: '&oncancel',
-		signal_passwd_rst: '&onpasswdrst'
+		signal_submit:'&onSubmit',
+		signal_close: '&onClose',
+		signal_passwd_rst: '&onPasswdrst'
 	    },
             templateUrl: "build/html/UserEditor.html",
             
             link: function (scope) {
+
 		scope.currentUser = { name: "", email: "" };
+		
 		scope.isDirty = function() {
                     return !angular.equals(scope.currentUser, scope.user) || !scope.user._id;
 		};
@@ -24,24 +26,31 @@ angular.module('FSCounterAggregatorApp')
 		    return scope.currentUser.name.length > 0 && scope.currentUser.email.length > 0;
 		};
 		
-		scope.save = function () {
+		scope.submit = function () {
                     angular.copy(scope.currentUser, scope.user);
-                    if (scope.signal_save) scope.signal_save();
+                    if(scope.signal_submit) {
+			scope.signal_submit();
+		    }
+		    scope.close();
 		};
 		
-		scope.revert = function () {
-                    scope.currentUser = angular.copy(scope.user);
-                    if (scope.signal_cancel) scope.signal_cancel();
+		scope.close = function () {
+                    if(scope.signal_close) {
+			scope.signal_close();
+		    }
 		};
 
 		scope.resetPassword = function() {
 		    if(scope.signal_passwd_rst) {
 			scope.signal_passwd_rst();
 		    }
+		    scope.close();
 		};
 		
 		scope.$watch("user", function (newVal) {
-                    if (newVal) scope.currentUser = angular.copy(newVal);
+                    if(newVal) {
+			scope.currentUser = angular.copy(newVal);
+		    }
 		});
             }
 	};
