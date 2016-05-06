@@ -1,13 +1,13 @@
 /**
- * @class SettingsSitesUsers
+ * @class SettingsSites
  * @memberof FSCounterAggregatorApp
- * @description Controller that manages sites and users
+ * @description Controller that manages sites
  * require administrator rights
  */
 (function() {
 
     angular.module('FSCounterAggregatorApp')
-	.controller('SettingsSitesUsers', [
+	.controller('SettingsSites', [
 	    '$scope',
 	    '$compile',
 	    'SiteService',
@@ -33,11 +33,11 @@
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
-		    DTColumnDefBuilder.newColumnDef(1),
-		    DTColumnDefBuilder.newColumnDef(2)
+		    DTColumnDefBuilder.newColumnDef(1)
 		];
 
 		$scope.toggleAll = function() {
+		    $scope.selectAll = !$scope.selectAll;
 		    for(var key in $scope.selectedElts) {
 			$scope.selectedElts[key].selected = $scope.selectAll;
 		    }
@@ -110,6 +110,14 @@
 		    removeSiteFromArray(site);
 		};
 
+		$scope.deleteSelectedSites = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.deleteSite($scope.selectedElts[key].site);
+			}
+		    }
+		};
+		
 		initScope();    
 
 	    }]);

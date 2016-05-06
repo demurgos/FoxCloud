@@ -39,6 +39,7 @@
 		];
 
 		$scope.toggleAll = function() {
+		    $scope.selectAll = !$scope.selectAll;
 		    for(var key in $scope.selectedElts) {
 			$scope.selectedElts[key].selected = $scope.selectAll;
 		    }

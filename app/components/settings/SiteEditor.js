@@ -8,29 +8,37 @@ angular.module('FSCounterAggregatorApp')
             scope : {
 		site: '=' ,
 		isNewSite: '=',
-		signal_save:'&onsave',
-		signal_cancel: '&oncancel'
+		signal_submit:'&onSubmit',
+		signal_close: '&onClose'
 	    },
             templateUrl: "build/html/SiteEditor.html",
             
             link: function (scope) {
+
 		scope.currentSite = {};
+		
 		scope.isDirty = function () {
                     return !angular.equals(scope.currentSite, scope.site) || !scope.site._id;
 		};
 		
-		scope.save = function () {
+		scope.submit = function () {
                     angular.copy(scope.currentSite, scope.site);
-                    if (scope.signal_save) scope.signal_save();
+                    if(scope.signal_submit) {
+			scope.signal_submit();
+		    }
+		    scope.close();
 		};
 		
-		scope.revert = function () {
-                    scope.currentSite = angular.copy(scope.site);
-                    if (scope.signal_cancel) scope.signal_cancel();
+		scope.close = function () {
+                    if(scope.signal_close) {
+			scope.signal_close();
+		    }
 		};
 
 		scope.$watch("site", function (newVal) {
-                    if (newVal) scope.currentSite = angular.copy(newVal);
+                    if(newVal) {
+			scope.currentSite = angular.copy(newVal);
+		    }
 		});
             }
 	};

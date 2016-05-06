@@ -37,10 +37,10 @@
                     pageName : "Site cameras",
                     category : "Settings"
                 }).
-		when('/settings_site_users/:siteId?', {
-                    templateUrl: 'build/html/SettingsSiteUsersView.html',
-                    controller: 'SettingsSiteUsers',
-                    pageName : "Site users",
+		when('/settings_site_members/:siteId?', {
+                    templateUrl: 'build/html/SettingsSiteMembersView.html',
+                    controller: 'SettingsSiteMembers',
+                    pageName : "Site Members",
                     category : "Settings"
                 }).
                 when('/settings_users', {
@@ -49,9 +49,9 @@
                     pageName : "Users management",
                     category : "Settings"
                 }).
-		when('/settings_sites_users', {
-                    templateUrl: 'build/html/SettingsSitesUsersView.html',
-                    controller: 'SettingsSitesUsers',
+		when('/settings_sites', {
+                    templateUrl: 'build/html/SettingsSitesView.html',
+                    controller: 'SettingsSites',
                     pageName : "Sites - Users management",
                     category : "Settings"
                 }).

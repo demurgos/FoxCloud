@@ -2,15 +2,14 @@
   <section class="content">
     <div class="row">
       <section class="col-md-12">
-
 	<div class="box">      
-
-	  <div class="box-header with-border row">
-	    
-	    <div class="col-md-7 col-xs-12">	      
+	  <div class="box-header with-border row">	   
+	    <div class="col-md-7 col-xs-12">
+	      <h3 class="box-title">
+		<i class="fa fa-book box-title"></i><span> Cameras on</span>
+	      </h3>
 	      <div class="btn-group" uib-dropdown>
 		<button id="btn-append-to-single-button" type="button" class="btn btn-box" uib-dropdown-toggle>
-		  <i class="fa fa-table box-title"></i>
 		  {{selectedElt.name}} <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" uib-dropdown-menu role="menu"
@@ -27,22 +26,21 @@
 	      
 	    <div class="col-md-5 col-xs-12 text-right">
 	      <button type="button" class="btn btn-primary" ng-click="addItem()">
-		New Camera
+		<i class="fa fa-plus"> New Camera</i>
 	      </button>
 	      <button type="button" class="btn btn-default"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="unlinkSelectedItems()"
 		      ng-really-message="Do you really want to unlink <strong>{{selectedLength}}</strong> camera(s) ?">
-		Unlink
+		<i class="fa fa-chain-broken"> Unlink</i>
 	      </button>
 	      <button type="button" class="btn btn-danger"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="removeSelectedItems()"
 		      ng-really-message="Do you really want to remove <strong>{{selectedLength}}</strong> camera(s) ?">
-		Delete
+		<i class="fa fa-trash-o"> Remove</i>
 	      </button>
-	    </div>
-	      
+	    </div>	      
 	  </div>
 	  
 	  <div class="box-body">
@@ -53,7 +51,7 @@
 		     class="table table-bordered table-striped table-hover">
 		<thead>
 		  <tr>
-		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
+		    <th><input type="checkbox" ng-checked="selectAll" ng-click="toggleAll()">Select all</th>
 		    <th>Name</th>
 		    <th>Last Upload</th>
 		    <th>Item Id</th>
@@ -68,12 +66,12 @@
 			      ng-really-click="unlinkItem(item)"
 			      ng-really-message="Do you really want to unlink the camera <strong>{{item.name}}</strong> ?"
 			      item="item"
-			      class="btn btn-default">Unlink</button>
+			      class="btn btn-default"><i class="fa fa-chain-broken"> Unlink</i></button>
 		      <button type="button"
 			      ng-really-click="removeItem(item)"
 			      ng-really-message="Do you really want to remove the camera <strong>{{item.name}}</strong> ?"
 			      item="item"
-			      class="btn btn-default">Delete</button>
+			      class="btn btn-danger"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
 		    <td>{{item.name}}</td>
 		    <td>{{item.lastUpdateTime}}</td>

@@ -6,19 +6,20 @@
 	  <div class="box-header with-border row">	    
 	    <div class="col-md-7 col-xs-12">
 	      <h3 class="box-title">
-		<i class="fa fa-table box-title"></i>
-		<span>Sites - Users management</span>
+		<i class="fa fa-book box-title"></i>
+		<span> Sites management</span>
 	      </h3>
 	    </div>	      
 	    <div class="col-md-5 col-xs-12 text-right">
 		<button type="button" ng-click="newSite()" class="btn btn-primary">
-		  New Site
+		  <i class="fa fa-plus"> New Site</i>
 		</button>
-		<button type="button" class="btn btn-default" ng-disabled="selectedLength == 0">
-		  Change Users
-		</button>
-		<button type="button" class="btn btn-danger" ng-disabled="selectedLength == 0">
-		  Delete
+		<button type="button"
+			class="btn btn-danger"
+			ng-disabled="selectedLength == 0"
+			ng-really-click="deleteSelectedSites()"
+			ng-really-message="Do you really want to delete <strong>{{selectedLength}}</strong> site(s) ?">
+		  <i class="fa fa-trash-o"> Delete</i>
 		</button>
 	    </div>
 	  </div>	  
@@ -30,27 +31,24 @@
 		     class="table table-bordered table-striped table-hover">
 		<thead>
 		  <tr>
-		    <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll()"></th>
+		    <th><input type="checkbox" ng-checked="selectAll" ng-click="toggleAll()">Select all</th>
 		    <th>Site name</th>
-		    <th>Users</th>
 		  </tr>
 		</thead>
 		<tbody>
 		  <tr ng-repeat="site in sites">
 		    <td><input type="checkbox" ng-model="selectedElts[site._id].selected"
 			       ng-click="toggleOne(site._id)">
-		      <button type="button" ng-click="editSite(site)" class="btn btn-default">Edit</button>
-		      <button type="button" ng-click="deleteSite(site)" class="btn btn-default">Delete</button>
+		      <button type="button" ng-click="editSite(site)" class="btn btn-default">
+			<i class="fa fa-edit"> Edit</i>
+		      </button>
+		      <button type="button" 
+			      ng-really-click="deleteSite(site)"
+			      ng-really-message="Do you really want to delete the site <strong>{{site.name}}</strong> ?"
+			      item="site"
+			      class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
 		    </td>
 		    <td>{{site.name}}</td>
-		    <td ng-init="usersCount = site.users.length + site.usersadmin.length">
-		      <span ng-show="{{!usersCount}}">
-			no users
-		      </span>
-		      <span ng-show="{{usersCount}}">
-			<a href="#/settings_per_site/{{site._id}}">{{usersCount}} user{{usersCount > 1 ? 's':''}} ({{site.users.length}} viewer{{site.users.length > 1 ? 's':''}} - {{site.usersadmin.length}} admin{{site.usersadmin.length > 1 ? 's' : ''}})</a>
-		      </span>
-		    </td>
 		  </tr>
 		</tbody>
 	      </table>
@@ -62,8 +60,8 @@
     <div class="row" ng-show="site">
       <section class="col-md-12">
 	<fca-site-editor site='site' is-new-user='isNewSite'
-			 onsave='saveSite()'
-			 oncancel='clearSite()'
+			 on-submit='saveSite()'
+			 on-close='clearSite()'
 			 />
       </section>
     </div> <!-- end row -->

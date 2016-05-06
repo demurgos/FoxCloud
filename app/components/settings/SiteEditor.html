@@ -11,8 +11,11 @@
 	       type="text"
 	       ng-required="required" /> 
       </div>
-      <button class='btn btn-default' ng-disabled="!isDirty()" ng-click="save()">Apply</button>
-      <button class='btn btn-default' ng-click="revert()">Cancel</button>
+      <button class='btn btn-primary' ng-disabled="!isDirty()" ng-click="submit()">Save</button>
+      <button class='btn btn-default' ng-show="!isDirty()" ng-click="close()">Cancel</button>
+      <button class='btn btn-danger' ng-show="isDirty()"
+	      ng-really-click="close()"
+	      ng-really-message="Do you really want to cancel your changes ?">Cancel</button>
     </form>
   </div>    
 </div> 

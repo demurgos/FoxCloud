@@ -25,24 +25,24 @@
 	<ul class="treeview-menu">
 	  <li><a href="#/current_user"><i class="fa fa-circle-o"></i> Profile</a></li>
 	  <li ng-show="user.admin">
-	    <a href="#"><i class="fa fa-share"></i> Global <i class="fa fa-angle-left pull-right"></i>
+	    <a href="#"><i class="fa fa-share"></i> Overall <i class="fa fa-angle-left pull-right"></i>
 	    </a>
 	    <ul class="treeview-menu">
 	      <li><a href="#/settings_users"><i class="fa fa-circle-o"></i> Users management</a></li>
+	      <li><a href="#/settings_sites"><i class="fa fa-circle-o"></i> Sites management</a></li>
+	      <li><a href="#/settings_per_site"><i class="fa fa-circle-o"></i> Sites Associated Users</a></li>
 	      <div ng-show="false">
-	      <li><a href="#/settings_sites_users"><i class="fa fa-circle-o"></i> Sites - Users management</a></li>
-	      <li><a href="#/settings_per_site"><i class="fa fa-circle-o"></i> Per Site management</a></li>
 	      <li><a href="#/settings_users_sites"><i class="fa fa-circle-o"></i> Users - Sites management</a></li>
 	      <li><a href="#/settings_per_user"><i class="fa fa-circle-o"></i> Per User management</a></li>
 	      </div>
 	    </ul>
 	  <li>
 	  <li ng-show="user.admin">
-	    <a href="#"><i class="fa fa-share"></i> Owned Sites <i class="fa fa-angle-left pull-right"></i>
+	    <a href="#"><i class="fa fa-share"></i> My Sites <i class="fa fa-angle-left pull-right"></i>
 	    </a>
 	    <ul class="treeview-menu">
 	      <li><a href="#/settings_site_items"><i class="fa fa-circle-o"></i> Cameras</a></li>
-	      <li><a href="#/settings_site_users"><i class="fa fa-circle-o"></i> Members</a></li>
+	      <li><a href="#/settings_site_members"><i class="fa fa-circle-o"></i> Members</a></li>
 	    </ul>
 	  </li>
 	</ul>

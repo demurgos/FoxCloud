@@ -41,16 +41,29 @@
 		    DTColumnDefBuilder.newColumnDef(3),
 		    DTColumnDefBuilder.newColumnDef(4)
 		];
+
+		$scope.toggleAll = function() {
+		    $scope.selectAll = !$scope.selectAll;
+		    for(var key in $scope.selectedElts) {
+			$scope.selectedElts[key].selected = $scope.selectAll;
+		    }
+		    $scope.selectedLength = $scope.selectAll ? $scope.items.length : 0;
+		};
+
+		$scope.toggleOne = function(id) {
+		    if($scope.selectedElts[id].selected) {
+			$scope.selectedLength++;
+			$scope.selectAll = $scope.selectedLength == $scope.items.length;
+		    } else {
+			$scope.selectedLength--;
+			$scope.selectAll = false;
+		    }
+		};
 		
 		$scope.update = function() {
 		    $scope.items = $scope.selectedElt.items;
-		    //$scope.itemsFull = [];
 		    $scope.selectedElts = {};
 
-		    //var addItem = function(item) {
-		    //$scope.itemsFull.push(item);
-		    //};		    
-		    
 		    for(var i = 0; i < $scope.items.length; ++i) {
 			var item = $scope.items[i];
 			$scope.selectedElts[item._id] = { selected: false,

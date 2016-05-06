@@ -12,20 +12,20 @@
 	    </div>
 	    <div class="col-md-5 col-xs-12 text-right">
 	      <button type="button" ng-click="newUser()" class="btn btn-primary">
-		New User
+		<i class="fa fa-plus"> New User</i>
 	      </button>	     
 	      <button type="button" class="btn btn-default"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="resetSelectedUsers()"
 		      ng-really-message="Do you really want to reset the password for <strong>{{selectedLength}}</strong> user(s) ?">
-		Reset Password
+		<i class="fa fa-recycle"> Reset Password</i>
 	      </button>	      
 	      <button type="button"
 		      class="btn btn-danger"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="deleteSelectedUsers()"
 		      ng-really-message="Do you really want to delete <strong>{{selectedLength}}</strong> user(s) ?">
-		Delete
+		<i class="fa fa-trash-o"> Delete</i>
 	      </button>	      
 	    </div>	    
 	  </div>	  
@@ -38,7 +38,7 @@
 		<thead>
 		  <tr>
 		    <th>
-		      <input type="checkbox" ng-model="selectAll" ng-click="toggleAll()" />Select all
+		      <input type="checkbox" ng-checked="selectAll" ng-click="toggleAll()" />Select all
 		    </th>
 		    <th>User name</th>
 		    <th>E-mail</th>
@@ -50,12 +50,13 @@
 		  <tr ng-repeat="user in users">
 		    <td><input type="checkbox" ng-model="selectedElts[user._id].selected"
 			       ng-click="toggleOne(user._id)">
-		      <button type="button" ng-click="editUser(user)" class="btn btn-default">Edit</button>
+		      <button type="button" ng-click="editUser(user)" class="btn btn-default">
+			<i class="fa fa-edit"> Edit</i></button>
 		      <button type="button"			      
 			      ng-really-click="deleteUser(user)"
 			      ng-really-message="Do you really want to delete the user <strong>{{user.name}}</strong> ?"
 			      item="user"
-			      class="btn btn-default">Delete</button>
+			      class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
 		    </td>
 		    <td>{{user.name}}</td>
 		    <td>{{user.email}}</td>

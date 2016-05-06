@@ -1,12 +1,12 @@
 /**
- * @class SettingsSiteUsers
+ * @class SettingsSiteMembers
  * @memberof FSCounterAggregatorApp
  * @description Controller that manages relation between users and sites
  */
 (function() {
 
     angular.module('FSCounterAggregatorApp')
-	.controller('SettingsSiteUsers', [
+	.controller('SettingsSiteMembers', [
 	    '$scope',
 	    '$routeParams',
 	    'UserService',
@@ -31,13 +31,31 @@
 		$scope.member = undefined;
 
 		$scope.dtOptions = DTOptionsBuilder.newOptions();
-		
+
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		    DTColumnDefBuilder.newColumnDef(1),
 		    DTColumnDefBuilder.newColumnDef(2),
 		];
+		
+		$scope.toggleAll = function() {
+		    $scope.selectAll = !$scope.selectAll;
+		    for(var key in $scope.selectedElts) {
+			$scope.selectedElts[key].selected = $scope.selectAll;
+		    }
+		    $scope.selectedLength = $scope.selectAll ? $scope.members.length : 0;
+		};
 
+		$scope.toggleOne = function(id) {
+		    if($scope.selectedElts[id].selected) {
+			$scope.selectedLength++;
+			$scope.selectAll = $scope.selectedLength == $scope.members.length;
+		    } else {
+			$scope.selectedLength--;
+			$scope.selectAll = false;
+		    }
+		};
+		
 		$scope.update = function() {
 		    SiteService.getSite($scope.selectedElt._id)
 			.then(function(site) {
