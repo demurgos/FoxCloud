@@ -34,7 +34,7 @@
 		      ng-really-message="Do you really want to unlink <strong>{{selectedLength}}</strong> camera(s) ?">
 		<i class="fa fa-chain-broken"> Unlink</i>
 	      </button>
-	      <button type="button" class="btn btn-danger"
+	      <button type="button" class="btn btn-warning"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="removeSelectedItems()"
 		      ng-really-message="Do you really want to remove <strong>{{selectedLength}}</strong> camera(s) ?">
@@ -71,7 +71,7 @@
 			      ng-really-click="removeItem(item)"
 			      ng-really-message="Do you really want to remove the camera <strong>{{item.name}}</strong> ?"
 			      item="item"
-			      class="btn btn-danger"><i class="fa fa-trash-o"> Remove</i></button>
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
 		    <td>{{item.name}}</td>
 		    <td>{{item.lastUpdateTime}}</td>

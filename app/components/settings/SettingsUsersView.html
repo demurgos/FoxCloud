@@ -21,7 +21,7 @@
 		<i class="fa fa-recycle"> Reset Password</i>
 	      </button>	      
 	      <button type="button"
-		      class="btn btn-danger"
+		      class="btn btn-warning"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="deleteSelectedUsers()"
 		      ng-really-message="Do you really want to delete <strong>{{selectedLength}}</strong> user(s) ?">
@@ -56,7 +56,7 @@
 			      ng-really-click="deleteUser(user)"
 			      ng-really-message="Do you really want to delete the user <strong>{{user.name}}</strong> ?"
 			      item="user"
-			      class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Delete</i></button>
 		    </td>
 		    <td>{{user.name}}</td>
 		    <td>{{user.email}}</td>
@@ -72,7 +72,7 @@
     </div> <!-- end row -->
     <div class="row" ng-show="user">
       <section class="col-md-12">
-	<fca-user-editor user='user' is-new-user='isNewUser'
+	<fca-user-editor user='user' is-new='isNewUser'
 			 on-submit='saveUser()'
 			 on-close='clearUser()'
 			 on-passwdrst='resetPassword()'

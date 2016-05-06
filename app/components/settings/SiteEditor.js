@@ -7,7 +7,7 @@ angular.module('FSCounterAggregatorApp')
             restrict: 'E',
             scope : {
 		site: '=' ,
-		isNewSite: '=',
+		isNew: '=',
 		signal_submit:'&onSubmit',
 		signal_close: '&onClose'
 	    },
@@ -15,10 +15,10 @@ angular.module('FSCounterAggregatorApp')
             
             link: function (scope) {
 
-		scope.currentSite = {};
+		scope.currentSite = scope.site;
 		
 		scope.isDirty = function () {
-                    return !angular.equals(scope.currentSite, scope.site) || !scope.site._id;
+                    return !angular.equals(scope.currentSite, scope.site);
 		};
 		
 		scope.submit = function () {

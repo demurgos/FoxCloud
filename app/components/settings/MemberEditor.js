@@ -7,19 +7,19 @@ angular.module('FSCounterAggregatorApp')
             restrict: 'E',
             scope : {
 		member: '=' ,
-		isNewMember: '=',
+		isNew: '=',
 		signal_submit:'&onSubmit',
 		signal_close: '&onClose'
 	    },
             templateUrl: "build/html/MemberEditor.html",
             
             link: function(scope) {
-		scope.currentMember = { email: false, isAdmin: false };
+		scope.currentMember = scope.member;
 
 		scope.isDirty = function() {
-                    return !angular.equals(scope.currentMember, scope.member) || !scope.member.email;
+                    return !angular.equals(scope.currentMember, scope.member);
 		};
-
+		
 		scope.submit = function () {
                     angular.copy(scope.currentMember, scope.member);
                     if(scope.signal_submit) {

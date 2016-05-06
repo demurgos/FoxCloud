@@ -93,7 +93,7 @@
 		    $scope.update();
 		};
 
-		$scope.inviteMember = function() {
+		$scope.addMember = function() {
 		    $scope.isNewMember = true;
 		    $scope.member = { site: $scope.selectedElt,
 				      email: "",

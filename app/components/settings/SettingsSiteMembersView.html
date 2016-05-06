@@ -25,10 +25,10 @@
 	    </div>
 	      
 	    <div class="col-md-5 col-xs-12 text-right">
-	      <button type="button" class="btn btn-primary" ng-click="inviteMember()">
-		<i class="fa fa-plus"> Invite Member</i>
+	      <button type="button" class="btn btn-primary" ng-click="addMember()">
+		<i class="fa fa-plus"> Add Member</i>
 	      </button>
-	      <button type="button" class="btn btn-danger"
+	      <button type="button" class="btn btn-warning"
 		      ng-disabled="selectedLength == 0"
 		      ng-really-click="removeSelectedMembers()"
 		      ng-really-message="Do you really want to remove <strong>{{selectedLength}}</strong> member(s) ?">
@@ -64,7 +64,7 @@
 			      ng-really-click="removeMember(member)"
 			      ng-really-message="Do you really want to remove the member <strong>{{item.email}}</strong> ?"
 			      item="member"
-			      class="btn btn-danger"><i class="fa fa-trash-o"> Remove</i></button>
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
 		    <td>{{member.email}}</td>
 		    <td>{{member.isAdmin ? 'Administrator' : 'Viewer'}}</td>
@@ -79,7 +79,7 @@
 
     <div class="row" ng-show="member">
       <section class="col-md-12">
-	<fca-member-editor member='member' is-new-user='isNewMember'
+	<fca-member-editor member='member' is-new='isNewMember'
 			   on-submit='saveMember()'
 			   on-close='clearMember()'
 			   />

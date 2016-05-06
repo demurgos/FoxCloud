@@ -7,7 +7,7 @@ angular.module('FSCounterAggregatorApp')
             restrict: 'E',
             scope : {
 		user: '=' ,
-		isNewUser: '=',
+		isNew: '=',
 		signal_submit:'&onSubmit',
 		signal_close: '&onClose',
 		signal_passwd_rst: '&onPasswdrst'
@@ -16,16 +16,12 @@ angular.module('FSCounterAggregatorApp')
             
             link: function (scope) {
 
-		scope.currentUser = { name: "", email: "" };
+		scope.currentUser = scope.user;
 		
 		scope.isDirty = function() {
-                    return !angular.equals(scope.currentUser, scope.user) || !scope.user._id;
+                    return !angular.equals(scope.currentUser, scope.user);
 		};
 
-		scope.isValid = function() {
-		    return scope.currentUser.name.length > 0 && scope.currentUser.email.length > 0;
-		};
-		
 		scope.submit = function () {
                     angular.copy(scope.currentUser, scope.user);
                     if(scope.signal_submit) {

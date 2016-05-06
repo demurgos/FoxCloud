@@ -15,7 +15,7 @@
 		  <i class="fa fa-plus"> New Site</i>
 		</button>
 		<button type="button"
-			class="btn btn-danger"
+			class="btn btn-warning"
 			ng-disabled="selectedLength == 0"
 			ng-really-click="deleteSelectedSites()"
 			ng-really-message="Do you really want to delete <strong>{{selectedLength}}</strong> site(s) ?">
@@ -46,7 +46,7 @@
 			      ng-really-click="deleteSite(site)"
 			      ng-really-message="Do you really want to delete the site <strong>{{site.name}}</strong> ?"
 			      item="site"
-			      class="btn btn-danger"><i class="fa fa-trash-o"> Delete</i></button>
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Delete</i></button>
 		    </td>
 		    <td>{{site.name}}</td>
 		  </tr>

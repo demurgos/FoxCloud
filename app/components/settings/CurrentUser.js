@@ -15,9 +15,11 @@
 	    ) {
 
 		$scope.username = "";
-
+		$scope.email = "";
+		
 		UserService.getSettings().then(function(data) {
 		    $scope.username = data.user.name;
+		    $scope.email = data.user.email;
 		});
 
 		$scope.oldPassword = "";
