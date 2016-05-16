@@ -29,11 +29,13 @@
 		$scope.site = undefined;
 		$scope.isNewSite = false;
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		    .withOption('order', [[1, "asc"]]);
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
-		    DTColumnDefBuilder.newColumnDef(1)
+		    DTColumnDefBuilder.newColumnDef(1),
+		    DTColumnDefBuilder.newColumnDef(2).notSortable()
 		];
 
 		$scope.toggleAll = function() {
@@ -99,10 +101,8 @@
 			$scope.selectedElts[$scope.site._id] = { selected: false,
 								 site: $scope.site };
 			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
-		    } else {
-			$scope.site.$save();
-		    }
-		    $scope.site = undefined;
+		    } 
+		    $scope.site.$save();
 		};
 		
 		$scope.deleteSite = function(site) {

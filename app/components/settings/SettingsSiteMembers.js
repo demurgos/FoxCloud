@@ -30,12 +30,14 @@
 		$scope.selectedElt = undefined;
 		$scope.member = undefined;
 
-		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		    .withOption("order", [[1,"asc"]]);
 
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		    DTColumnDefBuilder.newColumnDef(1),
 		    DTColumnDefBuilder.newColumnDef(2),
+		    DTColumnDefBuilder.newColumnDef(3).notSortable()
 		];
 		
 		$scope.toggleAll = function() {

@@ -50,6 +50,7 @@
 		    </th>
 		    <th>Email</th>
 		    <th>Rights</th>
+		    <th>Actions</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -57,6 +58,10 @@
 		    <td>
 		      <input type="checkbox" ng-model="selectedElts[member.email].selected"
 			       ng-click="toggleOne(member.email)">
+		    </td>
+		    <td>{{member.email}}</td>
+		    <td>{{member.isAdmin ? 'Administrator' : 'Viewer'}}</td>
+		    <td>
 		      <button type="button"
 			      ng-click="editMember(member)"
 			      class="btn btn-default"><i class="fa fa-edit"> Edit</i></button>
@@ -66,8 +71,6 @@
 			      item="member"
 			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
-		    <td>{{member.email}}</td>
-		    <td>{{member.isAdmin ? 'Administrator' : 'Viewer'}}</td>
 		  </tr>
 		</tbody>
 	      </table>

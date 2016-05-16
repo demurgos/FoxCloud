@@ -32,14 +32,16 @@
 		$scope.selectedElts = {};
 		$scope.selectedElt = undefined;
 		
-		$scope.dtOptions = DTOptionsBuilder.newOptions();
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		    .withOption('order', [[1, "asc"]]);
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
 		    DTColumnDefBuilder.newColumnDef(1),
 		    DTColumnDefBuilder.newColumnDef(2),
 		    DTColumnDefBuilder.newColumnDef(3),
-		    DTColumnDefBuilder.newColumnDef(4)
+		    DTColumnDefBuilder.newColumnDef(4),
+		    DTColumnDefBuilder.newColumnDef(5).notSortable()
 		];
 
 		$scope.toggleAll = function() {
@@ -85,7 +87,7 @@
 		};
 
 		$scope.addItem = function() {
-		    SiteService.addItem($scope.site._id)
+		    SiteService.addItem($scope.selectedElt._id)
 			.then(function(ret) {
 			    $scope.update();
 			});

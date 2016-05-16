@@ -10,7 +10,7 @@
 	       ng-model="currentSite.name"
 	       type="text"
 	       name="name"
-	       required> 
+	       ng-required="{{currentUser !== undefined}}"> 
       </div>
       <button class='btn btn-primary' ng-disabled="!isDirty()" ng-click="submit()">Save</button>
       <button class='btn btn-default' ng-show="!isDirty()" ng-click="close()">Cancel</button>

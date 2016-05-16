@@ -29,7 +29,7 @@
 		$scope.isNewUser = false;
 
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('order', [[1, "desc"]]);
+		    .withOption('order', [[1, "asc"]]);
 
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
@@ -103,9 +103,8 @@
 			$scope.selectedElts[$scope.user._id] = { 'selected': false,
 							  'user': $scope.user };
 			$scope.selectAll = $scope.selectedLength == $scope.users.length;
-		    } else {
-			$scope.user.$save();
-		    }
+		    } 
+		    $scope.user.$save();
 		};
 
 		$scope.resetPassword = function() {

@@ -48,6 +48,7 @@
 		  <tr>
 		    <th><input type="checkbox" ng-checked="selectAll" ng-click="toggleAll()">Select all</th>
 		    <th>User name</th>
+		    <th>Actions</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -55,25 +56,29 @@
 		    <td>
 		      <input type="checkbox" ng-model="selectedElts[user].selected"
 			     ng-click="toggleOne(user)">
-		      <button type="button"			      
-			      ng-really-click="deleteUser(user)"
-			      ng-really-message="Do you really want to remove the user <strong>{{user.name}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
-			      item="user"
-			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
 		    <td>{{user}}</td>
+		    <td>
+		      <button type="button"			      
+			      ng-really-click="deleteUser(user,true)"
+			      ng-really-message="Do you really want to remove the user <strong>{{user.name}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
+			      item="user"
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>		      
+		    </td>
 		  </tr>
 		  <tr ng-repeat="user in usersadmin">
 		    <td>
 		      <input type="checkbox" ng-model="selectedElts[user].selected"
 			     ng-click="toggleOne(user)">
+		    </td>
+		    <td>{{user}}</td>
+		    <td>
 		      <button type="button"			      
 			      ng-really-click="deleteUser(user,true)"
 			      ng-really-message="Do you really want to remove the user <strong>{{user.name}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
 			      item="user"
 			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
 		    </td>
-		    <td>{{user}}</td>		    
 		  </tr>
 		</tbody>
 	      </table>

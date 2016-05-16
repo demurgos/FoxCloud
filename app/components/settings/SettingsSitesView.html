@@ -33,12 +33,16 @@
 		  <tr>
 		    <th><input type="checkbox" ng-checked="selectAll" ng-click="toggleAll()">Select all</th>
 		    <th>Site name</th>
+		    <th>Actions</th>
 		  </tr>
 		</thead>
 		<tbody>
 		  <tr ng-repeat="site in sites">
 		    <td><input type="checkbox" ng-model="selectedElts[site._id].selected"
 			       ng-click="toggleOne(site._id)">
+		    </td>
+		    <td>{{site.name}}</td>
+		    <td>
 		      <button type="button" ng-click="editSite(site)" class="btn btn-default">
 			<i class="fa fa-edit"> Edit</i>
 		      </button>
@@ -46,9 +50,8 @@
 			      ng-really-click="deleteSite(site)"
 			      ng-really-message="Do you really want to delete the site <strong>{{site.name}}</strong> ?"
 			      item="site"
-			      class="btn btn-warning"><i class="fa fa-trash-o"> Delete</i></button>
+			      class="btn btn-warning"><i class="fa fa-trash-o"> Delete</i></button>		      
 		    </td>
-		    <td>{{site.name}}</td>
 		  </tr>
 		</tbody>
 	      </table>
