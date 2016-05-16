@@ -40,7 +40,7 @@ angular.module('FSCounterAggregatorApp')
 		    if(scope.signal_passwd_rst) {
 			scope.signal_passwd_rst();
 		    }
-		    scope.close();
+		    //scope.close();
 		};
 		
 		scope.$watch("user", function (newVal) {

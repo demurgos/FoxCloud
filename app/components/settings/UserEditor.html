@@ -29,18 +29,21 @@
 	<label>Administrator</label>
 	<input type='checkbox' ng-model="currentUser.admin" />
       </div>
+      <div class="alert alert-warning" ng-show="currentUser.resetPasswordLink !== undefined">
+	<p>You have requested a password reset. Please, click on the following link to confirm this action.</p>
+	{{currentUser.resetPasswordLink}}
+      </div>
       <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.email.$valid"
 	      ng-click="submit()">Save</button>
-      <button class='btn btn-default'
-	      ng-disabled="isNew"
-	      ng-really-click="resetPassword()"
-	      ng-really-message="Do you really want to reset the password for user {{currentUser.name}} ?">
-	<i class="fa fa-recycle"> Reset Password</i></button>      
       <button ng-show="!isDirty()" class='btn btn-default' ng-click="close()">Cancel</button>
       <button ng-show="isDirty()"
 	      class='btn btn-warning'
 	      ng-really-click="close()"
 	      ng-really-message="Do you really want to cancel your changes ?">Cancel</button>
+      <button class='btn btn-default'
+	      ng-disabled="isNew || currentUser.resetPasswordLink !== undefined"
+	      ng-click="resetPassword()">
+	<i class="fa fa-recycle"> Request Password Reset</i></button>      
     </form>
   </div>    
 </div> 
