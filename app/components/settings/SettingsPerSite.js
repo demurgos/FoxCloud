@@ -84,21 +84,15 @@
 
 		$scope.saveUser = function() {
 		    if($scope.isNewUser) {
-			SiteService.addUser($scope.selectedElt._id,
-					    $scope.user.email,
-					    $scope.user.isAdmin)
-			    .then(function(ret) {
-				if($scope.user.isAdmin) {
-				    $scope.usersadmin.push($scope.user.email);
-				} else {
-				    $scope.users.push($scope.user.email);
-				}
-				$scope.selectedElts[$scope.email] = { selected: false,
-								      isAdmin: $scope.user.isAdmin };
-				$scope.selectAll = $scope.selectedLength == ($scope.users.length + $scope.usersadmin.length);
-			    });
-		    } else {
-			// backend
+			if($scope.user.isAdmin) {
+			    $scope.selectedElt.usersadmin.push($scope.user.email);
+			} else {
+			    $scope.selectedElt.users.push($scope.user.email);
+			}
+			$scope.selectedElt.$save();
+			$scope.selectedElts[$scope.email] = { selected: false,
+							      isAdmin: $scope.user.isAdmin };
+			$scope.selectAll = $scope.selectedLength == ($scope.users.length + $scope.usersadmin.length);
 		    }
 		};
 		
@@ -120,10 +114,8 @@
 		};
 
 		$scope.removeUser = function(user, isAdmin) {
-		    SiteService.removeUser($scope.selectedElt._id, user.email, isAdmin ? true : false)
-			.then(function(ret) {
-			    removeUserFromArray(user);
-			});
+		    removeUserFromArray(user, isAdmin ? $scope.usersadmin : $scope.users);
+		    $scope.selectedElt.$save();
 		};
 
 		$scope.removeSelectedUsers = function() {
@@ -134,14 +126,11 @@
 		    }
 		};		
 
-		function removeUserFromArray(user) {                                    
-		    var pos = $scope.users.indexOf(user);
+		function removeUserFromArray(user, userArray) {
+		    var pos = userArray.indexOf(user);
 		    if(pos != -1) {
-			$scope.users.splice(pos, 1);
-		    } else {
-			pos = $scope.usersadmin.indexOf(user);
-			$scope.usersadmin.splice(pos, 1);
-		    }
+			userArray.splice(pos, 1);
+		    } 
 		    var sel = $scope.selectedElts[user.email];
 		    if(sel.selected) {
 			$scope.selectedLength--;

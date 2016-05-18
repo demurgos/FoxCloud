@@ -112,25 +112,39 @@
 		};
 
 		$scope.saveMember = function() {
+		    var member = angular.copy($scope.member);
 		    if($scope.isNewMember) {
 			SiteService.addUser($scope.selectedElt._id,
-					    $scope.member.email,
-					    $scope.member.isAdmin)
+					    member.email,
+					    member.isAdmin)
 			    .then(function(ret) {
-				$scope.members.push($scope.member);
-				$scope.selectedElts[$scope.member.email] = { 'selected': false,
-									     'member': $scope.member };
+				$scope.members.push(member);
+				$scope.selectedElts[member.email] = { 'selected': false,
+								      'member': member };
 				$scope.selectAll = $scope.selectedLength == $scope.members.length;
 			    });
 		    } else {
-			// backend
+			// edit means that the member isAdmin changed so simply delete and add again
+			$scope.removeMember(member)
+			    .then(function() {
+				SiteService.addUser($scope.selectedElt._id,
+						    member.email,
+						    member.isAdmin)
+				    .then(function(ret) {
+					$scope.members.push(member);
+					$scope.selectedElts[member.email] = { 'selected': false,
+									      'member': member };
+					$scope.selectAll = $scope.selectedLength == $scope.members.length;	
+				    });
+			    });
 		    }
 		};
 
 		$scope.removeMember = function(member) {
-		    SiteService.removeUser($scope.selectedElt._id, member.email, member.isAdmin)
+		    return SiteService.removeUser($scope.selectedElt._id, member.email, member.isAdmin)
 			.then(function(ret) {
 			    removeMemberFromArray(member);
+			    return member;
 			});
 		};
 

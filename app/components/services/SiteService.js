@@ -133,7 +133,7 @@
 		    return $resource('assets/sites.json');
 		} else {
 		    return $resource('/sites/:siteId',
-				     { userId: '@_id' });
+				     { siteId: '@_id' });
 		}
 	    };
 
