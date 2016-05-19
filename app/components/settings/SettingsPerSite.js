@@ -25,14 +25,18 @@
 
 		var SiteResources = SiteService.getResource();
 
+		// users connected to the current selected site
 		$scope.users = [];
-		$scope.usersadmin = [];		
+		$scope.usersadmin = [];
+		$scope.allUsers = []; // users + usersadmin
 
 		$scope.selectAll = false;
 		$scope.selectedLength = 0;
 		$scope.selectedElts = {};
-		$scope.selectedElt = undefined;
+		$scope.selectedElt = undefined; // current selected element (site)
+		// used to share data between listmode & editionmode
 		$scope.user = undefined;
+		$scope.isEditionMode = false;
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption('order', [[1, "asc"]]);
@@ -48,61 +52,72 @@
 		    for(var key in $scope.selectedElts) {
 			$scope.selectedElts[key].selected = $scope.selectAll;
 		    }
-		    $scope.selectedLength = $scope.selectAll ? $scope.users.length + $scope.usersadmin.length : 0;
+		    $scope.selectedLength = $scope.selectAll ? $scope.allUsers.length : 0;
 		};
 
 		$scope.toggleOne = function(id) {
 		    if($scope.selectedElts[id].selected) {
 			$scope.selectedLength++;
-			$scope.selectAll = $scope.selectedLength == ($scope.users.length + $scope.usersadmin.length);
+			$scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
 		    } else {
 			$scope.selectedLength--;
 			$scope.selectAll = false;
 		    }
 		};
 
+		$scope.switchToEditionMode = function() {
+		    $scope.isEditionMode = true;
+		};
+
+		$scope.switchToListMode = function() {
+		    $scope.isEditionMode = false;
+		};
+		
 		$scope.selectElt = function(elt) {
 		    $scope.selectedElt = elt;
 		    $scope.update();
 		};
 
 		$scope.addUser = function() {
+		    $scope.switchToEditionMode();
 		    $scope.isNewUser = true;
 		    $scope.user = { site: $scope.selectedElt,
 				    email: "",
 				    isAdmin: true };
 		};
 
+		// Actually we cannot edit user properties
+		// with this view. Keep this in case
+		// we want to add this functionality.
 		$scope.editUser = function(user) {
+		    $scope.switchToEditionMode();
 		    $scope.isNewUser = false;
 		    $scope.user = user;
-		};
-
-		$scope.clearUser = function() {
-		    $scope.user = undefined;
 		};
 
 		$scope.saveUser = function() {
 		    if($scope.isNewUser) {
 			if($scope.user.isAdmin) {
-			    $scope.selectedElt.usersadmin.push($scope.user.email);
+			    $scope.usersadmin.push($scope.user.email);
 			} else {
-			    $scope.selectedElt.users.push($scope.user.email);
+			    $scope.users.push($scope.user.email);
 			}
+			$scope.allUsers = _.union($scope.users, $scope.usersadmin);
 			$scope.selectedElt.$save();
-			$scope.selectedElts[$scope.email] = { selected: false,
-							      isAdmin: $scope.user.isAdmin };
-			$scope.selectAll = $scope.selectedLength == ($scope.users.length + $scope.usersadmin.length);
+			$scope.selectedElts[$scope.email] = { 'selected': false,
+							      'isAdmin': $scope.user.isAdmin };
+			$scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
 		    }
 		};
 		
 		$scope.update = function() {
-		    var i;
 		    $scope.users = $scope.selectedElt.users;
 		    $scope.usersadmin = $scope.selectedElt.usersadmin;
+		    $scope.allUsers = _.union($scope.users, $scope.usersadmin);
 		    $scope.selectedElts = {};
 		    $scope.selectedLength = 0;
 		    $scope.selectAll = false;
+		    var i;
 		    for(i = 0; i < $scope.users.length; ++i) {
 			$scope.selectedElts[$scope.users[i]] = { selected: false,
 							         isAdmin: false };
@@ -136,11 +151,13 @@
 			$scope.selectedLength--;
 		    }
 		    sel = undefined;
-		    $scope.selectAll = $scope.selectedLength == ($scope.users.length + $scope.usersadmin.length);
+		    $scope.allUsers = _.union($scope.users, $scope.usersadmin);
+		    $scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
 		}
 		
 		function initScope()
 		{
+		    // optionally initial site selection could be choosen from the $route
 		    $scope.sites = SiteResources.query(function () {
 			if($scope.sites.length > 0) {
 			    if($routeParams.siteId === undefined) {

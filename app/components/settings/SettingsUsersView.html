@@ -1,6 +1,6 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row" ng-show="!user">
+    <div class="row" ng-show="!isEditionMode">
       <section class="col-md-12">
 	<div class="box">      
 	  <div class="box-header with-border row">
@@ -67,11 +67,11 @@
 	</div>
       </section>
     </div> <!-- end row -->
-    <div class="row" ng-show="user">
+    <div class="row" ng-show="isEditionMode">
       <section class="col-md-12">
 	<fca-user-editor user='user' is-new='isNewUser'
 			 on-submit='saveUser()'
-			 on-close='clearUser()'
+			 on-close='switchToListMode()'
 			 on-passwdrst='resetPassword()'
 			 />
       </section>

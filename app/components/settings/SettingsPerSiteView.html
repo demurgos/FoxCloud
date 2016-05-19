@@ -1,6 +1,6 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row" ng-show="!user">
+    <div class="row" ng-show="!isEditionMode">
       <section class="col-md-12">
 	
 	<div class="box">    
@@ -52,7 +52,7 @@
 		  </tr>
 		</thead>
 		<tbody>
-		  <tr ng-repeat="user in users">
+		  <tr ng-repeat="user in allUsers">
 		    <td>
 		      <input type="checkbox" ng-model="selectedElts[user].selected"
 			     ng-click="toggleOne(user)">
@@ -66,20 +66,6 @@
 			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>		      
 		    </td>
 		  </tr>
-		  <tr ng-repeat="user in usersadmin">
-		    <td>
-		      <input type="checkbox" ng-model="selectedElts[user].selected"
-			     ng-click="toggleOne(user)">
-		    </td>
-		    <td>{{user}}</td>
-		    <td>
-		      <button type="button"			      
-			      ng-really-click="deleteUser(user,true)"
-			      ng-really-message="Do you really want to remove the user <strong>{{user.name}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
-			      item="user"
-			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>
-		    </td>
-		  </tr>
 		</tbody>
 	      </table>
 	    </div>
@@ -88,11 +74,11 @@
       </section>
     </div>
     
-    <div class="row" ng-show="user">
+    <div class="row" ng-show="isEditionMode">
       <section class="col-md-12">
-	<fca-member-editor member='user' is-new='isNewUser'
-			   on-submit='saveUser()'
-			   on-close='clearUser()'
+	<fca-member-editor member="user" is-new="isNewUser"
+			   on-submit="saveUser()"
+			   on-close="switchToListMode()"
 			   />
       </section>
     </div> <!-- end row -->

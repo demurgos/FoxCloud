@@ -24,10 +24,11 @@
 		var SiteResources = SiteService.getResource();
 
 		$scope.selectAll = false;
-		$scope.selectedLength = 0; // select all checkbox optimization
+		$scope.selectedLength = 0; 
 		$scope.selectedElts = {};
 		$scope.site = undefined;
 		$scope.isNewSite = false;
+		$scope.isEditionMode = false;
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption('order', [[1, "asc"]]);
@@ -55,51 +56,32 @@
 			$scope.selectAll = false;
 		    }
 		};
-		
-		function initScope()
-		{
-		    $scope.sites = SiteResources.query(function() {
 
-			for(var i = 0; i < $scope.sites.length; ++i) {
-			    $scope.selectedElts[$scope.sites[i]._id] = { selected: false,
-									 site: $scope.sites[i]
-								       };
-			}
-			
-		    });
-		}
-		
-		function removeSiteFromArray(site)
-		{                                    
-		    var pos = $scope.sites.indexOf(site);            
-		    $scope.sites.splice(pos, 1);
-		    var sel = $scope.selectedElts[site._id];
-		    if(sel.selected) {
-			$scope.selectedLength--;
-		    }
-		    sel = undefined;
-		    $scope.selectAll = $scope.selectedLength == $scope.sites.length;
-		}
+		$scope.switchToEditionMode = function() {
+		    $scope.isEditionMode = true;
+		};
+
+		$scope.switchToListMode = function() {
+		    $scope.isEditionMode = false;
+		};
 		
 		$scope.newSite = function () {
+		    $scope.switchToEditionMode();
 		    $scope.isNewSite = true;
 		    $scope.site = new SiteResources();
 		};
 
 		$scope.editSite = function(site) {
+		    $scope.switchToEditionMode();
 		    $scope.isNewSite = false;
 		    $scope.site = site;
 		};
 		
-		$scope.clearSite = function() {
-		    $scope.site = undefined;
-		};
-
 		$scope.saveSite = function() {
 		    if($scope.isNewSite) {
 			$scope.sites.push($scope.site);
-			$scope.selectedElts[$scope.site._id] = { selected: false,
-								 site: $scope.site };
+			$scope.selectedElts[$scope.site._id] = { 'selected': false,
+								 'site': $scope.site };
 			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
 		    } 
 		    $scope.site.$save();
@@ -117,6 +99,31 @@
 			}
 		    }
 		};
+
+		function initScope()
+		{
+		    $scope.sites = SiteResources.query(function() {
+
+			for(var i = 0; i < $scope.sites.length; ++i) {
+			    $scope.selectedElts[$scope.sites[i]._id] = { 'selected': false,
+									 'site': $scope.sites[i]
+								       };
+			}
+			
+		    });
+		}
+		
+		function removeSiteFromArray(site)
+		{                                    
+		    var pos = $scope.sites.indexOf(site);            
+		    $scope.sites.splice(pos, 1);
+		    var sel = $scope.selectedElts[site._id];
+		    if(sel.selected) {
+			$scope.selectedLength--;
+		    }
+		    sel = undefined;
+		    $scope.selectAll = $scope.selectedLength == $scope.sites.length;
+		}
 		
 		initScope();    
 

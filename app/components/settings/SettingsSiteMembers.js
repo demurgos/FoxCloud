@@ -22,13 +22,16 @@
 		DTColumnDefBuilder
 	    ) {
 
-		$scope.members = [];
+		// members (users) connected to the selected site
+		$scope.members = []; 
 
 		$scope.selectAll = false;
 		$scope.selectedLength = 0;
 		$scope.selectedElts = {};
 		$scope.selectedElt = undefined;
+		// used to share data between listmode & editionmode
 		$scope.member = undefined;
+		$scope.isEditionMode = false;
 
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption("order", [[1,"asc"]]);
@@ -57,8 +60,28 @@
 			$scope.selectAll = false;
 		    }
 		};
+
+		$scope.switchToEditionMode = function() {
+		    $scope.isEditionMode = true;
+		};
+
+		$scope.switchToListMode = function() {
+		    $scope.isEditionMode = false;
+		};
 		
 		$scope.update = function() {
+
+		    function fillSelected(members, prefillMembers, isAdmin) {
+			for(var i = 0; i < members.length; ++i) {
+			    var member = { site: $scope.selectedElt,
+					   email: members[i],
+					   isAdmin: isAdmin };
+			    prefillMembers.push(member);
+			    $scope.selectedElts[member.email] = { 'selected': false,
+								  'member': member };					   
+			}
+		    }
+		    
 		    SiteService.getSite($scope.selectedElt._id)
 			.then(function(site) {
 
@@ -66,26 +89,10 @@
 			    $scope.selectedElts = {};
 			    $scope.selectedLength = 0;
 			    $scope.selectAll = false;
+			    
+			    fillSelected(site.users, prefillMembers, false);
+			    fillSelected(site.usersadmin, prefillMembers, true);
 
-			    var i;
-			    var member;
-			    for(i = 0; i < site.users.length; ++i) {
-				member = { site: $scope.selectedElt,
-					   email: site.users[i],
-					   isAdmin: false };
-				prefillMembers.push(member);
-				$scope.selectedElts[member.email] = { 'selected': false,
-								      'member': member };					   
-			    }
-
-			    for(i = 0; i < site.usersadmin.length; ++i) {
-				member = { site: $scope.selectedElt,
-					   email: site.usersadmin[i],
-					   isAdmin: true };
-				prefillMembers.push(member);
-				$scope.selectedElts[member.email] = { 'selected': false,
-								      'member': member };				
-			    }
 			    $scope.members = prefillMembers;
 			});
 		};
@@ -96,6 +103,7 @@
 		};
 
 		$scope.addMember = function() {
+		    $scope.switchToEditionMode();
 		    $scope.isNewMember = true;
 		    $scope.member = { site: $scope.selectedElt,
 				      email: "",
@@ -103,39 +111,33 @@
 		};
 
 		$scope.editMember = function(member) {
+		    $scope.switchToEditionMode();
 		    $scope.isNewMember = false;
 		    $scope.member = member;
 		};
 
-		$scope.clearMember = function() {
-		    $scope.member = undefined;
-		};
-
 		$scope.saveMember = function() {
-		    var member = angular.copy($scope.member);
-		    if($scope.isNewMember) {
-			SiteService.addUser($scope.selectedElt._id,
+
+		    function add_member(siteId, member) {
+			SiteService.addUser(siteId,
 					    member.email,
-					    member.isAdmin)
+					    isAdmin)
 			    .then(function(ret) {
 				$scope.members.push(member);
 				$scope.selectedElts[member.email] = { 'selected': false,
 								      'member': member };
 				$scope.selectAll = $scope.selectedLength == $scope.members.length;
-			    });
+			    });			
+		    }
+		    
+		    if($scope.isNewMember) {
+			add_member($scope.selectedElt._id, $scope.member);
 		    } else {
-			// edit means that the member isAdmin changed so simply delete and add again
-			$scope.removeMember(member)
+			// edit means that the member isAdmin changed so
+			// we have to remove and add again
+			$scope.removeMember($scope.member)
 			    .then(function() {
-				SiteService.addUser($scope.selectedElt._id,
-						    member.email,
-						    member.isAdmin)
-				    .then(function(ret) {
-					$scope.members.push(member);
-					$scope.selectedElts[member.email] = { 'selected': false,
-									      'member': member };
-					$scope.selectAll = $scope.selectedLength == $scope.members.length;	
-				    });
+				add_member($scope.selectedElt._id, $scope.member);
 			    });
 		    }
 		};
@@ -169,6 +171,7 @@
 		
 		function initScope() {
 
+		    // optionally initial site selection could be choosen from the $route
 		    UserService.getSettings()
 			.then(function(userData) {
 			    if($routeParams.siteId !== undefined) {

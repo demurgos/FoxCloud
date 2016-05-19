@@ -27,6 +27,7 @@
 		$scope.selectedElts = {};
 		$scope.user = undefined;
 		$scope.isNewUser = false;
+		$scope.isEditionMode = false;
 
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption('order', [[1, "asc"]]);
@@ -57,14 +58,61 @@
 			$scope.selectAll = false;
 		    }
 		};
+
+		$scope.switchToEditionMode = function() {
+		    $scope.isEditionMode = true;
+		};
+
+		$scope.switchToListMode = function() {
+		    $scope.isEditionMode = false;
+		};
 		
+		$scope.newUser = function () {
+		    $scope.switchToEditionMode();
+		    $scope.isNewUser = true;
+		    $scope.user = new UserResources();
+		};
+
+		$scope.editUser = function(user) {
+		    $scope.switchToEditionMode();
+		    $scope.isNewUser = false;
+		    $scope.user = user;
+		};
+		
+		$scope.saveUser = function() {
+		    if($scope.isNewUser) {
+			$scope.users.push($scope.user);
+			$scope.selectedElts[$scope.user._id] = { 'selected': false,
+								 'user': $scope.user };
+			$scope.selectAll = $scope.selectedLength == $scope.users.length;
+		    } 
+		    $scope.user.$save();
+		};
+
+		$scope.resetPassword = function() {
+		    $scope.user.$resetPassword();
+		};
+		
+		$scope.deleteUser = function(user) {
+		    user.$delete();
+		    removeUserFromArray(user);
+		};
+
+		$scope.deleteSelectedUsers = function() {
+		    for(var key in $scope.selectedElts) {
+			if($scope.selectedElts[key].selected) {
+			    $scope.deleteUser($scope.selectedElts[key].user);
+			}
+		    }
+		};
+
 		function initScope()
 		{
 		    $scope.users = UserResources.query(function () {
 
 			for(var i = 0; i < $scope.users.length; ++i) {
-			    $scope.selectedElts[$scope.users[i]._id] = { selected: false,
-									 user: $scope.users[i]
+			    $scope.selectedElts[$scope.users[i]._id] = { 'selected': false,
+									 'user': $scope.users[i]
 								       };
 			}			
 
@@ -82,55 +130,6 @@
 		    sel = undefined;
 		    $scope.selectAll = $scope.selectedLength == $scope.users.length;
 		}
-
-		$scope.newUser = function () { 
-		    $scope.isNewUser = true;
-		    $scope.user = new UserResources();
-		};
-
-		$scope.editUser = function(user) {
-		    $scope.isNewUser = false;
-		    $scope.user = user;
-		};
-		
-		$scope.clearUser = function() {
-		    $scope.user = undefined;
-		};
-
-		$scope.saveUser = function() {
-		    if($scope.isNewUser) {
-			$scope.users.push($scope.user);
-			$scope.selectedElts[$scope.user._id] = { 'selected': false,
-							  'user': $scope.user };
-			$scope.selectAll = $scope.selectedLength == $scope.users.length;
-		    } 
-		    $scope.user.$save();
-		};
-
-		$scope.resetPassword = function() {
-		    $scope.user.$resetPassword();
-		};
-		
-		$scope.deleteUser = function(user) {
-		    user.$delete();
-		    removeUserFromArray(user);
-		};
-
-		$scope.resetSelectedUsers = function() {
-		    for(var key in $scope.selectedElts) {
-			if($scope.selectedElts[key].selected) {
-			    $scope.selectedElts[key].user.$resetPassword();
-			}
-		    }
-		};
-
-		$scope.deleteSelectedUsers = function() {
-		    for(var key in $scope.selectedElts) {
-			if($scope.selectedElts[key].selected) {
-			    $scope.deleteUser($scope.selectedElts[key].user);
-			}
-		    }
-		};
 		
 		initScope();    		
 

@@ -1,6 +1,6 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row" ng-show="!member">
+    <div class="row" ng-show="!isEditionMode">
       <section class="col-md-12">
 	<div class="box">      
 	  <div class="box-header with-border row">	    
@@ -80,11 +80,11 @@
       </section>
     </div>
 
-    <div class="row" ng-show="member">
+    <div class="row" ng-show="isEditionMode">
       <section class="col-md-12">
-	<fca-member-editor member='member' is-new='isNewMember'
-			   on-submit='saveMember()'
-			   on-close='clearMember()'
+	<fca-member-editor member="member" is-new="isNewMember"
+			   on-submit="saveMember()"
+			   on-close="switchToListMode()"
 			   />
       </section>
     </div> <!-- end row -->

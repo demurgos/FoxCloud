@@ -22,6 +22,14 @@
 
 			UserService.getSettings().then(function(data) {
 			    scope.user = data.user;
+			    var currentUserSites = data.sites;
+			    scope.hasAdminSites = false;
+			    for(var i = 0; i < currentUserSites.length; ++i) {
+				if(currentUserSites[i].isadmin) {
+				    scope.hasAdminSites = true;
+				    break;
+				}
+			    }
 			});
 		    },
 		    templateUrl: 'build/html/SideMenuView.html'

@@ -25,12 +25,14 @@
 		DTColumnDefBuilder
 	    ) {
 
+		// items connected to the current selected site
 		$scope.items = [];
-
+		$scope.itemsFull = undefined; // detailed info for items
+		
 		$scope.selectAll = false;
-		$scope.selectedLength = 0; // select all checkbox optimization
+		$scope.selectedLength = 0; 
 		$scope.selectedElts = {};
-		$scope.selectedElt = undefined;
+		$scope.selectedElt = undefined;		
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption('order', [[1, "asc"]]);
@@ -65,6 +67,8 @@
 		$scope.update = function() {
 		    $scope.items = $scope.selectedElt.items;
 		    $scope.selectedElts = {};
+		    $scope.selectedLength = 0;
+		    $scope.selectAll = false;
 
 		    for(var i = 0; i < $scope.items.length; ++i) {
 			var item = $scope.items[i];
@@ -73,6 +77,8 @@
 							};
 		    }
 
+		    // user settings contains only items id and name
+		    // retrieve all other information from the site settings
 		    SiteService.getItems($scope.selectedElt._id, $scope.items)
                         .then(function(itemsFull) {
 			    $scope.itemsFull = itemsFull;
@@ -81,8 +87,6 @@
 
 		$scope.selectElt = function(elt) {
 		    $scope.selectedElt = elt;
-		    $scope.selectedLength = 0;
-		    $scope.selectAll = false;
 		    $scope.update();
 		};
 
@@ -136,6 +140,7 @@
 		
 		function initScope() {
 
+		    // optionally initial site selection could be choosen from the $route
 		    UserService.getSettings()
 			.then(function(userData) {
 			    if($routeParams.siteId !== undefined) {
@@ -153,5 +158,6 @@
 		}
 		
 		initScope();
+		
 	    }]);
 }());

@@ -15,7 +15,7 @@
 		<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 		    aria-labelledby="btn-append-to-single-button">
 		  <li class="indicator-value"
-		      ng-repeat="elt in sites"
+		      ng-repeat="elt in sites | filter: {isadmin:true}"
 		      ng-click="selectElt(elt)"
 		      ng-class="{'indicator-value-active':elt._id==selectedElt._id}">
 		    {{elt.name}}
