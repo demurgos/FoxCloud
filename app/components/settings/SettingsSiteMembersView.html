@@ -83,6 +83,7 @@
     <div class="row" ng-show="isEditionMode">
       <section class="col-md-12">
 	<fca-member-editor member="member" is-new="isNewMember"
+			   site="selectedElt"
 			   on-submit="saveMember()"
 			   on-close="switchToListMode()"
 			   />

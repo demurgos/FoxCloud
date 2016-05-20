@@ -80,34 +80,16 @@
 
 		$scope.addUser = function() {
 		    $scope.switchToEditionMode();
-		    $scope.isNewUser = true;
-		    $scope.user = { site: $scope.selectedElt,
-				    email: "",
-				    isAdmin: true };
-		};
-
-		// Actually we cannot edit user properties
-		// with this view. Keep this in case
-		// we want to add this functionality.
-		$scope.editUser = function(user) {
-		    $scope.switchToEditionMode();
-		    $scope.isNewUser = false;
-		    $scope.user = user;
+		    $scope.user = { email: "" };
 		};
 
 		$scope.saveUser = function() {
-		    if($scope.isNewUser) {
-			if($scope.user.isAdmin) {
-			    $scope.usersadmin.push($scope.user.email);
-			} else {
-			    $scope.users.push($scope.user.email);
-			}
-			$scope.allUsers = _.union($scope.users, $scope.usersadmin);
-			$scope.selectedElt.$save();
-			$scope.selectedElts[$scope.email] = { 'selected': false,
-							      'isAdmin': $scope.user.isAdmin };
-			$scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
-		    }
+		    $scope.usersadmin.push($scope.user.email);
+		    $scope.allUsers = _.union($scope.users, $scope.usersadmin);
+		    $scope.selectedElt.$save();
+		    $scope.selectedElts[$scope.user.email] = { 'selected': false,
+							       'isAdmin': true };
+		    $scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
 		};
 		
 		$scope.update = function() {
@@ -128,15 +110,15 @@
 		    }		    
 		};
 
-		$scope.removeUser = function(user, isAdmin) {
-		    removeUserFromArray(user, isAdmin ? $scope.usersadmin : $scope.users);
+		$scope.removeUser = function(user) {
+		    removeUserFromArray(user, $scope.selectedElts[user].isAdmin ? $scope.usersadmin : $scope.users);
 		    $scope.selectedElt.$save();
 		};
 
 		$scope.removeSelectedUsers = function() {
 		    for(var key in $scope.selectedElts) {
 			if($scope.selectedElts[key].selected) {
-			    $scope.removeUser($scope.selectedElts[key].user, $scope.selectedElts[key].isAdmin);
+			    $scope.removeUser(key);
 			}
 		    }
 		};		
@@ -146,7 +128,7 @@
 		    if(pos != -1) {
 			userArray.splice(pos, 1);
 		    } 
-		    var sel = $scope.selectedElts[user.email];
+		    var sel = $scope.selectedElts[user];
 		    if(sel.selected) {
 			$scope.selectedLength--;
 		    }

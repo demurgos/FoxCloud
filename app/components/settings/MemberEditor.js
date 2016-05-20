@@ -8,6 +8,7 @@ angular.module('FSCounterAggregatorApp')
             scope : {
 		member: '=' ,
 		isNew: '=',
+		site: '=',
 		signal_submit:'&onSubmit',
 		signal_close: '&onClose'
 	    },

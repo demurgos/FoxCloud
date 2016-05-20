@@ -60,8 +60,8 @@
 		    <td>{{user}}</td>
 		    <td>
 		      <button type="button"			      
-			      ng-really-click="deleteUser(user,true)"
-			      ng-really-message="Do you really want to remove the user <strong>{{user.name}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
+			      ng-really-click="removeUser(user)"
+			      ng-really-message="Do you really want to remove the user <strong>{{user}}</strong> from the site <strong>{{selectedElt.name}}</strong> ?"
 			      item="user"
 			      class="btn btn-warning"><i class="fa fa-trash-o"> Remove</i></button>		      
 		    </td>
@@ -76,7 +76,7 @@
     
     <div class="row" ng-show="isEditionMode">
       <section class="col-md-12">
-	<fca-member-editor member="user" is-new="isNewUser"
+	<fca-user-site-editor user="user" site="selectedElt" 
 			   on-submit="saveUser()"
 			   on-close="switchToListMode()"
 			   />

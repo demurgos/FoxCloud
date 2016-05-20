@@ -78,18 +78,20 @@
 		};
 		
 		$scope.saveSite = function() {
-		    if($scope.isNewSite) {
-			$scope.sites.push($scope.site);
-			$scope.selectedElts[$scope.site._id] = { 'selected': false,
-								 'site': $scope.site };
-			$scope.selectAll = $scope.selectedLength == $scope.sites.length;
-		    } 
-		    $scope.site.$save();
+		    $scope.site.$save()
+			.then(function() {
+			    if($scope.isNewSite) {
+				$scope.sites.push($scope.site);
+				$scope.selectedElts[$scope.site._id] = { 'selected': false,
+									 'site': $scope.site };
+				$scope.selectAll = $scope.selectedLength == $scope.sites.length;
+			    }
+			});
 		};
 		
 		$scope.deleteSite = function(site) {
-		    site.$delete();
 		    removeSiteFromArray(site);
+		    site.$delete();
 		};
 
 		$scope.deleteSelectedSites = function() {

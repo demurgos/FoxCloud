@@ -121,7 +121,7 @@
 		    function add_member(siteId, member) {
 			SiteService.addUser(siteId,
 					    member.email,
-					    isAdmin)
+					    member.isAdmin)
 			    .then(function(ret) {
 				$scope.members.push(member);
 				$scope.selectedElts[member.email] = { 'selected': false,
@@ -135,8 +135,12 @@
 		    } else {
 			// edit means that the member isAdmin changed so
 			// we have to remove and add again
+			var newAdminValue = $scope.member.isAdmin;
+			// 1st we remove him from its old container
+			$scope.member.isAdmin = !newAdminValue;
 			$scope.removeMember($scope.member)
 			    .then(function() {
+				$scope.member.isAdmin = newAdminValue;
 				add_member($scope.selectedElt._id, $scope.member);
 			    });
 		    }
@@ -160,7 +164,7 @@
 		
 		function removeMemberFromArray(member) {                                    
 		    var pos = $scope.members.indexOf(member);            
-		    $scope.users.splice(pos, 1);
+		    $scope.members.splice(pos, 1);
 		    var sel = $scope.selectedElts[member.email];
 		    if(sel.selected) {
 			$scope.selectedLength--;

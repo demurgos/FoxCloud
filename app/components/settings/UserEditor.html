@@ -31,7 +31,7 @@
       </div>
       <div class="alert alert-warning" ng-show="currentUser.resetPasswordLink !== undefined">
 	<p>You have requested a password reset. Please, click on the following link to confirm this action.</p>
-	{{currentUser.resetPasswordLink}}
+	<a href="{{currentUser.resetPasswordLink}}">Click here to reset password</a>
       </div>
       <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.email.$valid"
 	      ng-click="submit()">Save</button>

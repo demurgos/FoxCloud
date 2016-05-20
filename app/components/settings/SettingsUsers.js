@@ -80,22 +80,20 @@
 		};
 		
 		$scope.saveUser = function() {
-		    if($scope.isNewUser) {
-			$scope.users.push($scope.user);
-			$scope.selectedElts[$scope.user._id] = { 'selected': false,
-								 'user': $scope.user };
-			$scope.selectAll = $scope.selectedLength == $scope.users.length;
-		    } 
-		    $scope.user.$save();
+		    $scope.user.$save()
+			.then(function() {
+			    if($scope.isNewUser) {
+				$scope.users.push($scope.user);
+				$scope.selectedElts[$scope.user._id] = { 'selected': false,
+									 'user': $scope.user };
+				$scope.selectAll = $scope.selectedLength == $scope.users.length;
+			    }			    
+			});
 		};
 
-		$scope.resetPassword = function() {
-		    $scope.user.$resetPassword();
-		};
-		
 		$scope.deleteUser = function(user) {
-		    user.$delete();
 		    removeUserFromArray(user);
+		    user.$delete();
 		};
 
 		$scope.deleteSelectedUsers = function() {

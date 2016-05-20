@@ -93,21 +93,22 @@
 		$scope.addItem = function() {
 		    SiteService.addItem($scope.selectedElt._id)
 			.then(function(ret) {
-			    $scope.update();
+			    $scope.selectElt(ret);
 			});
 		};
 
 		$scope.removeItem = function(item) {
-		    SiteService.removeItem(item)
+		    removeItemFromArray(item);
+		    SiteService.removeItem($scope.selectedElt._id, item._id)
 			.then(function(ret) {
-			    removeItemFromArray(item);
+			    $scope.selectElt(ret);
 			});
 		};
 
 		$scope.unlinkItem = function(item) {
-		    SiteService.unlinkItem(item)
+		    SiteService.unlinkItem($scope.selectedElt._id, item._id)
 			.then(function(ret) {
-			    $scope.update();
+			    $scope.selectElt(ret);
 			});
 		};
 
@@ -129,7 +130,7 @@
 
 		function removeItemFromArray(item) {                                    
 		    var pos = $scope.items.indexOf(item);            
-		    $scope.users.splice(pos, 1);
+		    $scope.items.splice(pos, 1);
 		    var sel = $scope.selectedElts[item._id];
 		    if(sel.selected) {
 			$scope.selectedLength--;
