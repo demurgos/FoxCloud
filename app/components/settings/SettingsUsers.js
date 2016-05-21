@@ -70,7 +70,12 @@
 		$scope.newUser = function () {
 		    $scope.switchToEditionMode();
 		    $scope.isNewUser = true;
-		    $scope.user = new UserResources();
+		    $scope.user = new UserResources({
+			"enabled": true,
+			"name": "",
+			"email": "",
+			"admin": false
+		    });
 		};
 
 		$scope.editUser = function(user) {
@@ -87,6 +92,7 @@
 				$scope.selectedElts[$scope.user._id] = { 'selected': false,
 									 'user': $scope.user };
 				$scope.selectAll = $scope.selectedLength == $scope.users.length;
+				$scope.user = undefined; // clear to force the editor to update
 			    }			    
 			});
 		};

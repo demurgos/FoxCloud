@@ -3,7 +3,7 @@
     <div>{{isNew ? 'Add a new member' : 'Edit member settings'}} for site <strong>{{site.name}}</strong></div>
   </div> 
   <div class="panel-body">
-    <form name="memberForm">
+    <form name="memberForm" novalidate>
       <div class="form-group">
 	<label>Email: </label>
 	<input class="form-control"
@@ -11,7 +11,7 @@
 	       ng-readonly='!isNew'
 	       type="email"
 	       name="email"
-	       ng-required="{{currentMember !== undefined}}"> 
+	       required>
       </div>
       <div class="form-group">
 	<label>Rights: </label>
@@ -21,7 +21,7 @@
 	</div>
       </div>
       <button class='btn btn-primary'
-	      ng-disabled="!isDirty() || !memberForm.email.$valid"
+	      ng-disabled="!isDirty() || !memberForm.$valid"
 	      ng-click="submit()">Save</button>
       <button ng-show="!isDirty()" class='btn btn-default' ng-click="close()">Cancel</button>
       <button ng-show="isDirty()" class='btn btn-warning'

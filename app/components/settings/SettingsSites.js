@@ -68,7 +68,12 @@
 		$scope.newSite = function () {
 		    $scope.switchToEditionMode();
 		    $scope.isNewSite = true;
-		    $scope.site = new SiteResources();
+		    $scope.site = new SiteResources({
+			name: "",
+			usersadmin : [],
+			users : [],
+			items : []
+                    });
 		};
 
 		$scope.editSite = function(site) {
@@ -85,6 +90,7 @@
 				$scope.selectedElts[$scope.site._id] = { 'selected': false,
 									 'site': $scope.site };
 				$scope.selectAll = $scope.selectedLength == $scope.sites.length;
+				$scope.site = undefined; // clear to force the editor to update
 			    }
 			});
 		};

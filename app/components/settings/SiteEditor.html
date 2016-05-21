@@ -3,16 +3,16 @@
     <div>{{isNew ? 'Create a new site' : 'Edit site settings'}}</div>
   </div> 
   <div class="panel-body">
-    <form name="siteForm">
+    <form name="siteForm" novalidate>
       <div class="form-group">
 	<label>Display name: </label>
 	<input class="form-control"
 	       ng-model="currentSite.name"
 	       type="text"
 	       name="name"
-	       ng-required="{{currentUser !== undefined}}"> 
+	       required>
       </div>
-      <button class='btn btn-primary' ng-disabled="!isDirty()" ng-click="submit()">Save</button>
+      <button class='btn btn-primary' ng-disabled="!isDirty() || !siteForm.$valid" ng-click="submit()">Save</button>
       <button class='btn btn-default' ng-show="!isDirty()" ng-click="close()">Cancel</button>
       <button class='btn btn-warning' ng-show="isDirty()"
 	      ng-really-click="close()"

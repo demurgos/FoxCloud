@@ -3,14 +3,14 @@
     <div>{{isNew ? 'Create a new user' : 'Edit user settings'}}</div>
   </div> 
   <div class="panel-body">
-    <form name="userForm">
+    <form name="userForm" novalidate>
       <div class="form-group">
 	<label>Display name: </label>
 	<input class="form-control"
 	       ng-model="currentUser.name"
 	       type="text"
 	       name="name"
-	       ng-required="{{currentUser !== undefined}}"> 
+	       required> 
       </div>
       <div class="form-group">
 	<label>Email: </label>
@@ -19,7 +19,7 @@
 	       ng-readonly='!isNew'
 	       type="email"
 	       name="email"
-	       ng-required="{{currentUser !== undefined}}"> 
+	       required> 
       </div>
       <div class="form-group">
 	<label>Enabled</label>
@@ -33,7 +33,7 @@
 	<p>You have requested a password reset. Please, click on the following link to confirm this action.</p>
 	<a href="{{currentUser.resetPasswordLink}}">Click here to reset password</a>
       </div>
-      <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.email.$valid"
+      <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.$valid"
 	      ng-click="submit()">Save</button>
       <button ng-show="!isDirty()" class='btn btn-default' ng-click="close()">Cancel</button>
       <button ng-show="isDirty()"

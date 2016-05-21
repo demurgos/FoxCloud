@@ -119,19 +119,21 @@
 		$scope.saveMember = function() {
 
 		    function add_member(siteId, member) {
-			SiteService.addUser(siteId,
-					    member.email,
-					    member.isAdmin)
+			return SiteService.addUser(siteId,
+						   member.email,
+						   member.isAdmin)
 			    .then(function(ret) {
 				$scope.members.push(member);
 				$scope.selectedElts[member.email] = { 'selected': false,
 								      'member': member };
 				$scope.selectAll = $scope.selectedLength == $scope.members.length;
+				return ret;
 			    });			
 		    }
 		    
 		    if($scope.isNewMember) {
 			add_member($scope.selectedElt._id, $scope.member);
+			$scope.member = undefined; // clear to force the editor to update
 		    } else {
 			// edit means that the member isAdmin changed so
 			// we have to remove and add again
@@ -141,7 +143,10 @@
 			$scope.removeMember($scope.member)
 			    .then(function() {
 				$scope.member.isAdmin = newAdminValue;
-				add_member($scope.selectedElt._id, $scope.member);
+				add_member($scope.selectedElt._id, $scope.member)
+				    .then(function() {
+					$scope.member = undefined; // clear to force the editor to update
+				    });
 			    });
 		    }
 		};
