@@ -10,6 +10,7 @@
 	.controller('SettingsSiteItems', [
 	    '$scope',
 	    '$compile',
+	    '$q',
 	    '$routeParams',
 	    'UserService',
 	    'SiteService',
@@ -18,6 +19,7 @@
 	    function(
 		$scope,
 		$compile,
+		$q,
 		$routeParams,
 		UserService,
 		SiteService,
@@ -121,21 +123,26 @@
 		};
 
 		$scope.removeSelectedItems = function() {
+		    var promises = [];
 		    for(var key in $scope.selectedElts) {
 			if($scope.selectedElts[key].selected) {
-			    $scope.removeItem($scope.selectedElts[key].item);
+			    promises.push(SiteService.removeItem($scope.selectedElt._id,
+								 $scope.selectedElts[key].item._id));
 			}
 		    }
+		    $q.all(promises)
+			.then(function(ret) {
+			    $scope.update();
+			});
 		};
 
 		function removeItemFromArray(item) {                                    
 		    var pos = $scope.items.indexOf(item);            
 		    $scope.items.splice(pos, 1);
-		    var sel = $scope.selectedElts[item._id];
-		    if(sel.selected) {
+		    if($scope.selectedElts[item._id].selected) {
 			$scope.selectedLength--;
 		    }
-		    sel = undefined;
+		    delete $scope.selectedElts[item._id];
 		    $scope.selectAll = $scope.selectedLength == $scope.items.length;
 		}
 		

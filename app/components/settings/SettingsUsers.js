@@ -127,11 +127,10 @@
 		{                                    
 		    var pos = $scope.users.indexOf(user);            
 		    $scope.users.splice(pos, 1);
-		    var sel = $scope.selectedElts[user._id];
-		    if(sel.selected) {
+		    if($scope.selectedElts[user._id].selected) {
 			$scope.selectedLength--;
 		    }
-		    sel = undefined;
+		    delete $scope.selectedElts[user._id];
 		    $scope.selectAll = $scope.selectedLength == $scope.users.length;
 		}
 		

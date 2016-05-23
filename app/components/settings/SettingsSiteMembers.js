@@ -9,6 +9,7 @@
 	.controller('SettingsSiteMembers', [
 	    '$scope',
 	    '$routeParams',
+	    '$q',
 	    'UserService',
 	    'SiteService',
 	    'DTOptionsBuilder',
@@ -16,6 +17,7 @@
 	    function(
 		$scope,
 		$routeParams,
+		$q,
 		UserService,
 		SiteService,
 		DTOptionsBuilder,
@@ -160,21 +162,27 @@
 		};
 
 		$scope.removeSelectedMembers = function() {
+		    var promises = [];
 		    for(var key in $scope.selectedElts) {
 			if($scope.selectedElts[key].selected) {
-			    $scope.removeMember($scope.selectedElts[key].member);
+			    promises.push(SiteService.removeUser($scope.selectedElt._id,
+								 $scope.selectedElts[key].member.email,
+								 $scope.selectedElts[key].member.isAdmin));
 			}
 		    }
+		    $q.all(promises)
+			.then(function(ret) {
+			    $scope.update();
+			});
 		};		
 		
 		function removeMemberFromArray(member) {                                    
 		    var pos = $scope.members.indexOf(member);            
 		    $scope.members.splice(pos, 1);
-		    var sel = $scope.selectedElts[member.email];
-		    if(sel.selected) {
+		    if($scope.selectedElts[member.email].selected) {
 			$scope.selectedLength--;
 		    }
-		    sel = undefined;
+		    delete $scope.selectedElts[member.email];
 		    $scope.selectAll = $scope.selectedLength == $scope.members.length;
 		}
 		

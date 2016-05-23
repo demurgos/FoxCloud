@@ -118,9 +118,11 @@
 		$scope.removeSelectedUsers = function() {
 		    for(var key in $scope.selectedElts) {
 			if($scope.selectedElts[key].selected) {
-			    $scope.removeUser(key);
+			    removeUserFromArray(key,
+						$scope.selectedElts[key].isAdmin ? $scope.usersadmin : $scope.users);
 			}
 		    }
+		    $scope.selectedElt.$save();
 		};		
 
 		function removeUserFromArray(user, userArray) {
@@ -128,11 +130,10 @@
 		    if(pos != -1) {
 			userArray.splice(pos, 1);
 		    } 
-		    var sel = $scope.selectedElts[user];
-		    if(sel.selected) {
+		    if($scope.selectedElts[user].selected) {
 			$scope.selectedLength--;
 		    }
-		    sel = undefined;
+		    delete $scope.selectedLength[user];
 		    $scope.allUsers = _.union($scope.users, $scope.usersadmin);
 		    $scope.selectAll = $scope.selectedLength == $scope.allUsers.length;
 		}

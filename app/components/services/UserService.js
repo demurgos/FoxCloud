@@ -16,7 +16,7 @@
 	    $q,
 	    myconfig
 	) {
-	    var currentUserData = null;
+	    this.currentUserData = {};
 	    
 	    /**
 	     * @function getSettings
@@ -24,11 +24,11 @@
 	     * @description retrieve the user settings and cached them
 	     */
 	    this.getSettings = function() {
-		
+		var that = this;
 		var url = myconfig.debug ? "assets/userdata.json" : "/users/current";
 		return $http.get(url).
     		    then(function(ret) {
-			currentUserData = ret.data;
+			that.currentUserData = ret.data;
     			return ret.data;
 		    });
 	    };
@@ -40,9 +40,10 @@
 	     */
 	    this.setSettings = function(params) {
 		if(myconfig.debug) {
-		    return $q.when({});
+		    return this.getSettings();
 		} else {
-		    return $http.post('/user/current', params);
+		    var that = this;
+		    return $http.post('/users/current', params);
 		}
 	    };
 
@@ -53,8 +54,9 @@
 	     */
 	    this.setPassword = function(params) {
 		if(myconfig.debug) {
-		    return $q.when({});
+		    return this.getSettings();
 		} else {
+		    var that = this;
 		    return $http.post('/users/current/password', params);
 		}
 	    };
@@ -65,9 +67,9 @@
 	     * @description get the cached user settings (a call to getSettings must be done previously)
 	     */
 	    this.getCachedSettings = function(){
-		return currentUserData;
+		return this.currentUserData;
 	    };
-
+	    
 	    this.getResource = function() {
 		if(myconfig.debug) {
 

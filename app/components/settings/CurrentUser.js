@@ -12,20 +12,26 @@ angular.module('FSCounterAggregatorApp')
 	    $scope,
 	    UserService
 	) {
-
+	    $scope.params = UserService;
 	    $scope.username = "";
 	    $scope.email = "";
 	    
-	    UserService.getSettings().then(function(data) {
-		$scope.username = data.user.name;
-		$scope.email = data.user.email;
-	    });
+	    UserService.getSettings()
+		.then(function(data) {
+		    $scope.username = data.user.name;
+		    $scope.email = data.user.email;
+		});
 
 	    $scope.oldPassword = "";
 	    $scope.newPassword = "";
 	    $scope.newPassword2 = "";
 	    
-	    $scope.$watch('logonUser.name', function (newVal) { $scope.username = newVal; });
+	    $scope.$watch('params.currentUserData', function(newVal, oldVal) {
+		if(newVal != oldVal) {
+		    $scope.username = newVal.user.name;
+		    $scope.email = newVal.user.email;
+		}
+	    });
 	    
 	    function validPasswords()   
 	    {
@@ -55,14 +61,11 @@ angular.module('FSCounterAggregatorApp')
 			  });		    
 	    };
 	    
-	    $scope.refreshCurrentUserData = function() {
-	    };
-
 	    $scope.updateDisplayData = function () {
 		$scope.message = null;
 		
 		UserService.setSettings({ "username": $scope.username })
-		    .then(function () { $scope.refreshCurentUserData(); }, 
+		    .then(function () { UserService.getSettings(); }, 
 			  function (err) { $scope.message = 'Unable to update your display settings'; }
 			 );
 	    };		

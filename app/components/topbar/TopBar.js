@@ -13,11 +13,20 @@
 		    ) {
 			return {
 			    link: function(scope, element, attr) {
-				scope.user = {};
+				scope.params = UserService;
+				scope.user = undefined;
+				
+				UserService.getSettings()
+				    .then(function(ret) {
+					scope.user = ret.user;
+				    });
 
-				UserService.getSettings().then(function(data) {
-				    scope.user = data.user;
+				scope.$watch('params.currentUserData', function(newVal, oldVal) {
+				    if(oldVal != newVal) {
+					scope.user = newVal.user;
+				    }
 				});
+
 			    },
 			    templateUrl: 'build/html/TopBarView.html'
 			};

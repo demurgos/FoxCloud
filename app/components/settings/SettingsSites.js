@@ -125,11 +125,10 @@
 		{                                    
 		    var pos = $scope.sites.indexOf(site);            
 		    $scope.sites.splice(pos, 1);
-		    var sel = $scope.selectedElts[site._id];
-		    if(sel.selected) {
+		    if($scope.selectedElts[site._id].selected) {
 			$scope.selectedLength--;
 		    }
-		    sel = undefined;
+		    delete $scope.selectedElts[site._id];
 		    $scope.selectAll = $scope.selectedLength == $scope.sites.length;
 		}
 		

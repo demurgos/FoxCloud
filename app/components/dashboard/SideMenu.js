@@ -17,11 +17,11 @@
 		    link: function(scope, element, attr) {
 			
 			scope.user = {};
+			scope.hasAdminSites = false;
 			
 			LayoutService.init();
 
-			UserService.getSettings().then(function(data) {
-			    scope.user = data.user;
+			function updateRights(data) {
 			    var currentUserSites = data.sites;
 			    scope.hasAdminSites = false;
 			    for(var i = 0; i < currentUserSites.length; ++i) {
@@ -29,8 +29,21 @@
 				    scope.hasAdminSites = true;
 				    break;
 				}
+			    }				
+			}
+			
+			UserService.getSettings()
+			    .then(function(ret) {
+				scope.user = ret.user;
+				updateRights(ret);
+			    });
+
+			scope.$watch('UserService.currentUserData', function (newVal) {
+			    if(newVal) {
+				scope.user = newVal.user;
+				updateRights(newVal);
 			    }
-			});
+			});			
 		    },
 		    templateUrl: 'build/html/SideMenuView.html'
 		};
