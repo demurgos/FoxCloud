@@ -22,16 +22,22 @@
 	       required> 
       </div>
       <div class="form-group">
+	<div class="alert alert-warning" ng-show="currentUser.resetPasswordLink !== undefined">
+	  <p>You have requested a password reset. Please, click on the following link to confirm this action.</p>
+	  <a href="{{currentUser.resetPasswordLink}}">Click here to reset password</a>
+	</div>
+	<button class='btn btn-default'
+		ng-show="!isNew && currentUser.resetPasswordLink === undefined"
+		ng-click="resetPassword()">
+	  <i class="fa fa-recycle"> Request Password Reset</i></button>
+      </div>
+      <div class="form-group">
 	<label>Enabled</label>
 	<input type='checkbox' ng-model="currentUser.enabled" /> 
       </div>
       <div class="form-group">
 	<label>Administrator</label>
 	<input type='checkbox' ng-model="currentUser.admin" />
-      </div>
-      <div class="alert alert-warning" ng-show="currentUser.resetPasswordLink !== undefined">
-	<p>You have requested a password reset. Please, click on the following link to confirm this action.</p>
-	<a href="{{currentUser.resetPasswordLink}}">Click here to reset password</a>
       </div>
       <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.$valid"
 	      ng-click="submit()">Save</button>
@@ -40,10 +46,6 @@
 	      class='btn btn-warning'
 	      ng-really-click="close()"
 	      ng-really-message="Do you really want to cancel your changes ?">Cancel</button>
-      <button class='btn btn-default'
-	      ng-disabled="isNew || currentUser.resetPasswordLink !== undefined"
-	      ng-click="resetPassword()">
-	<i class="fa fa-recycle"> Request Password Reset</i></button>      
     </form>
   </div>    
 </div> 
