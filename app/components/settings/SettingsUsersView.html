@@ -48,8 +48,8 @@
 		    </td>
 		    <td>{{user.name}}</td>
 		    <td>{{user.email}}</td>
-		    <td>{{user.enabled}}</td>
-		    <td>{{user.admin}}</td>
+		    <td>{{user.enabled ? 'yes': 'no'}}</td>
+		    <td>{{user.admin ? 'yes' : 'no'}}</td>
 		    <td>
 		      <button type="button" ng-click="editUser(user)" class="btn btn-default">
 			<i class="fa fa-edit"> Edit</i></button>
