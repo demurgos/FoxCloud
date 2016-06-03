@@ -12,7 +12,15 @@
 	       name="name"
 	       required>
       </div>
-      <button class='btn btn-primary' ng-disabled="!isDirty() || !siteForm.$valid" ng-click="submit()">Save</button>
+      <div class="form-group">
+	<label>Site additional properties: </label>
+	<ui-codemirror ui-codemirror-opts="editorOptions"
+		       ui-codemirror="{ onLoad: codemirrorLoaded}"
+		       ui-refresh="forceRefresh">		   
+	</ui-codemirror>      
+      </div>
+      <button class='btn btn-primary' ng-disabled="!isDirty() || !siteForm.$valid"
+	      ng-click="submit()">Save</button>
       <button class='btn btn-default' ng-show="!isDirty()" ng-click="close()">Cancel</button>
       <button class='btn btn-warning' ng-show="isDirty()"
 	      ng-really-click="close()"

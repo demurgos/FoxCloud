@@ -11,6 +11,7 @@
 	'daterangepicker',
 	'nvd3',
 	'datatables',
+	'ui.codemirror',
 	'adminLTE',
 	'ngReallyClickModule'
     ]);
