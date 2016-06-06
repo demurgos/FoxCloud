@@ -80,8 +80,8 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
 			  'node_modules/fastclick/lib/fastclick.js',
-			  'node_modules/datatables.net-bs/js/dataTables.bootstrap.js'
-
+			  'node_modules/datatables.net-bs/js/dataTables.bootstrap.js',
+			  'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
 			  ];
 
 var jsSources = externalJSSources.concat(localJSSources);

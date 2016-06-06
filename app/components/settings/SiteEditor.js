@@ -54,7 +54,17 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.codemirrorLoaded = function(_editor) {
 			$scope.editor = _editor;
 
-			$scope.editor.on("change", function() {
+			$scope.editor.on("change", function(instance) {
+			    $scope.$evalAsync(function() {
+				$scope.codemirrorChanged();
+			    });
+			});
+			
+			setEditorValue($scope.currentSite);
+		    };		    
+		    
+		    $scope.codemirrorChanged = function() {
+			if($scope.editor !== undefined) {
 			    // fab: angular pb with dom event must eval or compile
 			    try {
 				jsonlint.parse($scope.editor.getValue());
@@ -63,12 +73,10 @@ angular.module('FSCounterAggregatorApp')
 			    } catch(err) {
 				$scope.codeValid = false;
 				console.log("Invalid code");
-			    }
-			});
-			
-			setEditorValue($scope.currentSite);
-		    };		    
-
+			    }			    
+			}
+		    };
+		    
 		    $scope.$watch("site", function (newVal) {
 			if(newVal) {
 			    $scope.currentSite = angular.copy(newVal);
