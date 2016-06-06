@@ -18,29 +18,10 @@ angular.module('FSCounterAggregatorApp')
 		) {
 
 		    $scope.editor = undefined;
-		    $scope.forceRefresh = false;
+		    $scope.forceRefresh = 0;
 		    $scope.codeValid = true;
-		    
-		    $scope.editorOptions = {
-			lineWrapping: true,
-			lineNumbers: true,
-			matchBrackets: true,
-			autoCloseBrackets: true,
-			mode: "application/json",
-			//gutters: ["CodeMirror-lint-markers"],
-			lint: false
-		    };
-
 		    $scope.currentSite = $scope.site;
-		    
-		    $scope.isDirty = function () {
-			return !angular.equals($scope.currentSite, $scope.site);
-		    };	
 
-		    $scope.isCodeValid = function() {
-			return $scope.codeValid;
-		    };
-		    
 		    function setEditorValue(site) {
 			if($scope.editor !== undefined) {
 			    if(site !== undefined && site.siteInfo !== undefined) {
@@ -49,19 +30,39 @@ angular.module('FSCounterAggregatorApp')
 				$scope.editor.setValue("{}");
 			    }
 			}
-		    }
+		    }		    
 		    
-		    $scope.codemirrorLoaded = function(_editor) {
-			$scope.editor = _editor;
-
+		    function codemirrorLoaded(instance) {
+			$scope.editor = instance;
+			
 			$scope.editor.on("change", function(instance) {
 			    $scope.$evalAsync(function() {
 				$scope.codemirrorChanged();
+				//++$scope.forceRefresh;
 			    });
 			});
 			
 			setEditorValue($scope.currentSite);
-		    };		    
+		    }
+		    
+		    $scope.editorOptions = {
+			lineWrapping: true,
+			lineNumbers: true,
+			matchBrackets: true,
+			autoCloseBrackets: true,
+			gutters: ["CodeMirror-lint-markers"],
+			lint: true,
+			mode: { "name": "javascript", "json": true },
+			onLoad: codemirrorLoaded
+		    };
+		    
+		    $scope.isDirty = function () {
+			return !angular.equals($scope.currentSite, $scope.site);
+		    };	
+
+		    $scope.isCodeValid = function() {
+			return $scope.codeValid;
+		    };
 		    
 		    $scope.codemirrorChanged = function() {
 			if($scope.editor !== undefined) {
@@ -81,7 +82,7 @@ angular.module('FSCounterAggregatorApp')
 			if(newVal) {
 			    $scope.currentSite = angular.copy(newVal);
 			    setEditorValue($scope.currentSite);
-			    $scope.forceRefresh = true;
+			    ++$scope.forceRefresh; // = !$scope.forceRefresh;
 			}
 		    });
 		    
