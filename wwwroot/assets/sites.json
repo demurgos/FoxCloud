@@ -2,6 +2,10 @@
   {
     "_id": "568a495b78af992414ef675b",
     "name": "Foxstream France",
+    "siteInfo": {
+	"timezone": "Europe/Paris",
+	"occupancyTimeReset": "1500"
+    },
     "usersadmin": [
       "admin@foxstream.fr",
       "i.pop@foxstream.fr"

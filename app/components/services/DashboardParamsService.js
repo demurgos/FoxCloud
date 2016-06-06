@@ -43,18 +43,27 @@
 				  var sites = [];
 				  for(var i = 0; i < data.sites.length; ++i) {
 				      sites.push({ id: data.sites[i]._id,
-						   name: data.sites[i].name });
+						   name: data.sites[i].name,
+						   siteInfo: data.sites[i].siteInfo });
 				  }
 				  that.sites = sites;
 				  return that;
 			      });
 		      };
 
+		      function addSiteInfo(sites, data) {
+			  _.forEach(_.filter(sites, 'siteInfo'), function(site) {
+			      var elt = _.find(data, ['id', site.id]);
+			      elt.siteInfo = site.siteInfo;
+			  });
+		      }
+		      
 		      function loadDataOnPeriod(sites, period) {
 			  return DataService.getRawDataForSitesInInterval(
 			      _.compact(sites.map(_.property("id"))),
 			      period).
 			      then(function(data) {
+				  addSiteInfo(sites, data);
 				  OccupancyIndicator.compute(data);
 				  return data;
 			      });
