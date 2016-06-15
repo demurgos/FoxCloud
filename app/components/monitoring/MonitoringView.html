@@ -1,0 +1,52 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <nav class="navbar">
+      <div class="pull-left">
+        <h3><i class="fa fa-heartbeat"></i><span> Monitoring / Sites Overview</span></h3>
+      </div>
+    </nav>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Table with latest upload data -->
+
+      <section class="col-md-12">
+          <!-- To be moved in a directive when more data representation is available -->
+          <div class="box">
+              <div class="box-header with-border row">
+                <div class="col-md-7">
+                  <i class="fa fa-table box-title"></i>
+                  <h3 class="box-title">Monitoring for all sites</h3>
+                </div>
+              </div>
+
+              <div class="box-body">
+                  <div class="table-responsive">
+                    <table datatable="ng" class="table table-bordered table-hover">
+                      	<thead>
+                      	  <tr>
+                      	    <th>Site name</th>
+                            <th>Item name</th>
+                            <th>Last upload time</th>
+                            <th>Duration since last upload</th>
+                      	  </tr>
+                      	</thead>
+                      	<tbody>
+                            <tr ng-repeat="item in itemData | orderBy:'Duration':-1" ng-class="{ 'bg-danger' : item.Duration>=DangerDuration }">
+                                <td>{{item.SiteName}}</td>
+                                <td>{{item.ItemName}}</td>
+                                <td>{{item.LastUploadTimeStr}}</td>
+                                <td>{{item.DurationStr}}</td>
+                            </tr>
+                      	</tbody>
+                    </table>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+  </section>
+  <!-- /.content -->
+</div>

@@ -45,6 +45,7 @@ var scssSources = ["app/assets/scss/src/**/*.scss"];
 
 var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
+               "app/components/monitoring/*.js",
 		       "app/components/topbar/*.js",
 		       "app/components/kpis/*.js",
 		       "app/components/pipes/*.js",
@@ -101,7 +102,7 @@ gulp.task('default', function() {
     console.log(usageCmd);
 });
 
-gulp.task('buildinstall', gulpSequence('build', 'copy-files'));
+gulp.task('installdebug', gulpSequence('build', 'copy-files'));
 
 gulp.task('install', gulpSequence('release', 'copy-files'));
 
@@ -125,6 +126,7 @@ gulp.task('lint', function() {
 
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/*.html",
+              "app/components/monitoring/*.html",
 		      "app/components/topbar/*.html",
 		      "app/components/settings/*.html",
 		      "app/components/widgets/*.html"
@@ -194,25 +196,25 @@ gulp.task('extract-git-revision', function() {
 	{
 		console.error("Unable to get git revision, reason: " + err);
 	}
-	
+
 	function fillRevision(revision)
-	{		
+	{
 		fs.writeFile("wwwroot/ClientVersion.json", '{"ClientRevision" : "' + revision + '" }', function(err) {
-			if (err)return errFnct(err);    
+			if (err)return errFnct(err);
 
 			console.log("Building revision : " + revision);
-		});     
+		});
 	}
-		
+
 	git.status({args: '--porcelain'}, function (err, changeList) {
-		if(changeList)		
-			fillRevision("unknown");		
+		if(changeList)
+			fillRevision("unknown");
 		else
 			git.exec({args : 'log -n 1 --format=%H'}, function (err, revision) {
 				if (err)return errFnct(err);
 				fillRevision(revision.trim());
-			});		
-	});	  
+			});
+	});
 });
 
 gulp.task('copy-files', function() {
