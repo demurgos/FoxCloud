@@ -57,9 +57,23 @@
 	  * within a period of time
 	  */
 	 this.getRawDataForSitesInInterval = function(sitesId, period) {	     
-	     var promises = [];
+ 	     var promises = [];
 	     for(var i = 0; i < sitesId.length; ++i) {
 		 promises.push(this.getRawDataForSiteInInterval(sitesId[i], period));
+	     }
+	     return $q.all(promises);
+	 };
+
+	 /**
+	  * @function getRawDataForSitesInIntervals
+	  * @memberOf FSCounterAggregatorApp.DataService
+	  * @description retrieve counting data for a set of sites
+	  * each with a specific period of time
+	  */
+	 this.getRawDataForSitesInIntervals = function(sitesId, periods) {
+	     var promises = [];
+	     for(var i = 0; i < sitesId.length; ++i) {
+		 promises.push(this.getRawDataForSiteInInterval(sitesId[i], periods[i]));
 	     }
 	     return $q.all(promises);
 	 };

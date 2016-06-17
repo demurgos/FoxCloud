@@ -7,6 +7,11 @@
         <h3><i class="fa fa-pie-chart"></i><span> Counters / Sites Overview</span></h3>
       </div>
       <fca-calendar-picker params="params"></fca-calendar-picker>
+      <div class="pull-right">
+	<h3>
+	  <a ng-click="switchTimeZone()" class="btn btn-default" type="text">{{params.useTimeZone ? 'Site Time': 'UTC Time'}} <i class="fa fa-globe"></i></a>
+	</h3>
+      </div>
     </nav>
   </section>
   <!-- Main content -->

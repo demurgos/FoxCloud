@@ -35,6 +35,8 @@
 		      // compared data must be set to empty in order
 		      // to desactivate period comparisons on widget side
 		      this.comparedData = undefined;
+
+		      this.useTimeZone = false;
 		      
 		      this.loadParams = function() {			 
 			  var that = this;
@@ -59,14 +61,32 @@
 		      }
 		      
 		      function loadDataOnPeriod(sites, period) {
-			  return DataService.getRawDataForSitesInInterval(
-			      _.compact(sites.map(_.property("id"))),
-			      period).
-			      then(function(data) {
-				  addSiteInfo(sites, data);
-				  OccupancyIndicator.compute(data);
-				  return data;
+			  if(!this.useTimeZone) {
+			      return DataService.getRawDataForSitesInInterval(
+				  _.compact(sites.map(_.property("id"))),
+				  period).
+				  then(function(data) {
+				      addSiteInfo(sites, data);
+				      OccupancyIndicator.compute(data);
+				      return data;
+				  });
+			  } else {
+			      // run through siteinfo timezone parameters
+			      // adapt the period regarding the tz
+			      // query then set the timestep to the tz
+			      var periods = [];
+			      _.forEach(sites, function(site) {
+				  periods.push(period);
 			      });
+			      return DataService.getRawDataForSitesInIntervals(
+				  _.compact(sites.map(_.property("id"))),
+				  periods).
+				  then(function(data) {
+				      addSiteInfo(sites, data);
+				      OccupancyIndicator.compute(data);
+				      return data;
+				  });
+			  }
 		      }
 		      
 		      this.loadData = function() {
@@ -87,6 +107,14 @@
 			      });
 		      };
 
+		      // reload all the data including comparison if activated
+		      this.reloadData = function() {
+			  this.loadData();
+			  if(this.comparedData !== undefined) {
+			      this.loadDataCompared();
+			  }
+		      };
+		      
 		      // must be called in order to remove comparison on widget sides
 		      this.disableDataCompared = function() {
 			  this.comparedData = undefined;

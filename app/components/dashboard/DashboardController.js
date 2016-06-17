@@ -17,6 +17,11 @@
 		$scope.params.loadData();
 	    });
 
+	    $scope.switchTimeZone = function() {
+		$scope.params.useTimeZone = !$scope.params.useTimeZone;
+		$scope.params.reloadData();
+	    };
+	    
 	    /*
 	    $scope.$watch('params.period', function(newPeriod, oldPeriod) {
 		if(newPeriod !== oldPeriod) {
