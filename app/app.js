@@ -26,6 +26,12 @@
                     pageName: 'Counters / Sites Overview',
                     category: 'Counters'
                 }).
+                when('/monitoring', {
+                    templateUrl: 'build/html/MonitoringView.html',
+                    controller: 'MonitoringController',
+                    pageName: 'Monitoring / Sites Overview',
+                    category: 'Monitoring'
+                }).
                 when('/current_user', {
                     templateUrl: 'build/html/CurrentUserView.html',
                     pageName : "My account",

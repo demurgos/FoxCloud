@@ -6,6 +6,7 @@ var concat_js = require('gulp-concat');
 var minify_css = require('gulp-cssnano');
 var less = require('gulp-less');
 var jshint = require('gulp-jshint');
+var git = require('gulp-git');
 var LessPluginCleanCSS = require('less-plugin-clean-css');
 var minify_js = require("gulp-uglify");
 var duration = require('gulp-duration');
@@ -44,6 +45,7 @@ var scssSources = ["app/assets/scss/src/**/*.scss"];
 
 var localJSSources = [ "app/app.js",
 		       "app/components/dashboard/*.js",
+               "app/components/monitoring/*.js",
 		       "app/components/topbar/*.js",
 		       "app/components/kpis/*.js",
 		       "app/components/pipes/*.js",
@@ -101,11 +103,13 @@ gulp.task('default', function() {
     console.log(usageCmd);
 });
 
-gulp.task('install', gulpSequence('build', 'copy-files'));
+gulp.task('installdebug', gulpSequence('build', 'copy-files'));
 
-gulp.task('build', [ 'common', 'prepare-css', 'prepare-js' ]);
+gulp.task('install', gulpSequence('release', 'copy-files'));
 
-gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release' ]);
+gulp.task('build', [ 'common', 'prepare-css', 'prepare-js']);
+
+gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release', 'extract-git-revision' ]);
 
 gulp.task('common', [ 'lint', 'prepare-assets', 'prepare-html' ]);
 
@@ -123,6 +127,7 @@ gulp.task('lint', function() {
 
 gulp.task('prepare-html', function() {
     return gulp.src([ "app/components/dashboard/*.html",
+              "app/components/monitoring/*.html",
 		      "app/components/topbar/*.html",
 		      "app/components/settings/*.html",
 		      "app/components/widgets/*.html"
@@ -185,6 +190,32 @@ gulp.task('prepare-css', function() {
 
 gulp.task('prepare-css-release', function() {
     return buildCSS(cssSources, scssSources, true);
+});
+
+gulp.task('extract-git-revision', function() {
+	function errFnct(err)
+	{
+		console.error("Unable to get git revision, reason: " + err);
+	}
+
+	function fillRevision(revision)
+	{
+		fs.writeFile("wwwroot/ClientVersion.json", '{"ClientRevision" : "' + revision + '" }', function(err) {
+			if (err)return errFnct(err);
+
+			console.log("Building revision : " + revision);
+		});
+	}
+
+	git.status({args: '--porcelain'}, function (err, changeList) {
+		if(changeList)
+			fillRevision("unknown");
+		else
+			git.exec({args : 'log -n 1 --format=%H'}, function (err, revision) {
+				if (err)return errFnct(err);
+				fillRevision(revision.trim());
+			});
+	});
 });
 
 gulp.task('copy-files', function() {
