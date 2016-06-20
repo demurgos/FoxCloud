@@ -11,11 +11,13 @@
 		[ "$http",
 		  "DataService",
 		  "UserService",
+		  "ComputeService",
 		  "OccupancyIndicator",
 		  function(
 		      $http,
 		      DataService,
 		      UserService,
+		      ComputeService,
 		      OccupancyIndicator
 		  ) {
 		      
@@ -53,15 +55,25 @@
 			      });
 		      };
 
+		      var that = this;
+		      
 		      function addSiteInfo(sites, data) {
 			  _.forEach(_.filter(sites, 'siteInfo'), function(site) {
 			      var elt = _.find(data, ['id', site.id]);
 			      elt.siteInfo = site.siteInfo;
 			  });
 		      }
+
+		      function convertSiteTimezone(data) {
+			  _.forEach(_.filter(data, 'siteInfo'), function(site) {
+			      if(site.siteInfo.timezone !== undefined) {				  
+				  ComputeService.cApplyTimezone(site.data, site.siteInfo.timezone);
+			      }
+			  });
+		      }
 		      
 		      function loadDataOnPeriod(sites, period) {
-			  if(!this.useTimeZone) {
+			  if(!that.useTimeZone) {
 			      return DataService.getRawDataForSitesInInterval(
 				  _.compact(sites.map(_.property("id"))),
 				  period).
@@ -76,7 +88,19 @@
 			      // query then set the timestep to the tz
 			      var periods = [];
 			      _.forEach(sites, function(site) {
-				  periods.push(period);
+				  if(site.siteInfo !== undefined &&
+				     site.siteInfo.timezone !== undefined) {
+				      periods.push({
+					  "startDate": moment.
+					      tz(period.startDate.format(), site.siteInfo.timezone).
+					      tz("UTC"),
+					  "endDate": moment.
+					      tz(period.endDate.format(), site.siteInfo.timezone).
+					      tz("UTC")
+				      });
+				  } else {
+				      periods.push(period);
+				  }
 			      });
 			      return DataService.getRawDataForSitesInIntervals(
 				  _.compact(sites.map(_.property("id"))),
@@ -84,6 +108,7 @@
 				  then(function(data) {
 				      addSiteInfo(sites, data);
 				      OccupancyIndicator.compute(data);
+				      convertSiteTimezone(data);
 				      return data;
 				  });
 			  }

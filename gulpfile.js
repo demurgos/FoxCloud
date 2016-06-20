@@ -57,6 +57,7 @@ var localJSSources = [ "app/app.js",
 localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");
 
 var externalJSSources = [ 'node_modules/moment/moment.js',
+			  'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
 			  'node_modules/lodash/lodash.js',
 			  'node_modules/jquery/dist/jquery.js',
 			  'node_modules/datatables.net/js/jquery.dataTables.js',

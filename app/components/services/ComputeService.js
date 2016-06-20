@@ -329,6 +329,25 @@
 	 }
      };
 
+     /**
+      * @function cApplyTimezone
+      * @memberOf FSCounterAggregatorApp.ComputeService
+      * @description Apply a timezone offset to a data unix time (UTC in seconds)
+      * To get this working : 
+      * - 1 we create a date object from the unix time in UTC
+      * - 2 we apply the specified tz to this object
+      * - 3 we create a new UTC date object from the string timestamp
+      * - 4 we affect the unix from this
+      */
+     this.cApplyTimezone = function(data, tzDst) {
+	 for(var i = 0; i < data.length; ++i) {
+	     data[i].time = moment.tz(moment.unix(data[i].time).
+				      tz(tzDst).
+				      format("YYYY-MM-DD HH:mm:ss"),
+				      "UTC").unix();
+	 }
+     };
+     
  });
 
 }());
