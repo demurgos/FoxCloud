@@ -9,12 +9,14 @@
     angular.module('FSCounterAggregatorApp')
 	.controller('SettingsSites', [
 	    '$scope',
+	    '$timeout',
 	    '$compile',
 	    'SiteService',
 	    'DTOptionsBuilder',
 	    'DTColumnDefBuilder',
 	    function(
 		$scope,
+		$timeout,
 		$compile,
 		SiteService,
 		DTOptionsBuilder,
@@ -29,6 +31,8 @@
 		$scope.site = undefined;
 		$scope.isNewSite = false;
 		$scope.isEditionMode = false;
+
+		$scope.dtInstance = {};
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
 		    .withOption('order', [[1, "asc"]]);
@@ -62,7 +66,11 @@
 		};
 
 		$scope.switchToListMode = function() {
-		    $scope.isEditionMode = false;
+		    $scope.isEditionMode = false;		    
+		    /* $timeout(function () {
+			$scope.dtInstance.rerender();
+			$scope.$evalAsync();
+		    }, 0, false); */
 		};
 		
 		$scope.newSite = function () {

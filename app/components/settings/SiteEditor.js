@@ -69,11 +69,10 @@ angular.module('FSCounterAggregatorApp')
 			    // fab: angular pb with dom event must eval or compile
 			    try {
 				jsonlint.parse($scope.editor.getValue());
+				$scope.currentSite.siteInfo = angular.fromJson($scope.editor.getValue());
 				$scope.codeValid = true;
-				console.log("Code valid");
 			    } catch(err) {
 				$scope.codeValid = false;
-				console.log("Invalid code");
 			    }			    
 			}
 		    };
@@ -88,8 +87,7 @@ angular.module('FSCounterAggregatorApp')
 		    
 		    $scope.submit = function () {
 			angular.copy($scope.currentSite, $scope.site);
-			// check for JSON syntax 
-			$scope.site.siteInfo = angular.fromJson($scope.editor.getValue());
+			//$scope.site.siteInfo = angular.fromJson($scope.editor.getValue());
 			if($scope.signal_submit) {
 			    $scope.signal_submit();
 			}
