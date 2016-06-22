@@ -30,7 +30,8 @@ angular.module('FSCounterAggregatorApp')
 
 		    $scope.periodComparisonSelected = false;
 		    
-		    $scope.dtOptions = DTOptionsBuilder.newOptions();
+		    $scope.dtOptions = DTOptionsBuilder.newOptions()
+		    	.withBootstrap();
 
 		    $scope.$on('event:dataTableLoaded', function(event, loadedDT) {
 			// loadedDT === {"id": "foobar", "DataTable": oTable, "dataTable": $oTable}			

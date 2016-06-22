@@ -8,30 +8,28 @@
   </div>
 
   <div class="box-body">
-    <div class="table-responsive">
-      <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped table-hover {{periodComparisonSelected ? 'table-comparison' : ''}}">
-	<thead>
-	  <tr>
-	    <th ng-show="periodComparisonSelected">Period</th>
-	    <th>Site name</th>
-            <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
-	  </tr>
-	</thead>
-	<tfoot ng-show="!periodComparisonSelected">
-	  <tr>
-	    <th>Total</th>
-	    <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
-	  </tr>
-	</tfoot>
-	<tbody>
-          <tr ng-repeat="row in rows">
-	    <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-show="periodComparisonSelected">{{row.period.startDate.format('MMM DD, YYYY')}} - {{row.period.endDate.format('MMM DD,YYYY')}}</td>
-            <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}">{{row.name}}</td>
-	    <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
-          </tr>
-	</tbody>
-      </table>
-    </div>
+    <table datatable="ng" dt-options="dtOptions" class="table table-bordered table-striped table-hover {{periodComparisonSelected ? 'table-comparison' : ''}}">
+      <thead>
+	<tr>
+	  <th ng-show="periodComparisonSelected">Period</th>
+	  <th>Site name</th>
+          <th ng-repeat="indicator in indicators">{{indicator.name}}</th>
+	</tr>
+      </thead>
+      <tfoot ng-show="!periodComparisonSelected">
+	<tr>
+	  <th>Total</th>
+	  <th ng-repeat="indicator in indicators">{{total[indicator.id] ? total[indicator.id] : 0}}</th>
+	</tr>
+      </tfoot>
+      <tbody>
+        <tr ng-repeat="row in rows">
+	  <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-show="periodComparisonSelected">{{row.period.startDate.format('MMM DD, YYYY')}} - {{row.period.endDate.format('MMM DD,YYYY')}}</td>
+          <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}">{{row.name}}</td>
+	  <td class="{{periodComparisonSelected ? (row.comparedPeriod ? 'cell-compared-period' : 'cell-period') : ''}}" ng-repeat="indicator in indicators">{{row[indicator.id]}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </div>

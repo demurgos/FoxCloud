@@ -35,7 +35,8 @@
 		$scope.dtInstance = {};
 		
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
-		    .withOption('order', [[1, "asc"]]);
+		    .withOption('order', [[1, "asc"]])
+		    .withBootstrap();
 		
 		$scope.dtColumnDefs = [
 		    DTColumnDefBuilder.newColumnDef(0).notSortable(),
