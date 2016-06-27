@@ -65,11 +65,15 @@ angular.module('FSCounterAggregatorApp')
 		    };
 		    
 		    $scope.codemirrorChanged = function() {
-			if($scope.editor !== undefined) {
+			if($scope.editor !== undefined && $scope.currentSite !== undefined) {
 			    // fab: angular pb with dom event must eval or compile
 			    try {
-				jsonlint.parse($scope.editor.getValue());
-				$scope.currentSite.siteInfo = angular.fromJson($scope.editor.getValue());
+				if($scope.editor.getValue() === "{}") {
+				    $scope.currentSite.siteInfo = undefined;
+				} else {
+				    jsonlint.parse($scope.editor.getValue());
+				    $scope.currentSite.siteInfo = angular.fromJson($scope.editor.getValue());
+				}
 				$scope.codeValid = true;
 			    } catch(err) {
 				$scope.codeValid = false;
@@ -77,8 +81,8 @@ angular.module('FSCounterAggregatorApp')
 			}
 		    };
 		    
-		    $scope.$watch("site", function (newVal) {
-			if(newVal) {
+		    $scope.$watch("site", function (newVal, oldVal) {
+			if(newVal !== oldVal) {
 			    $scope.currentSite = angular.copy(newVal);
 			    setEditorValue($scope.currentSite);
 			    ++$scope.forceRefresh; // = !$scope.forceRefresh;

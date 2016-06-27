@@ -9,16 +9,22 @@
     angular.module('FSCounterAggregatorApp').
 	service('DashboardParamsService', 
 		[ "$http",
+		  "$q",
 		  "DataService",
 		  "UserService",
+		  "SiteService",
 		  "ComputeService",
 		  "OccupancyIndicator",
+		  "myconfig",
 		  function(
 		      $http,
+		      $q,
 		      DataService,
 		      UserService,
+		      SiteService,
 		      ComputeService,
-		      OccupancyIndicator
+		      OccupancyIndicator,
+		      myconfig
 		  ) {
 		      
 		      this.period = { startDate: moment().hours(0).minutes(0).seconds(0).milliseconds(0),
@@ -44,14 +50,44 @@
 			  var that = this;
 			  return UserService.getSettings().
 			      then(function(data) {
+
 				  var sites = [];
-				  for(var i = 0; i < data.sites.length; ++i) {
-				      sites.push({ id: data.sites[i]._id,
-						   name: data.sites[i].name,
-						   siteInfo: data.sites[i].siteInfo });
+				  var i;
+				  
+				  if(myconfig.debug) {
+				      for(i = 0; i < data.sites.length; ++i) {
+					  sites.push({ id: data.sites[i]._id,
+                                                       name: data.sites[i].name,
+                                                       siteInfo: data.sites[i].siteInfo });					  
+                                      }
+                                      that.sites = sites;
+                                      return that;
+				  } else {
+				  
+				      var SiteResources = SiteService.getResource();
+				      var promises = [];
+				      
+				      var funcAddSite = function(sites, site) {
+					  sites.push({ id: site._id,
+						       name: site.name,
+						       siteInfo: site.siteInfo });
+				      };
+				      
+				      var funcError = function(reason) {
+					  console.log(reason);
+				      };
+				      
+				      for(i = 0; i < data.sites.length; ++i) {
+					  promises.push(SiteResources.get({ siteId: data.sites[i]._id }).$promise
+							.then(funcAddSite.bind(undefined, sites),
+							      funcError));
+				      }
+				      
+				      return $q.all(promises).then(function() {
+					  that.sites = sites;
+					  return that;
+				      });
 				  }
-				  that.sites = sites;
-				  return that;
 			      });
 		      };
 

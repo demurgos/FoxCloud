@@ -67,11 +67,8 @@
 		};
 
 		$scope.switchToListMode = function() {
-		    $scope.isEditionMode = false;		    
-		    /* $timeout(function () {
-			$scope.dtInstance.rerender();
-			$scope.$evalAsync();
-		    }, 0, false); */
+		    $scope.isEditionMode = false;
+		    $scope.site = undefined;
 		};
 		
 		$scope.newSite = function () {
