@@ -103,7 +103,7 @@
 		      function convertSiteTimezone(data) {
 			  _.forEach(_.filter(data, 'siteInfo'), function(site) {
 			      if(site.siteInfo.timezone !== undefined) {				  
-				  ComputeService.cApplyTimezone(site.data, site.siteInfo.timezone);
+				  ComputeService.cApplyLocalTimezone(site.data, site.siteInfo.timezone);
 			      }
 			  });
 		      }
@@ -128,11 +128,9 @@
 				     site.siteInfo.timezone !== undefined) {
 				      periods.push({
 					  "startDate": moment.
-					      tz(period.startDate.format(), site.siteInfo.timezone).
-					      tz("UTC"),
+					      tz(period.startDate.format("YYYY-MM-DD HH:mm:ss"), site.siteInfo.timezone),
 					  "endDate": moment.
-					      tz(period.endDate.format(), site.siteInfo.timezone).
-					      tz("UTC")
+					      tz(period.endDate.format("YYYY-MM-DD HH:mm:ss"), site.siteInfo.timezone)					    
 				      });
 				  } else {
 				      periods.push(period);

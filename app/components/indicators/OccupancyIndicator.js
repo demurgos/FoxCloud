@@ -27,8 +27,8 @@
 		    var nextReset = (timeStart !== undefined ?
 				     moment.unix(timeStart.time).format("YYYYMMDD") : "00000000") + timeReset;
 
-		    return function(timestamp) {
-			var currTime = moment.unix(timestamp);
+		    return function(timezone, timestamp) {
+			var currTime = timezone !== undefined ? moment.unix(timestamp).tz(timezone) : moment.unix(timestamp);
 			var shouldReset = (currTime.format("YYYYMMDDHHmm") >= nextReset);
 			if(shouldReset) {
 			    nextReset = currTime.add(1, 'days').format("YYYYMMDD") + timeReset;
@@ -40,11 +40,14 @@
 		this.compute = function(data) {
 
 		    for(var i = 0; i < data.length; ++i) {
-			var funcReset = (data[i].siteInfo !== undefined &&
+			var timeReset = (data[i].siteInfo !== undefined &&
 					 data[i].siteInfo.occupancyTimeReset !== undefined) ?
-			    ResetOccupancyAt(data[i].siteInfo.occupancyTimeReset, data[i].data[0]) : ResetOccupancyAtMidnight;
-			ComputeService.cOccupancy(data[i].data,
-						  'in', 'out', 'occ', funcReset);
+			    data[i].siteInfo.occupancyTimeReset : "0000";
+			// when existing we always use the site timezone for the occupancy reset
+			// otherwise local time is used
+			var timezone = data[i].siteInfo !== undefined ? data[i].siteInfo.timezone : undefined;
+			var funcReset = ResetOccupancyAt(timeReset, data[i].data[0]).bind(undefined, timezone);
+			ComputeService.cOccupancy(data[i].data, 'in', 'out', 'occ', funcReset);
 		    }
 		};
 	    }]);

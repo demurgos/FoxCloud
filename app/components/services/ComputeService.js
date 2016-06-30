@@ -330,21 +330,19 @@
      };
 
      /**
-      * @function cApplyTimezone
+      * @function cApplyLocalTimezone
       * @memberOf FSCounterAggregatorApp.ComputeService
-      * @description Apply a timezone offset to a data unix time (UTC in seconds)
-      * To get this working : 
-      * - 1 we create a date object from the unix time in UTC
-      * - 2 we apply the specified tz to this object
-      * - 3 we create a new UTC date object from the string timestamp
-      * - 4 we affect the unix from this
+      * @description Apply an time offset to sync data to a local timezone
+      * To get this working we need to apply the offset in seconds between the original timezone 
+      * and the local timezone.
       */
-     this.cApplyTimezone = function(data, tzDst) {
-	 for(var i = 0; i < data.length; ++i) {
-	     data[i].time = moment.tz(moment.unix(data[i].time).
-				      tz(tzDst).
-				      format("YYYY-MM-DD HH:mm:ss"),
-				      "UTC").unix();
+     this.cApplyLocalTimezone = function(data, tzSrc) {
+	 var offsetInSeconds = (moment.tz(tzSrc).utcOffset() - moment().utcOffset())*60;
+	 if(offsetInSeconds !== 0) {
+	     for(var i = 0; i < data.length; ++i) {
+		 var intTime = parseInt(data[i].time);		 
+		 data[i].time = (intTime + offsetInSeconds).toString();
+	     }
 	 }
      };
      
