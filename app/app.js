@@ -27,7 +27,13 @@
                     pageName: 'Counters / Sites Overview',
                     category: 'Counters'
                 }).
-                when('/monitoring', {
+		when('/generic', {
+		    templateUrl: 'build/html/GenericView.html',
+		    controller: 'DashboardController',
+		    pageName: 'Counters / Generic',
+		    category: 'Counters'
+		}).
+		when('/monitoring', {
                     templateUrl: 'build/html/MonitoringView.html',
                     controller: 'MonitoringController',
                     pageName: 'Monitoring / Sites Overview',

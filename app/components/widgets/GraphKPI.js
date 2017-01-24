@@ -24,11 +24,11 @@ angular.module('FSCounterAggregatorApp').
 
 		    //var $injector = angular.injector(['FSCounterAggregatorApp']);
 		    //var s = $injector.get('WidgetStyleService');
-		    $scope.htmlPopover = $sce.trustAsHtml(
+		    /*$scope.htmlPopover = $sce.trustAsHtml(
 			'<ul>' +
 			    '<li ng-repeat="option in parent.kpi.options.indicators"> {{option.name}}</li>' +
 			    '</ul>'
-		    );
+		    );*/
 
 		    $scope.widgetId = "GraphKPIWidget";
 		    $scope.sitesSelected = [ undefined, undefined ];
@@ -100,6 +100,15 @@ angular.module('FSCounterAggregatorApp').
 			}
 		    });
 
+		    $scope.updateIndicators = function() {
+			if($scope.params.sites.length > 0 &&
+			   $scope.kpi.updateIndicators !== undefined) {
+			    var idx = _.findIndex($scope.params.data,
+						  {"id": $scope.params.sites[0].id });
+			    $scope.kpi.updateIndicators($scope.params.data[idx]);
+			}
+		    };
+		    
 		    //		    $scope.updateSiteList = function() {
 		    //			if($scope.params.data !== undefined &&
 		    //			   $scope.params.data.length &&
@@ -194,6 +203,8 @@ angular.module('FSCounterAggregatorApp').
 
 				$scope.setWidgetStyle(style);
 
+				$scope.updateIndicators();
+				
 				$scope.periodComparisonLabels = {};
 
 				var chartsData = [];

@@ -46,7 +46,7 @@ angular.module('FSCounterAggregatorApp').
 			.then(function(data) {
 			});
 
-		    $scope.$watch('params.data', function(oldData, newData) {
+		    $scope.$watch('params.data', function(newData, oldData) {
 			if(newData !== oldData) {
 			    $scope.update();
 			}
