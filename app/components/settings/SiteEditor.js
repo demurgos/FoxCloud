@@ -1,6 +1,7 @@
 /**
  * @class SiteEditor
  */
+
 angular.module('FSCounterAggregatorApp')
     .directive("fcaSiteEditor", function () {
 	return {

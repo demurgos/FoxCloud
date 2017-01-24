@@ -6,6 +6,12 @@
 
 (function() {
 
+    require('./DataService');
+    require('./UserService');
+    require('./SiteService');
+    require('./ComputeService');
+    require('../indicators/OccupancyIndicator');
+    
     angular.module('FSCounterAggregatorApp').
 	service('DashboardParamsService', 
 		[ "$http",

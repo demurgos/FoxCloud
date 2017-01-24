@@ -16,6 +16,12 @@ var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
+//
+var browserify = require('browserify');
+var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var collapse = require('bundle-collapser/plugin');
 
 var usageCmd = '\nUsage: gulp build|release|docs|install [--local] [--dest]\n \
 \t--local\tUse fake data instead of retrieving them from the server.\n \
@@ -43,20 +49,12 @@ var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
 
 var scssSources = ["app/assets/scss/src/**/*.scss"];
 
-var localJSSources = [ "app/app.js",
-		       "app/components/dashboard/*.js",
-		       "app/components/monitoring/*.js",
-		       "app/components/topbar/*.js",
-		       "app/components/kpis/*.js",
-		       "app/components/pipes/*.js",
-		       "app/components/widgets/*.js",
-		       "app/components/services/*.js",
-		       "app/components/indicators/*.js",
-		       "app/components/settings/*.js",
-		       "app/components/modules/*.js",
-		       "lib/js/*.js" ];
+var localJSSources = [];
 
-localJSSources.push(argv.local ? "app/components/configuration/conf_debug.js" : "app/components/configuration/conf.js");
+var browserEntries = [
+    './app/app.js',
+    argv.local ? "./app/components/configuration/conf_debug.js"
+	: "./app/components/configuration/conf.js" ];
 
 var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
@@ -86,8 +84,8 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/d3/d3.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
-			  'node_modules/fastclick/lib/fastclick.js',
-			  'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
+			  'node_modules/fastclick/lib/fastclick.js'
+			  //'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
 			  ];
 
 var jsSources = externalJSSources.concat(localJSSources);
@@ -107,9 +105,11 @@ gulp.task('installdebug', gulpSequence('build', 'copy-files'));
 
 gulp.task('install', gulpSequence('release', 'copy-files'));
 
-gulp.task('build', [ 'common', 'prepare-css', 'prepare-js']);
+gulp.task('build', [ 'common', 'prepare-css', 'prepare-js', 'browser-js']);
 
-gulp.task('release', ['common', 'prepare-css-release', 'prepare-js-release', 'extract-git-revision' ]);
+gulp.task('release', ['common', 'prepare-css-release',
+		      'prepare-js-release', 'browser-js-release',
+		      'extract-git-revision' ]);
 
 gulp.task('common', [ 'lint', 'prepare-assets', 'prepare-html' ]);
 
@@ -176,12 +176,40 @@ function buildJS(files, destName, destDir, minify) {
 	.pipe(gulp.dest(destDir));
 }
 
+function buildBrowser(main, name, dst, minify) {
+    var g = browserify({entries: main, extensions: ['.js'], debug: false})
+    	.plugin(collapse)
+        .bundle()
+	.on('error', function(err) {
+            console.error(err);
+        })
+        .pipe(source(name))
+	.pipe(buffer());
+
+    if(minify) {
+	g = g.pipe(minify_js());
+    } else {
+	g = g.pipe(sourcemaps.init({loadMaps: true}))
+	    .pipe(sourcemaps.write('./'));
+    }
+    
+    return g.pipe(gulp.dest(dst));
+}
+
 gulp.task('prepare-js', function() {
     return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', false);
 });
 
 gulp.task('prepare-js-release', function() {
     return buildJS(jsSources, 'lib.min.js', 'wwwroot/build/js/', true);
+});
+
+gulp.task('browser-js', function() {
+    return buildBrowser(browserEntries, 'fca.min.js', 'wwwroot/build/js/', false);
+});
+
+gulp.task('browser-js-release', function() {
+    return buildBrowser(browserEntries, 'fca.min.js', 'wwwroot/build/js/', true);
 });
 
 gulp.task('prepare-css', function() {

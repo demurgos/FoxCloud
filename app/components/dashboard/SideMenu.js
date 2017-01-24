@@ -4,6 +4,8 @@
  * @description Menu used to select dashboards
  */
 (function() {
+
+    require('../services/UserService');
     
     angular.module('FSCounterAggregatorApp')
 	.directive('fcaSideMenu', [

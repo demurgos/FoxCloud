@@ -3,41 +3,30 @@
  * @memberOf FSCounterAggregatorApp
  * @description Compute the sum or the max depending on the indicator value
  */
-(function() {
+'use strict';
 
-    angular.module('FSCounterAggregatorApp')
-	.controller('KPISumMax', [
-	    "$scope",
-	    "ComputeService",
-	    "$controller",
-	    function(
-		$scope,
-		ComputeService,
-		$controller
-	    ) {
+var KPISumGeneric = require('./KPISumGeneric');
 
-		this.kpis = {
-		    "in": $controller("KPISum", { "$scope": $scope }),
-		    "out": $controller("KPISum", { "$scope": $scope }),
-		    "occ": $controller("KPIMax", { "$scope": $scope })
-		};
+function KPISumMax($scope, $controller) {
 
-		this.options = {
-		    indicators: [
-			{ id: 'in', name: 'In' },
-			{ id: 'out', name: 'Out' },
-			{ id: 'occ', name: 'Max Occupancy' }
-		    ]
-		};
-		
-		/**
-		 * @function compute
-		 * @memberOf FSCounterAggregatorApp.KPISumMax
-		 */
-		this.compute = function(query) {
-		    var res = this.kpis[query.indicator].compute(query);
-		    return res;
-		};
-		
-	    }]);
-}());
+    KPISumGeneric.call(this, $scope, $controller);
+    
+    this.kpis = {
+	"in": $controller("KPISum", { "$scope": $scope }),
+	"out": $controller("KPISum", { "$scope": $scope }),
+	"occ": $controller("KPIMax", { "$scope": $scope })
+    };
+    
+    this.options = {
+	indicators: [
+	    { id: 'in', name: 'In' },
+	    { id: 'out', name: 'Out' },
+	    { id: 'occ', name: 'Max Occupancy' }
+	]
+    };
+    
+}
+
+KPISumMax.$inject = [ "$scope", "$controller" ];
+
+module.exports = KPISumMax;

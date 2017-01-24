@@ -4,6 +4,8 @@
  * @description Controller that manages user settings
  */
 
+require('../services/UserService');
+
 angular.module('FSCounterAggregatorApp')
     .controller('CurrentUser', [
 	'$scope',

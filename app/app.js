@@ -4,7 +4,13 @@
 
 (function() {
 
-    var app = angular.module('FSCounterAggregatorApp',[
+    // module main declaration
+    //require('angular');
+    require('angular-ui-codemirror');
+    require('./components/modules/ngReallyClickModule');
+    require('./components/services/LayoutService');
+    
+    angular.module('FSCounterAggregatorApp',[
 	'ngRoute',
 	'ngResource',
 	'ui.bootstrap',
@@ -16,9 +22,52 @@
 	'adminLTE',
 	'ngReallyClickModule'
     ]);
+    
+    // controllers
+    require('./components/dashboard/DashboardController');
+    require('./components/monitoring/MonitoringController');
+    require('./components/settings/CurrentUser');
+    require('./components/settings/SettingsSiteItems');
+    require('./components/settings/SettingsSiteMembers');
+    require('./components/settings/SettingsUsers');
+    require('./components/settings/SettingsSites');
+    require('./components/settings/SettingsPerSite');
+    require('./components/settings/SettingsUsersSites');
+    require('./components/settings/SettingsPerUser');
 
+    // directives
+    require('./components/dashboard/SideMenu');
+    require('./components/topbar/TopBar');
+    require('./components/settings/MemberEditor');
+    require('./components/settings/SiteEditor');
+    require('./components/settings/UserEditor');
+    require('./components/settings/UserSiteEditor');
+    require('./components/widgets/CalendarPicker');
+    require('./components/widgets/GraphKPI');
+    require('./components/widgets/StatBox');
+    require('./components/widgets/StatBoxKPI');
+    require('./components/widgets/TableKPI');
+
+    // kpis
+    require('./components/kpis/KPIMax');
+    require('./components/kpis/KPIMaxPeriod');
+    require('./components/kpis/KPIMaxSiteRatio');
+    require('./components/kpis/KPIMean');
+    require('./components/kpis/KPISum');
+    require('./components/kpis/KPITypicalDay');
+
+    angular.module('FSCounterAggregatorApp')
+	.controller('KPISumGeneric', require('./components/kpis/KPISumGeneric'))
+	.controller('KPISumMax', require('./components/kpis/KPISumMax'))
+	.controller('KPIPeriodGeneric', require('./components/kpis/KPIPeriodGeneric'))
+	.controller('KPISitesPeriod', require('./components/kpis/KPISitesPeriod'));
+    
+    // filters
+    require('./components/pipes/HourFormatPipe');
+    require('./components/pipes/SiteNamePipe');
+    
     // Configure routes
-    app.config(['$routeProvider',
+    angular.module('FSCounterAggregatorApp').config(['$routeProvider',
         function($routeProvider) {
             $routeProvider.
                 when('/dashboard', {

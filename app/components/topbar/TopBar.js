@@ -5,6 +5,8 @@
  */
 (function() {
 
+    require('../services/UserService');
+    
     angular.module('FSCounterAggregatorApp')
 	.directive('fcaTopBar', 
 		   ['UserService',

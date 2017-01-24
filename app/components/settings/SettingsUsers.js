@@ -6,6 +6,8 @@
  */
 (function() {
 
+    require('../services/UserService');
+    
     angular.module('FSCounterAggregatorApp')
 	.controller('SettingsUsers', [
 	    '$scope',

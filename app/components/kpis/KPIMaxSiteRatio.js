@@ -5,6 +5,8 @@
  */
 (function() {
 
+    require('../services/ComputeService');
+    
     angular.module('FSCounterAggregatorApp').
 	controller('KPIMaxSiteRatio', [
 	    "ComputeService",

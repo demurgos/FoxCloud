@@ -3,6 +3,8 @@
  **/
 
 (function(){
+
+    require('../services/DashboardParamsService');
     
     angular.module('FSCounterAggregatorApp').controller('DashboardController', [
 	'$scope',

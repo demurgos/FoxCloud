@@ -21,14 +21,14 @@
       <section class="col-md-12">
 	<div ng-controller="KPIPeriodGeneric as kpi">
 	  <fca-graph-kpi params="params" kpi="kpi"
-			 kpi-options="{ indicators: [{id:'in',name'In'},{id:'out',name:'Out'},{id:'occ',name:'Occupancy',func:'KPIMean'}]}">
+			 kpi-options="{ indicators: [{id:'in',name:'In'},{id:'out',name:'Out'},{id:'occ',name:'Occupancy',func:'KPIMean'}]}">
 	  </fca-graph-kpi>
 	</div>
       </section>
       <section class="col-md-12">
 	<div ng-controller="KPISumGeneric as kpi">
 	  <fca-table-kpi params="params" kpi="kpi"
-			 kpi-options="{indicators: [{id:'in',name:'In'},{id:'out',name:'Out'},{id:'occ',name:'Max Occupancy',func:'KPIMax'}] }">
+			 kpi-options="{indicators: [{id:'in',name:'In'},{id:'out',name:'Out'},{id:'occ',name:'Max Occupancy',func:'KPIMax'}]}">
 	  </fca-table-kpi>
 	</div>
       </section>
