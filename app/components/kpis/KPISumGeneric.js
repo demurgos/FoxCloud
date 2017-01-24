@@ -16,7 +16,7 @@
 		$controller
 	    ) {
 
-		this.defaultController = "KPISum";
+		this.defaultFunc = "KPISum";
 		
 		this.kpis = {
 		};
@@ -30,7 +30,7 @@
 
 		this.setKPIFunc = function(id, func) {
 		    if(func === undefined) {
-			func = this.defaultController;
+			func = this.defaultFunc;
 		    }
 		    this.kpis[id] = $controller(func,{"$scope":$scope});
 		};
@@ -43,6 +43,25 @@
 
 		this.addOption = function(id, name) {
 		    this.options.indicators.push({id: id, name: name});
+		};
+
+		this.setOption = function(id, name, func) {
+		    this.setKPIFunc(id, func);
+		    var elt = this.getOptionFromId(id);
+		    if(elt === undefined) {
+			this.addOption(id, name);
+		    } else {
+			elt.name = name;
+		    }
+		};
+
+		this.setOptions = function(options) {
+		    if(options.indicators !== undefined) {
+			for(var i = 0; i < options.indicators.length; ++i) {
+			    var elt = options.indicators[i];
+			    this.setOption(elt.id, elt.name, elt.func);
+			}
+		    }
 		};
 		
 		this.updateIndicators = function(sitedata) {
@@ -67,8 +86,7 @@
 		 * @memberOf FSCounterAggregatorApp.KPISumMax
 		 */
 		this.compute = function(query) {		    
-		    var res = this.kpis[query.indicator].compute(query);
-		    return res;
+		    return this.kpis[query.indicator].compute(query);
 		};
 		
 	    }]);

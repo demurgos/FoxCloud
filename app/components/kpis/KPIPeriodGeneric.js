@@ -12,6 +12,37 @@
 		ComputeService
 	    ) {
 
+		this.computeFuncs = {
+		    'KPISum': {
+			compute: function(query) {
+			    var res = { query: query, data: [],	value: undefined };
+			    
+			    var sumPeriod = ComputeService.cSumForPeriod(query.sitedata,
+									 query.period,
+									 query.groupBy,
+									 query.indicator);
+			    res.data = sumPeriod;
+			    res.value = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });			    
+			    return res;
+			}
+		    },
+		    'KPIMean': {
+			compute: function(query) {
+			    var res = {	query: query, data: [],	value: undefined };
+			    
+			    var meanPeriod = ComputeService.cMeanForPeriod(query.sitedata,
+									   query.period,
+									   query.groupBy,
+									   query.indicator);
+			    res.data = meanPeriod;
+			    res.value = Math.round(ComputeService.cMean(meanPeriod, function(elt) { return elt.y; }));			    
+			    return res;
+			}
+		    }
+		};		
+
+		this.defaultFunc = 'KPISum';
+		
 		this.rangeParams = {
 		    '15min': {
 			hourMode: true,
@@ -70,6 +101,9 @@
 		    }
 		};
 
+		this.kpis = {
+		};
+		
 		this.avoid = [ "duration", "time" ];
 		
 		this.options = {
@@ -160,12 +194,29 @@
 		    return undefined;
 		};
 
+		this.setKPIFunc = function(id, func) {
+		    if(func === undefined) {
+			func = this.defaultFunc;
+		    }
+		    this.kpis[id] = this.computeFuncs[func];
+		};
+		
 		this.getOptionFromId = function(id) {
 		    return this.options.indicators.find(function(elt) {
 			return elt.id === id;
 		    });
 		};
 
+		this.setOption = function(id, name, func) {
+		    this.setKPIFunc(id, func);
+		    var elt = this.getOptionFromId(id);
+		    if(elt === undefined) {
+			this.addOption(id, name);
+		    } else {
+			elt.name = name;
+		    }
+		};
+		
 		this.addOption = function(id, name) {
 		    this.options.indicators.push({id: id, name: name});
 		};
@@ -179,6 +230,9 @@
 				this.options.defaultIndicatorId = key;
 			    }
 			    if(this.avoid.indexOf(key) === -1) {
+				if(this.kpis[key] === undefined) {
+				    this.setKPIFunc(key);
+				}
 				if(this.getOptionFromId(key) === undefined) {
 				    this.addOption(key, key);
 				}
@@ -187,7 +241,6 @@
 		    }
 		    
 		};
-
 		
 		/**
 		 * @function compute
@@ -195,21 +248,7 @@
 		 * @description Compute the sum of data for each range within a period of time
 		 */
 		this.compute = function(query) {
-
-		    var res = {
-			query: query,
-			data: [],
-			value: undefined
-		    };
-
-		    var sumPeriod = ComputeService.cSumForPeriod(query.sitedata,
-								 query.period,
-								 query.groupBy,
-								 query.indicator);
-		    res.data = sumPeriod;
-		    res.value = ComputeService.cSum(sumPeriod, function(elt) { return elt.y; });
-
-		    return res;
+		    return this.kpis[query.indicator].compute(query);
 		};
 
 	    }]);

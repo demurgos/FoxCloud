@@ -9,7 +9,8 @@ angular.module('FSCounterAggregatorApp').
 	    scope: {
 		params: '=',
 		kpi: '=',
-        sitecomparing: '@'
+		kpiOptions: '=?',
+		sitecomparing: '@'
 	    },
 	    controller: [
 		'$scope',
@@ -62,6 +63,10 @@ angular.module('FSCounterAggregatorApp').
 		    $scope.periodTimeFormat = $scope.kpi.getTimeFormat($scope.params.period,
 								       $scope.rangeSelected.id);
 
+		    if($scope.kpiOptions !== undefined) {
+			$scope.kpi.setOptions($scope.kpiOptions);
+		    }
+		    
 		    /**
 		     * When true, set the default value for 2nd site
 		     * force comparison to be at minimum by hours
@@ -106,6 +111,10 @@ angular.module('FSCounterAggregatorApp').
 			    var idx = _.findIndex($scope.params.data,
 						  {"id": $scope.params.sites[0].id });
 			    $scope.kpi.updateIndicators($scope.params.data[idx]);
+
+			    if($scope.indicatorSelected.id === undefined) {
+				$scope.indicatorSelected = { id: $scope.kpi.options.defaultIndicatorId };
+			    }
 			}
 		    };
 		    

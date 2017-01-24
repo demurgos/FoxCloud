@@ -8,7 +8,8 @@ angular.module('FSCounterAggregatorApp')
 	return {
 	    scope: {
 		params: '=',
-		kpi: '='		
+		kpi: '=',
+		kpiOptions: '=?'
 	    },
 	    controller: [
 		'$scope',
@@ -33,6 +34,10 @@ angular.module('FSCounterAggregatorApp')
 		    $scope.dtOptions = DTOptionsBuilder.newOptions()
 		    	.withBootstrap();
 
+		    if($scope.kpiOptions !== undefined) {
+			$scope.kpi.setOptions($scope.kpiOptions);
+		    }
+		    
 		    $scope.$on('event:dataTableLoaded', function(event, loadedDT) {
 			// loadedDT === {"id": "foobar", "DataTable": oTable, "dataTable": $oTable}			
 			// loadedDT.DataTable is the DataTable API instance
@@ -56,7 +61,7 @@ angular.module('FSCounterAggregatorApp')
 			}
 		    });
 
-		    $scope.updateIndicators = function() {
+		    $scope.updateIndicators = function() {			
 			if($scope.params.sites.length > 0 &&
 			   $scope.kpi.updateIndicators !== undefined) {
 			    var idx = _.findIndex($scope.params.data,
