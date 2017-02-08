@@ -164,7 +164,7 @@ directive('fcaGraphKpi', function() {
                 };
 
                 function updateOnPeriod(period, data, chartsDataStyle, chartsData, chartsLegends, preKey) {
-                    if ($scope.kpi.haveKPI($scope.indicatorSelected.id)) {
+                    if ($scope.kpi.haveIndicator($scope.indicatorSelected.id)) {
                         for (var i = 0; i < $scope.sitesSelected.length; ++i) {
                             if ($scope.sitesSelected[i] !== undefined) {
                                 var idx = _.findIndex(data, {
@@ -236,8 +236,6 @@ directive('fcaGraphKpi', function() {
                         $scope.setWidgetStyle(style);
 
                         $scope.updateIndicators();
-
-
 
                         $scope.periodComparisonLabels = {};
 

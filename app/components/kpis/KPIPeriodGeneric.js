@@ -99,7 +99,7 @@ function KPIPeriodGeneric(ComputeService) {
     }
   };
 
-  this.kpis = {};
+  this.indicators = [];
 
   this.avoid = ["duration", "time"];
 
@@ -196,50 +196,45 @@ function KPIPeriodGeneric(ComputeService) {
   * @description returns the displayed indicator label
   */
   this.getIndicatorName = function(indicatorId) {
-    var elt = this.getOptionFromId(indicatorId);
+    var elt = this.getIndicatorElt(indicatorId);
     if (elt !== undefined) {
-      return elt.name;
+      return elt.name || elt.id;
     }
     return undefined;
   };
 
-  this.setKPIFunc = function(id, func) {
-    if (func === undefined) {
-      func = this.defaultFunc;
+  this.getIndicatorFunc = function(id) {
+    let elt = this.getIndicatorElt(id);
+    if (elt !== undefined) {
+      return elt.func || this.defaultFunc;
     }
-    this.kpis[id] = this.computeFuncs[func];
-  };
+    return undefined;
+  }
 
-  this.getOptionFromId = function(id) {
-    return this.options.indicators.find(function(elt) {
+  this.getIndicatorElt = function(id) {
+    return this.indicators.find(function(elt) {
       return elt.id === id;
     });
   };
 
-  this.setOption = function(id, name, func) {
-    this.setKPIFunc(id, func);
-    var elt = this.getOptionFromId(id);
-    if (elt === undefined) {
-      this.addOption(id, name);
-    } else {
-      elt.name = name;
-    }
-  };
+  this.getOptionIndicatorElt = function(id) {
+    return this.options.indicators.find(function(elt) {
+      return elt.id === id;
+    });
+  }
 
   this.setOptions = function(options) {
-    if (options.indicators !== undefined) {
-      for (var i = 0; i < options.indicators.length; ++i) {
-        var elt = options.indicators[i];
-        this.setOption(elt.id, elt.name, elt.func);
-      }
-    }
+    angular.extend(this.options, options);
   };
 
-  this.addOption = function(id, name) {
-    this.options.indicators.push({id: id, name: name});
+  this.addIndicatorElt = function(elt) {
+    this.indicators.push(elt);
   };
 
   this.updateIndicators = function(sitedata) {
+
+    // reset the indicators list
+    this.indicators = [];
 
     if (sitedata.data.length) {
       var elt = sitedata.data[0];
@@ -247,12 +242,15 @@ function KPIPeriodGeneric(ComputeService) {
         if (this.options.defaultIndicatorId === undefined) {
           this.options.defaultIndicatorId = key;
         }
+
         if (this.avoid.indexOf(key) === -1) {
-          if (this.kpis[key] === undefined) {
-            this.setKPIFunc(key);
-          }
-          if (this.getOptionFromId(key) === undefined) {
-            this.addOption(key, key);
+          if (this.getIndicatorElt(key) === undefined) {
+            let option = this.getOptionIndicatorElt(key);
+            if(option !== undefined) {
+              this.addIndicatorElt(option);
+            } else {
+              this.addIndicatorElt({ id: key });
+            }
           }
         }
       }
@@ -262,10 +260,10 @@ function KPIPeriodGeneric(ComputeService) {
 
   /**
   * @function haveKPI
-  * @description return whether or not a kpi exists for this indicator
+  * @description return whether or not an indicator exist for this kpi
   */
-  this.haveKPI = function(indicator) {
-    return this.kpis[indicator] !== undefined;
+  this.haveIndicator = function(id) {
+    return this.getIndicatorElt(id) !== undefined;
   };
 
   /**
@@ -274,10 +272,11 @@ function KPIPeriodGeneric(ComputeService) {
   * @description Compute the sum of data for each range within a period of time
   */
   this.compute = function(query) {
-    if (this.haveKPI(query.indicator)) {
-      return this.kpis[query.indicator].compute(query);
+    let func = this.getIndicatorFunc(query.indicator);
+    if(func !== undefined) {
+      return this.computeFuncs[func].compute(query);
     }
-
+    return undefined;
   };
 }
 
