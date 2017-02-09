@@ -3,7 +3,6 @@
 * @memberOf FSCounterAggregatorApp
 * @description Compute the sum of data for each range within a period of time
 */
-'use strict';
 
 require('../services/ComputeService');
 
@@ -146,9 +145,7 @@ function KPIPeriodGeneric(ComputeService) {
     } else if (period.endDate.diff(period.startDate, "days") > 2) {
       return "MMM DD";
     } else {
-      return this.getRangeParams(rangeId).hourMode
-      ? "HH:mm"
-      : "MMM DD";
+      return this.getRangeParams(rangeId).hourMode ? "HH:mm" : "MMM DD";
     }
   };
 
@@ -204,12 +201,12 @@ function KPIPeriodGeneric(ComputeService) {
   };
 
   this.getIndicatorFunc = function(id) {
-    let elt = this.getIndicatorElt(id);
+    var elt = this.getIndicatorElt(id);
     if (elt !== undefined) {
       return elt.func || this.defaultFunc;
     }
     return undefined;
-  }
+  };
 
   this.getIndicatorElt = function(id) {
     return this.indicators.find(function(elt) {
@@ -221,7 +218,7 @@ function KPIPeriodGeneric(ComputeService) {
     return this.options.indicators.find(function(elt) {
       return elt.id === id;
     });
-  }
+  };
 
   this.setOptions = function(options) {
     angular.extend(this.options, options);
@@ -239,13 +236,13 @@ function KPIPeriodGeneric(ComputeService) {
     if (sitedata.data.length) {
       var elt = sitedata.data[0];
       for (var key in elt) {
-        if (this.options.defaultIndicatorId === undefined) {
-          this.options.defaultIndicatorId = key;
-        }
-
         if (this.avoid.indexOf(key) === -1) {
+          if (this.options.defaultIndicatorId === undefined) {
+            this.options.defaultIndicatorId = key;
+          }
+
           if (this.getIndicatorElt(key) === undefined) {
-            let option = this.getOptionIndicatorElt(key);
+            var option = this.getOptionIndicatorElt(key);
             if(option !== undefined) {
               this.addIndicatorElt(option);
             } else {
@@ -272,7 +269,7 @@ function KPIPeriodGeneric(ComputeService) {
   * @description Compute the sum of data for each range within a period of time
   */
   this.compute = function(query) {
-    let func = this.getIndicatorFunc(query.indicator);
+    var func = this.getIndicatorFunc(query.indicator);
     if(func !== undefined) {
       return this.computeFuncs[func].compute(query);
     }

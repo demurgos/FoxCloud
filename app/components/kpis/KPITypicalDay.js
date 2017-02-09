@@ -3,7 +3,6 @@
 * @memberOf FSCounterAggregatorApp
 * @description Compute the sum of data for each range within a period of time
 */
-'use strict';
 
 require('../services/ComputeService');
 

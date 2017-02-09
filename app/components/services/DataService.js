@@ -32,7 +32,7 @@
               return {
                 id: siteId,
                 data: []
-              }
+              };
             }
 
             var retData = [];

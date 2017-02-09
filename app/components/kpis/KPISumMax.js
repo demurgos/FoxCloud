@@ -3,20 +3,19 @@
  * @memberOf FSCounterAggregatorApp
  * @description Compute the sum or the max depending on the indicator value
  */
-'use strict';
 
 var KPISumGeneric = require('./KPISumGeneric');
 
 function KPISumMax($scope, $controller) {
 
     KPISumGeneric.call(this, $scope, $controller);
-    
+
     this.kpis = {
 	"in": $controller("KPISum", { "$scope": $scope }),
 	"out": $controller("KPISum", { "$scope": $scope }),
 	"occ": $controller("KPIMax", { "$scope": $scope })
     };
-    
+
     this.options = {
 	indicators: [
 	    { id: 'in', name: 'In' },
@@ -24,7 +23,7 @@ function KPISumMax($scope, $controller) {
 	    { id: 'occ', name: 'Max Occupancy' }
 	]
     };
-    
+
 }
 
 KPISumMax.$inject = [ "$scope", "$controller" ];

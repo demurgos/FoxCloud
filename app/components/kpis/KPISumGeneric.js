@@ -3,7 +3,6 @@
 * @memberOf FSCounterAggregatorApp
 * @description Compute the sum of the available indicators
 */
-'use strict';
 
 function KPISumGeneric($scope, $controller) {
 

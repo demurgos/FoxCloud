@@ -56,6 +56,10 @@ var browserEntries = [
     argv.local ? "./app/components/configuration/conf_debug.js"
 	: "./app/components/configuration/conf.js" ];
 
+var lintSources = browserEntries.concat([
+  'app/components/**/*.js'
+]);
+
 var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
 			  'node_modules/lodash/lodash.js',
@@ -75,7 +79,7 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/angular-route/angular-route.js',
 			  'node_modules/angular-resource/angular-resource.js',
 			  'node_modules/angular-datatables/dist/angular-datatables.js',
-			  'node_modules/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',			  
+			  'node_modules/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',
 			  'node_modules/bootstrap/dist/js/bootstrap.js',
 			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
 			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
@@ -119,7 +123,7 @@ gulp.task('docs', function() {
 });
 
 gulp.task('lint', function() {
-    return gulp.src(localJSSources)
+    return gulp.src(lintSources)
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));
@@ -192,7 +196,7 @@ function buildBrowser(main, name, dst, minify) {
 	g = g.pipe(sourcemaps.init({loadMaps: true}))
 	    .pipe(sourcemaps.write('./'));
     }
-    
+
     return g.pipe(gulp.dest(dst));
 }
 
