@@ -44,23 +44,22 @@
 	  <label>User additional properties:</label>
 
 	  <uib-tabset>
-	      <uib-tab index="0" heading="General">
+	      <uib-tab index="0" heading="General" select="setJsonMode()">
 		  <ui-codemirror ui-codemirror-opts="jsonOptions"
 				 ui-refresh="forceRefresh">
 		  </ui-codemirror>
 	      </uib-tab>
 
-	      <uib-tab index="1" heading="Dashboard">
+	      <uib-tab index="1" heading="Dashboard" select="setHtmlMode()">
 		  <ui-codemirror ui-codemirror-opts="htmlOptions"
-				 ui-refresh="forceRefresh"
-				 ng-model="propHTML">
+				 ui-refresh="forceRefresh">
 		  </ui-codemirror>
 	      </uib-tab>
 	  </uib-tabset>
 	  
       </div>
             
-      <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.$valid"
+      <button class='btn btn-primary' ng-disabled="!isDirty() || !userForm.$valid || !jsonValid || !htmlValid"
 	      ng-click="submit()">Save</button>
       <button ng-show="!isDirty()" class='btn btn-default' ng-click="close()">Cancel</button>
       <button ng-show="isDirty()"

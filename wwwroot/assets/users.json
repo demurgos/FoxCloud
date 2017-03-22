@@ -56,7 +56,7 @@
     "enabled": true,
     "password": "pbkdf2$10000$564125a0957da3e69d5410aa5de08f1bdb53a1d6bc50ea4205252c2f72c33dcda9fcbe7b046e91c8abceb0cc466271c13ced9589790b8a4619b0828e2e758beb$3afcb729d8a8978ff64df8b935c2b05b69940df952002313eb02a8bbac3ebf20f6a7a57eecd05c0c3917ce96f2237e62fcf337ba29855149b3b75233ba0a3003",
     "userInfo": {
-	"dashboard": "<div class='row'><section class='col-md-12'><div ng-controller='KPIPeriodGeneric as kpi'><fca-graph-kpi params='params' kpi='kpi'></fca-graph-kpi></div></section></div>"
+	"dashboard": "<div class='row'>\n  <section class='col-md-12'>\n    <div ng-controller='KPIPeriodGeneric as kpi'>\n      <fca-graph-kpi params='params' kpi='kpi'>\n      </fca-graph-kpi>\n    </div>\n  </section>\n</div>"
     }
   },
   {

@@ -24,7 +24,8 @@ angular.module('FSCounterAggregatorApp')
 		    
 		    $scope.forceRefresh = 0;
 		    $scope.currentUser = $scope.user;
-
+		    $scope.jsonValid = true;
+		    $scope.htmlValid = true;
 		    $scope.jsonEditor = undefined;
 		    $scope.htmlEditor = undefined;
 
@@ -37,6 +38,16 @@ angular.module('FSCounterAggregatorApp')
 				$scope.jsonEditor.setValue(emptyValue);
 			    }
 			}			
+		    }
+
+		    function setDashboardValue(user) {
+			if($scope.htmlEditor !== undefined) {
+			    if(user !== undefined && user.userInfo !== undefined && user.userInfo.dashboard !== undefined) {
+				$scope.htmlEditor.setValue(user.userInfo.dashboard);
+			    } else {
+				$scope.htmlEditor.setValue(defaultDashboard);
+			    }
+			}
 		    }
 		    
 		    $scope.jsonOptions = {
@@ -52,7 +63,7 @@ angular.module('FSCounterAggregatorApp')
 			    $scope.jsonEditor = instance;
 			    $scope.jsonEditor.on("change", function(instance) {
 				$scope.$evalAsync(function() {
-				    $scope.codemirrorChanged();
+				    $scope.jsonChanged();
 				});
 			    });
 			    setEditorValue($scope.currentUser);
@@ -61,10 +72,21 @@ angular.module('FSCounterAggregatorApp')
 
 		    $scope.htmlOptions = {
 			lineWrapping: true,
+			lineNumbers: true,
 			autoRefresh: true,
-			//lineNumbers: true,
-			mode: 'xml',
-			onLoad: function(instance) { $scope.htmlEditor = instance; }
+			gutters: ["CodeMirror-lint-markers"],
+			lint: true,
+			htmlMode: true,
+			matchClosing: true,
+			mode: { name: "xml" },
+			onLoad: function(instance) {
+			    $scope.htmlEditor = instance;
+			    $scope.htmlEditor.on("change", function(instance) {
+				$scope.$evalAsync(function() {
+				    $scope.htmlChanged();
+				});
+			    });
+			}
 		    };
 
 		    $scope.propJson = "";
@@ -82,9 +104,8 @@ angular.module('FSCounterAggregatorApp')
 			$scope.close();
 		    };
 
-		    $scope.codemirrorChanged = function() {
+		    $scope.jsonChanged = function() {
 			if($scope.jsonEditor !== undefined && $scope.currentUser !== undefined) {
-			    // fab: angular pb with dom event must eval or compile
 			    try {
 				if($scope.jsonEditor.getValue() === "{}") {
 				    $scope.currentUser.userInfo = undefined;
@@ -92,11 +113,30 @@ angular.module('FSCounterAggregatorApp')
 				    jsonlint.parse($scope.jsonEditor.getValue());
 				    $scope.currentUser.userInfo = angular.fromJson($scope.jsonEditor.getValue());
 				}
-				$scope.codeValid = true;
+				$scope.jsonValid = true;
 			    } catch(err) {
-				$scope.codeValid = false;
+				$scope.jsonValid = false;
 			    }			    
 			}
+		    };
+
+		    $scope.htmlChanged = function() {
+			if($scope.htmlEditor !== undefined && $scope.currentUser !== undefined) {
+			    if($scope.currentUser.userInfo !== undefined) {
+				$scope.currentUser.userInfo.dashboard = $scope.htmlEditor.getValue();
+				$scope.htmlValid = true;
+			    }
+			}
+		    };
+
+		    $scope.setHtmlMode = function() {
+			setDashboardValue($scope.currentUser);
+			++$scope.forceRefresh;
+		    };
+
+		    $scope.setJsonMode = function() {
+			setEditorValue($scope.currentUser);
+			++$scope.forceRefresh;
 		    };
 		    
 		    $scope.close = function () {
@@ -116,6 +156,7 @@ angular.module('FSCounterAggregatorApp')
 			if(newVal) {
 			    $scope.currentUser = angular.copy(newVal);
 			    setEditorValue($scope.currentUser);
+			    setDashboardValue($scope.currentUser);
 			    ++$scope.forceRefresh;
 			}
 		    });
