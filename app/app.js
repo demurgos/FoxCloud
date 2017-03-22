@@ -47,6 +47,7 @@
   require('./components/widgets/StatBox');
   require('./components/widgets/StatBoxKPI');
   require('./components/widgets/TableKPI');
+  require('./components/widgets/UserDashboard');
 
   // kpis
   require('./components/kpis/KPIMax');
@@ -82,6 +83,12 @@
       pageName: 'Counters / Generic',
       category: 'Counters'
     }).
+	  when('/mydashboard', {
+	      templateUrl: 'build/html/MyDashboardView.html',
+	      controller: 'DashboardController',
+	      pageName: 'Counters / MyDashboard',
+	      category: 'Counters'
+	  }).
     when('/monitoring', {
       templateUrl: 'build/html/MonitoringView.html',
       controller: 'MonitoringController',

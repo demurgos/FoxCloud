@@ -28,7 +28,7 @@
             // add rnd
             //
             var getData = Math.random();
-            if(getData > 0.5) {
+            if(getData > 1) { // to enabled random use value inside [0;1[
               return {
                 id: siteId,
                 data: []
