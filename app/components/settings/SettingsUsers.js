@@ -68,6 +68,7 @@
 
 		$scope.switchToListMode = function() {
 		    $scope.isEditionMode = false;
+			$scope.user = undefined;
 		};
 		
 		$scope.newUser = function () {
