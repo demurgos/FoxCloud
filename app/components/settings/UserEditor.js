@@ -152,8 +152,8 @@ angular.module('FSCounterAggregatorApp')
 			    });
 		    };
 		    
-		    $scope.$watch("user", function (newVal) {
-			if(newVal) {
+		    $scope.$watch("user", function (newVal, oldValue) {
+			if(newVal !== oldVal) {
 			    $scope.currentUser = angular.copy(newVal);
 			    setEditorValue($scope.currentUser);
 			    setDashboardValue($scope.currentUser);
