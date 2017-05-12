@@ -38,7 +38,7 @@ angular.module('FSCounterAggregatorApp').
                     });                    
                 }
             },
-            templateUrl: 'build/html/HeatMapKPIView.html'
+            templateUrl: 'build/html/heatmap/HeatMapKPIView.html'
         };
     });
 
