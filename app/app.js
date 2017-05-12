@@ -44,6 +44,7 @@
   require('./components/settings/UserSiteEditor');
   require('./components/widgets/CalendarPicker');
   require('./components/widgets/GraphKPI');
+  require('./components/widgets/heatmap/HeatMapKPI');
   require('./components/widgets/StatBox');
   require('./components/widgets/StatBoxKPI');
   require('./components/widgets/TableKPI');
@@ -78,7 +79,7 @@
       category: 'Counters'
     }).
     when('/generic', {
-      templateUrl: 'build/html/GenericView.html',
+      templateUrl: 'build/html/TestView.html',
       controller: 'DashboardController',
       pageName: 'Counters / Generic',
       category: 'Counters'

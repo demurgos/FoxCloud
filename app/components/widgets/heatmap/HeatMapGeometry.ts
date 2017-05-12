@@ -25,7 +25,6 @@ export class HeatMapBufferGeometry extends BufferGeometry {
         let normals = [];
         let uvs = [];
         let heights = [];
-        let colors = [];
         let offsets = [];        
 
         // used for uv normalisation
@@ -51,8 +50,7 @@ export class HeatMapBufferGeometry extends BufferGeometry {
             for (let j = 0; j < 6; ++j) {
                 normals.push(0, 0, 1);
                 uvs.push(pt[0], pt[1]);
-                heights.push(pt[3]);
-                colors.push(pt[3], pt[3], pt[3]);
+                heights.push(pt[3]);                
             }
         }
 
@@ -64,8 +62,7 @@ export class HeatMapBufferGeometry extends BufferGeometry {
         
         this.addAttribute('position', new Float32BufferAttribute(vertices, 3));
         this.addAttribute('normal', new Float32BufferAttribute(normals, 3));
-        this.addAttribute('uv', new Float32BufferAttribute(uvs, 2));
-        this.addAttribute('color', new Float32BufferAttribute(colors, 3));
+        this.addAttribute('uv', new Float32BufferAttribute(uvs, 2));        
         this.addAttribute('offset', new Float32BufferAttribute(offsets, 2));
         this.addAttribute('height', new Float32BufferAttribute(heights, 1));
     }
