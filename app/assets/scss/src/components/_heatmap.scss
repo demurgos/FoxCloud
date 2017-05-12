@@ -1,0 +1,14 @@
+
+.box-heatmap {
+    height: 480px;
+}
+
+#heatmap-renderer {
+    //position: absolute;
+    //left: 0px;
+    //top: 0px;
+    display: block;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+}

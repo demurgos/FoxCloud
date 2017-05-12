@@ -22,6 +22,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var collapse = require('bundle-collapser/plugin');
+var tsify = require('tsify');
 
 var usageCmd = '\nUsage: gulp build|release|docs|install [--local] [--dest]\n \
 \t--local\tUse fake data instead of retrieving them from the server.\n \
@@ -91,6 +92,7 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
 			  'node_modules/fastclick/lib/fastclick.js'
+			  //'node_modules/three/build/three.js'
 			  //'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
 			  ];
 
@@ -117,7 +119,7 @@ gulp.task('release', ['common', 'prepare-css-release',
 		      'prepare-js-release', 'browser-js-release',
 		      'extract-git-revision' ]);
 
-gulp.task('common', [ 'lint', 'prepare-assets', 'prepare-html' ]);
+gulp.task('common', [ /*'lint'*/ 'prepare-assets', 'prepare-html' ]);
 
 gulp.task('docs', function() {
     return gulp.src(localJSSources.concat(['README.md']))
@@ -136,7 +138,8 @@ gulp.task('prepare-html', function() {
               "app/components/monitoring/*.html",
 		      "app/components/topbar/*.html",
 		      "app/components/settings/*.html",
-		      "app/components/widgets/*.html"
+		      "app/components/widgets/*.html",
+			  "app/components/widgets/**/*.html"
 		    ])
 	.pipe(duration('Execution Time: '))
 	.pipe(gulp.dest('wwwroot/build/html/'));
@@ -183,14 +186,15 @@ function buildJS(files, destName, destDir, minify) {
 }
 
 function buildBrowser(main, name, dst, minify) {
-    var g = browserify({entries: main, extensions: ['.js'], debug: false})
+    var g = browserify({entries: main, extensions: ['.js', '.ts'], debug: false})
+		.plugin(tsify, { noImplicitAny: true, target: "es5" })
     	.plugin(collapse)
         .bundle()
-	.on('error', function(err) {
+		.on('error', function(err) {
             console.error(err);
         })
         .pipe(source(name))
-	.pipe(buffer());
+		.pipe(buffer());
 
     if(minify) {
 	g = g.pipe(minify_js());
