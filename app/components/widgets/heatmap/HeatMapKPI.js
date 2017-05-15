@@ -57,7 +57,7 @@ angular.module('FSCounterAggregatorApp').
 
                         $scope.renderer.removeAllHeatMap();
 
-                        $scope.renderer.setBackground(new TextureLoader().load('assets/img/uv.png'));
+                        $scope.renderer.setViewport(1136, 736, new TextureLoader().load('assets/img/map_01.jpg'));
 
                         let data = [];
 

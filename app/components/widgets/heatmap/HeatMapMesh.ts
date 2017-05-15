@@ -1,5 +1,6 @@
 import {
-    Camera, LinearFilter, WebGLRenderer,
+    PerspectiveCamera, LinearFilter, WebGLRenderer,
+    OrthographicCamera,
     Mesh, Scene, WebGLRenderTarget,
     Texture, PlaneBufferGeometry,
     NearestFilter, ClampToEdgeWrapping
@@ -13,19 +14,22 @@ export class HeatMapMesh extends Mesh {
 
     private needsUpdate: boolean;
 
+    private fbCamera: OrthographicCamera;
     private fbScene: Scene;
     private fbRenderer: WebGLRenderTarget;
     private intensityNorm: number;
 
-    constructor(intensityNorm?: number, gradientTexture?: Texture) {
+    constructor(width: number, height: number, intensityNorm?: number, gradientTexture?: Texture) {
         super();
 
         this.needsUpdate = true;
 
         this.intensityNorm = intensityNorm || 1;
 
+        this.fbCamera = new OrthographicCamera(-width/2, width/2, height/2, -height/2, 0, 1);
+
         this.fbScene = new Scene();
-        this.fbRenderer = new WebGLRenderTarget(0, 0, {
+        this.fbRenderer = new WebGLRenderTarget(width, height, {
             minFilter: NearestFilter,
             magFilter: NearestFilter,
             wrapS: ClampToEdgeWrapping,
@@ -35,7 +39,7 @@ export class HeatMapMesh extends Mesh {
         });
 
         this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture);
-        this.geometry = new PlaneBufferGeometry(2, 2, 1, 1);
+        this.geometry = new PlaneBufferGeometry(width, height, 1, 1);
 
     }
 
@@ -55,18 +59,17 @@ export class HeatMapMesh extends Mesh {
         this.needsUpdate = true;
     }
 
-    public update(renderer: WebGLRenderer, camera: Camera): void {        
+    public update(renderer: WebGLRenderer): void {        
         if (this.needsUpdate) {
             if(this.fbRenderer.width === 0) {
                 this.setSize(renderer.getSize().width, renderer.getSize().height);
-            }
-            renderer.render(this.fbScene, camera, this.fbRenderer);
+            }            
+            renderer.render(this.fbScene, this.fbCamera, this.fbRenderer);            
             this.needsUpdate = false;
         }
     }
 
-    public setSize(width: number, height: number) {
-        this.fbRenderer.setSize(width, height);
+    public setSize(width: number, height: number) {        
         this.needsUpdate = true;
     }
 }
