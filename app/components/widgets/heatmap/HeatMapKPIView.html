@@ -1,8 +1,13 @@
 <div class="box">
     <div class="box-header with-border row">
-        <div class="col-md-7">
-            <i class="fa fa-table box-title"></i>
-            <h3 class="box-title">Heatmap View</h3>
+        <div class="col-md-7 col-xs-12">
+            <i class="fa fa-thermometer-half box-title"></i>
+            <h3 class="box-title">
+                <select class="form-control" ng-model="siteSelected" 
+                        ng-options="option.name for option in params.sites track by option.id"
+                        ng-change="update()">
+                </select>
+            </h3>
         </div>
     </div>
     <div class="box-body box-heatmap">

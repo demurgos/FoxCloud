@@ -66,7 +66,7 @@
     "datatables.net": "^1.10.12",
     "event-stream": "^3.3.2",
     "fastclick": "^1.0.6",
-    "font-awesome": "^4.5.0",
+    "font-awesome": "^4.7.0",
     "gh-release": "^2.0.2",
     "gulp-git": "^1.7.2",
     "gulp-sequence": "^0.4.5",
