@@ -12,7 +12,7 @@ import { HeatMapBufferGeometry } from './HeatMapGeometry';
 
 export class HeatMapMesh extends Mesh {
 
-    private needsUpdate: boolean;
+    public needsUpdate: boolean;
 
     private fbCamera: OrthographicCamera;
     private fbScene: Scene;
@@ -29,14 +29,7 @@ export class HeatMapMesh extends Mesh {
         this.fbCamera = new OrthographicCamera(-width/2, width/2, height/2, -height/2, 0, 1);
 
         this.fbScene = new Scene();
-        this.fbRenderer = new WebGLRenderTarget(width, height, {
-            minFilter: NearestFilter,
-            magFilter: NearestFilter,
-            wrapS: ClampToEdgeWrapping,
-            wrapT: ClampToEdgeWrapping,
-            stencilBuffer: false,
-            depthBuffer: false
-        });
+        this.fbRenderer = new WebGLRenderTarget(width, height);
 
         this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture);
         this.geometry = new PlaneBufferGeometry(width, height, 1, 1);
@@ -59,12 +52,13 @@ export class HeatMapMesh extends Mesh {
         this.needsUpdate = true;
     }
 
-    public update(renderer: WebGLRenderer): void {        
+    public update(renderer: WebGLRenderer): void {         
         if (this.needsUpdate) {
             if(this.fbRenderer.width === 0) {
                 this.setSize(renderer.getSize().width, renderer.getSize().height);
-            }            
-            renderer.render(this.fbScene, this.fbCamera, this.fbRenderer);            
+            }    
+            //renderer.clearTarget(this.fbRenderer, true, false, false); // clear the previous framebuffer             
+            renderer.render(this.fbScene, this.fbCamera, this.fbRenderer, true);                                  
             this.needsUpdate = false;
         }
     }

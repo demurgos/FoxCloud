@@ -114,6 +114,13 @@ export class HeatMapControls extends MouseControlsBase {
         this.updateBounds();
     }
 
+    public reset(): void {
+        this.zoom = 1;
+        this.camera.position.x = 0;
+        this.camera.position.y = 0;
+        this.updateBounds();
+    }
+
     rebind() {
         this.rebindAll();
     }

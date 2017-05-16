@@ -47,18 +47,15 @@ export class HeatMapRenderer {
             new MeshBasicMaterial({ color: 0xffffff, map: background }));
         this.background.position.set(0, 0, -0.5);
         this.scene.add(this.background);
-        this.controls.setViewport(-this.params.width/2, -this.params.height/2, this.params.width/2, this.params.height/2);
+        this.controls.setViewport(-this.params.width / 2, -this.params.height / 2, this.params.width / 2, this.params.height / 2);
     }
 
     private commonInit(): void {
 
         this.clock = new Clock();
 
-        this.heatmapCamera
-            //= new PerspectiveCamera(this.params.fov, this.getWidth() / this.getHeight(), 0.1, 2000);
-            = new OrthographicCamera(-this.width/2, this.width/2, this.height/2, -this.height/2, 0, 1)
-        //this.heatmapCamera
-        //    .position.set(0, 0, 600);
+        this.heatmapCamera            
+            = new OrthographicCamera(-this.width / 2, this.width / 2, this.height / 2, -this.height / 2, 0, 1)        
 
         this.renderer = new WebGLRenderer({
             alpha: true
@@ -71,11 +68,15 @@ export class HeatMapRenderer {
         this.controls = new HeatMapControls(this.heatmapCamera, {
             zoomMin: 1,
             zoomMax: 4,
-            clickToInteract: true,            
+            clickToInteract: true,
             scope: this.getContainer(),
             zoomWheel: true
         });
-        this.controls.setViewport(-this.params.width/2, -this.params.height/2, this.params.width/2, this.params.height/2);
+        this.controls.setViewport(-this.params.width / 2, -this.params.height / 2, this.params.width / 2, this.params.height / 2);
+    }
+
+    public resetControls(): void {
+        this.controls.reset();
     }
 
     private updateControls(): void {
@@ -102,33 +103,32 @@ export class HeatMapRenderer {
         this.heatmaps = [];
     }
 
-    public addHeatMap(data: any[], intensityNorm?: number, gradientTexture?: Texture): void {
+    public addHeatMap(data: any[], intensityNorm?: number, gradientTexture?: Texture): number {
         let heatmap = new HeatMapMesh(this.params.width, this.params.height, intensityNorm, gradientTexture);
         heatmap.setHeatMapData(data);
         this.heatmaps.push(heatmap);
         this.scene.add(heatmap);
+        return this.heatmaps.length - 1;
     }
+
+    public setHeatMapVisible(id: number, v: boolean): void {
+        if (this.heatmaps[id]) {
+            this.heatmaps[id].visible = v;
+            this.heatmaps[id].needsUpdate = true;
+        }
+    }   
 
     public onDrawFrame(): void {
         this.updateControls();
         this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.update(this.renderer));
-        this.renderer.render(this.scene, this.heatmapCamera);
+        this.renderer.render(this.scene, this.heatmapCamera);        
     }
 
     private updateSizeFromContainer(): void {
         this.width = this.getContainerWidth();
         this.height = this.getContainerHeight();
         this.renderer.setSize(this.getWidth(), this.getHeight());
-        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setSize(this.getWidth(), this.getHeight()));
-        /*this.heatmapCamera.left = -this.width / 2;
-        this.heatmapCamera.right = this.width / 2;
-        this.heatmapCamera.top = this.height / 2;
-        this.heatmapCamera.bottom = -this.height / 2;
-        this.heatmapCamera.updateProjectionMatrix();*/
-        //this.heatmapCamera
-        //    .aspect = this.getWidth() / this.getHeight();        
-        //this.heatmapCamera
-        //    .updateProjectionMatrix();            
+        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setSize(this.getWidth(), this.getHeight()));                   
     }
 
     private getContainer(): any {

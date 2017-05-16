@@ -21,9 +21,11 @@ angular.module('FSCounterAggregatorApp').
             controller: [
                 '$scope',
                 'WidgetStyleService',
+                'DataService',
                 function (
                     $scope,
-                    WidgetStyleService
+                    WidgetStyleService,
+                    DataService
                 ) {
                     $scope.widgetId = "HeatMapKPIWidget";
                     $scope.siteSelected = undefined;
@@ -35,6 +37,7 @@ angular.module('FSCounterAggregatorApp').
                     });
 
                     $scope.periodComparisonSelected = false;
+                    $scope.heatmapVisible = 0;
 
                     $scope.style = undefined;
 
@@ -46,45 +49,65 @@ angular.module('FSCounterAggregatorApp').
 
                     $scope.$watch('params.comparedData', function (newData, oldData) {
                         if (newData !== undefined && newData.length) {
-                            $scope.periodComparisonSelected = true;
+                            $scope.periodComparisonSelected = true;                            
                         } else if ($scope.periodComparisonSelected) {
                             $scope.periodComparisonSelected = false;
-                        }
-                        $scope.update();
+                            $scope.heatmapVisible = 0;
+                            $scope.update();
+                        }                        
                     });
 
-                    $scope.update = function () {
+                    $scope.$watch('heatmapVisible', function (newV, oldV) {
+                        if (oldV !== newV) {                            
+                            $scope.renderer.setHeatMapVisible(0, newV === 0);
+                            $scope.renderer.setHeatMapVisible(1, newV === 1);                            
+                        }
+                    });
+
+                    $scope.siteSelectedChanged = () => {
+                        $scope.renderer.resetControls();
+                        $scope.update();
+                    };
+
+                    $scope.update = function () {                        
 
                         $scope.renderer.removeAllHeatMap();
 
-                        $scope.renderer.setViewport(1136, 736, new TextureLoader().load('assets/img/map_01.jpg'));
-
-                        let data = [];
-
-                        for (var i = 0; i < 500; ++i) {
-                            data.push([1000 * Math.random() - 500,
-                            200 * Math.random() - 100,
-                            100 * Math.random(),
-                            255 * Math.random()]);
+                        if (!$scope.siteSelected || !$scope.siteSelected.siteInfo || !$scope.siteSelected.siteInfo.heatmap) {
+                            return false;
                         }
 
-                        $scope.renderer.addHeatMap(data, 255);
+                        new TextureLoader().load($scope.siteSelected.siteInfo.heatmap.map,
+                            (texture) => {
 
-                        if ($scope.periodComparisonSelected) {
-                            let data = [];
+                                $scope.renderer.setViewport(texture.image.width, texture.image.height, texture);
 
-                            for (var i = 0; i < 500; ++i) {
-                                data.push([1000 * Math.random() - 500,
-                                200 * Math.random() - 100,
-                                100 * Math.random(),
-                                255 * Math.random()]);
-                            }
+                                DataService.getFakeHeatMapData($scope.siteSelected.siteInfo.heatmap)
+                                    .then((data) => {
 
-                            new TextureLoader().load('assets/img/deep-sea-gradient.png',
-                                (texture) => {
-                                    $scope.renderer.addHeatMap(data, 255, texture);
-                                });
-                        }
+                                        // randomize data
+                                        data = data.map(elt => elt.map(e => e + 0.2 * e * Math.random()));
+
+                                        $scope.renderer.addHeatMap(data, 255);
+                                        $scope.renderer.setHeatMapVisible(0, $scope.heatmapVisible === 0);
+
+                                        if ($scope.periodComparisonSelected) {
+
+                                            let compData = data.map((elt) => {
+                                                return elt.map(e => e + 0.2 * e * Math.random());
+                                            });
+
+                                            $scope.renderer.addHeatMap(compData, 255);                                            
+                                            $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);
+
+                                            /*new TextureLoader().load('assets/img/deep-sea-gradient.png',
+                                                (texture) => {
+                                                    $scope.renderer.addHeatMap(compData, 255, texture);
+                                                    $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);                                                
+                                                });*/
+                                        }
+                                    });
+                            });
                     };
 
                 }],

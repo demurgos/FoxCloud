@@ -31,6 +31,6 @@ export class HeatIntensityMaterial extends ShaderMaterial {
         this.blending = CustomBlending;
         this.blendSrc = OneFactor;
         this.blendDst = OneFactor;
-        this.blendEquation = MaxEquation;        
+        this.blendEquation = AddEquation;        
     }
 }
