@@ -15,7 +15,7 @@
                 </button>
                 <button ng-show="periodComparisonSelected" type="button" class="btn btn-default btn-sm" ng-model="heatmapVisible" 
                         ng-disabled="!periodComparisonSelected" uib-btn-radio="1">
-                {{params.period.startDate.format('MMM DD, YYYY')}} - {{params.period.endDate.format('MMM DD,YYYY')}}
+                {{params.comparedPeriod.startDate.format('MMM DD, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM DD,YYYY')}}
                 </button>
             </div>
         </div>
