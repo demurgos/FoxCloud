@@ -15,7 +15,7 @@ angular.module('FSCounterAggregatorApp').
         return {
             scope: {
                 params: '=',
-                kpi: '=',
+                kpi: '=?',
                 kpiOptions: '=?'
             },
             controller: [

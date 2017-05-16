@@ -79,7 +79,7 @@
       category: 'Counters'
     }).
     when('/generic', {
-      templateUrl: 'build/html/TestView.html',
+      templateUrl: 'build/html/GenericView.html',
       controller: 'DashboardController',
       pageName: 'Counters / Generic',
       category: 'Counters'
