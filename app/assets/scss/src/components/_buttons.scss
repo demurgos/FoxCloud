@@ -1,0 +1,17 @@
+@import '../base/variables';
+
+button {
+    &.radio-button {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        border: none;
+        background-color: transparent ;
+        border-radius: 0px;
+        outline-style: none;
+        opacity: 0.35;
+        &.active {
+            border-bottom: 1px solid $color-secondary;
+            opacity: 1;
+        }
+    }
+}
