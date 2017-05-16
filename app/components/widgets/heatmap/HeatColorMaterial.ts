@@ -63,5 +63,6 @@ export class HeatColorMaterial extends ShaderMaterial {
             }`;
 
         this.transparent = true;
+        //this.premultipliedAlpha = true;
     }
 }

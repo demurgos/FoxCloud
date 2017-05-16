@@ -1,14 +1,24 @@
 
 .box-heatmap {
-    height: 480px;
+    height: 480px;   
+    cursor: -webkit-grab;
+    cursor: grab; 
 }
 
-#heatmap-renderer {
-    //position: absolute;
-    //left: 0px;
-    //top: 0px;
+#heatmap-renderer {   
     display: block;
     background-color:#ccc;
     width: 100%;
-    height: 100%;
+    height: 100%;    
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
+
+.vrplayer-camera-move {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
