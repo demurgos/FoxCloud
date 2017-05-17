@@ -27,8 +27,20 @@ angular.module('FSCounterAggregatorApp').
                     WidgetStyleService,
                     DataService
                 ) {
+
+                    let textureLoader = new TextureLoader();
+
                     $scope.widgetId = "HeatMapKPIWidget";
                     $scope.siteSelected = undefined;
+
+                    $scope.scales = {
+                        imgs: [ // gradient images size 128x32
+                            "assets/img/default-gradient.png",
+                            "assets/img/deep-sea-gradient.png",
+                            "assets/img/skyline-gradient.png"
+                        ],
+                        selected: 0
+                    }
 
                     $scope.$watch("params.sites", function (newSites, oldSites) {
                         if (newSites !== undefined && newSites.length) {
@@ -49,27 +61,32 @@ angular.module('FSCounterAggregatorApp').
 
                     $scope.$watch('params.comparedData', function (newData, oldData) {
                         if (newData !== undefined && newData.length) {
-                            $scope.periodComparisonSelected = true;                            
+                            $scope.periodComparisonSelected = true;
                         } else if ($scope.periodComparisonSelected) {
                             $scope.periodComparisonSelected = false;
                             $scope.heatmapVisible = 0;
                             $scope.update();
-                        }                        
-                    });
-
-                    $scope.$watch('heatmapVisible', function (newV, oldV) {
-                        if (oldV !== newV) {                            
-                            $scope.renderer.setHeatMapVisible(0, newV === 0);
-                            $scope.renderer.setHeatMapVisible(1, newV === 1);                            
                         }
                     });
 
-                    $scope.siteSelectedChanged = () => {
-                        $scope.renderer.resetControls();
+                    $scope.$watch('heatmapVisible', function (newV, oldV) {
+                        if (oldV !== newV) {
+                            $scope.renderer.setHeatMapVisible(0, newV === 0);
+                            $scope.renderer.setHeatMapVisible(1, newV === 1);
+                        }
+                    });
+
+                    $scope.switchScale = () => {
+                        $scope.scales.selected = ($scope.scales.selected + 1) % $scope.scales.imgs.length;
                         $scope.update();
                     };
 
-                    $scope.update = function () {                        
+                    $scope.siteSelectedChanged = () => {
+                        $scope.renderer.resetControls();
+                        $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected]));
+                    };
+
+                    $scope.update = function () {
 
                         $scope.renderer.removeAllHeatMap();
 
@@ -77,7 +94,7 @@ angular.module('FSCounterAggregatorApp').
                             return false;
                         }
 
-                        new TextureLoader().load($scope.siteSelected.siteInfo.heatmap.map,
+                        textureLoader.load($scope.siteSelected.siteInfo.heatmap.map,
                             (texture) => {
 
                                 $scope.renderer.setViewport(texture.image.width, texture.image.height, texture);
@@ -88,24 +105,21 @@ angular.module('FSCounterAggregatorApp').
                                         // randomize data
                                         data = data.map(elt => elt.map(e => e + 0.2 * e * Math.random()));
 
-                                        $scope.renderer.addHeatMap(data, 255);
-                                        $scope.renderer.setHeatMapVisible(0, $scope.heatmapVisible === 0);
+                                        textureLoader.load($scope.scales.imgs[$scope.scales.selected],
+                                            (gradientTexture) => {
+                                                $scope.renderer.addHeatMap(data, 255, gradientTexture);
+                                                $scope.renderer.setHeatMapVisible(0, $scope.heatmapVisible === 0);
 
-                                        if ($scope.periodComparisonSelected) {
+                                                if ($scope.periodComparisonSelected) {
 
-                                            let compData = data.map((elt) => {
-                                                return elt.map(e => e + 0.2 * e * Math.random());
-                                            });
+                                                    let compData = data.map((elt) => {
+                                                        return elt.map(e => e + 0.2 * e * Math.random());
+                                                    });
 
-                                            $scope.renderer.addHeatMap(compData, 255);                                            
-                                            $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);
-
-                                            /*new TextureLoader().load('assets/img/deep-sea-gradient.png',
-                                                (texture) => {
-                                                    $scope.renderer.addHeatMap(compData, 255, texture);
-                                                    $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);                                                
-                                                });*/
-                                        }
+                                                    $scope.renderer.addHeatMap(compData, 255, gradientTexture);
+                                                    $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);
+                                                }
+                                            });                                       
                                     });
                             });
                     };

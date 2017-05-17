@@ -118,10 +118,14 @@ export class HeatMapRenderer {
         }
     }   
 
+    public setGradient(gradientTexture?: Texture): void {
+        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setGradient(gradientTexture));
+    }
+
     public onDrawFrame(): void {
         this.updateControls();
-        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.update(this.renderer));
-        this.renderer.render(this.scene, this.heatmapCamera);        
+        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.update(this.renderer));        
+        this.renderer.render(this.scene, this.heatmapCamera);                
     }
 
     private updateSizeFromContainer(): void {

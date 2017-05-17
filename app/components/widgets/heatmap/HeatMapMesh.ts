@@ -52,12 +52,15 @@ export class HeatMapMesh extends Mesh {
         this.needsUpdate = true;
     }
 
-    public update(renderer: WebGLRenderer): void {         
+    public setGradient(gradientTexture?: Texture) {
+        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0,1.0,0.5]);
+    }
+
+    public update(renderer: WebGLRenderer): void {            
         if (this.needsUpdate) {
             if(this.fbRenderer.width === 0) {
                 this.setSize(renderer.getSize().width, renderer.getSize().height);
-            }    
-            //renderer.clearTarget(this.fbRenderer, true, false, false); // clear the previous framebuffer             
+            }                           
             renderer.render(this.fbScene, this.fbCamera, this.fbRenderer, true);                                  
             this.needsUpdate = false;
         }

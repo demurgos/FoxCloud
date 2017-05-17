@@ -22,10 +22,10 @@
     </div>
     <div class="box-body box-heatmap">
         <div id="heatmap-renderer" tabindex="-1"></div>
-        <div class="heatmap-legend">
+        <div class="heatmap-legend" ng-click="switchScale()">
             <span class="heatmap-legend-label-low">Low activity</span>
             <span class="heatmap-legend-label-high">High activity</span>
-            <img class="heatmap-legend-scale-bar" src="assets/img/scale.png"/>
+            <img class="heatmap-legend-scale-bar" ng-src="{{scales.imgs[scales.selected]}}"/>
         </div>
     </div>
 </div>
