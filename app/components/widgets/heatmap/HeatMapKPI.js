@@ -40,7 +40,16 @@ angular.module('FSCounterAggregatorApp').
                             "assets/img/skyline-gradient.png"
                         ],
                         selected: 0
-                    }
+                    };
+
+                    $scope.opacities = {
+                        values: [
+                            0.3,
+                            0.5,
+                            0.8
+                        ],
+                        selected: 0
+                    };
 
                     $scope.$watch("params.sites", function (newSites, oldSites) {
                         if (newSites !== undefined && newSites.length) {
@@ -78,7 +87,12 @@ angular.module('FSCounterAggregatorApp').
 
                     $scope.switchScale = () => {
                         $scope.scales.selected = ($scope.scales.selected + 1) % $scope.scales.imgs.length;
-                        $scope.update();
+                        $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected]));                        
+                    };
+
+                    $scope.switchOpacity = () => {
+                        $scope.opacities.selected = ($scope.opacities.selected + 1) % $scope.opacities.values.length;
+                        $scope.renderer.setOpacity($scope.opacities.values[$scope.opacities.selected]);
                     };
 
                     $scope.zoomIn = () => {
@@ -95,7 +109,7 @@ angular.module('FSCounterAggregatorApp').
 
                     $scope.siteSelectedChanged = () => {
                         $scope.renderer.resetControls();
-                        $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected]));
+                        $scope.update();
                     };
 
                     $scope.update = function () {

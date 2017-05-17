@@ -128,6 +128,11 @@ export class HeatMapRenderer {
         this.renderer.render(this.scene, this.heatmapCamera);                
     }
 
+    // [0:1] 1 means fully opaque
+    public setOpacity(factor: number): void {
+        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setOpacity(factor));
+    }
+
     public zoomIn(factor: number): void {
         this.controls.zoomIn(factor);
     }

@@ -77,4 +77,9 @@ export class HeatColorMaterial extends ShaderMaterial {
         this.transparent = true;
         this.premultipliedAlpha = false;
     }
+
+    public setOpacity(opacity: number): void {
+        this.uniforms.alphaMax.value = opacity;
+        this.needsUpdate = true;
+    }
 }

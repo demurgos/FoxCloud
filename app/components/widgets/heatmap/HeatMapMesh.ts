@@ -45,6 +45,10 @@ export class HeatMapMesh extends Mesh {
         this.needsUpdate = true;
     }
 
+    public setOpacity(opacity: number): void {
+        (<HeatColorMaterial> this.material).setOpacity(opacity);
+    }
+
     public setHeatMapData(data: any[]): void {
         this.clear();
         let intensityMaterial = new HeatIntensityMaterial(this.intensityNorm);
