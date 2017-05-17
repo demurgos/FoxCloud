@@ -5,19 +5,24 @@
  */
 
 body, html {
-  height:100%;
+  // height:100%;
+
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;  
 }
 
 .wrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  padding-bottom: 40px;
+  // min-height: 100%;
+  // height: auto !important;
+  // height: 100%;
+  // padding-bottom: 40px;
+   flex:1;
 }
 
 footer {
   height:51px;
-  position: absolute;
-  bottom: 0px;
+  // position: absolute;
+  // bottom: 0px;
   width:100%;
 }
