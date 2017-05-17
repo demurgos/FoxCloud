@@ -31,7 +31,7 @@ export class HeatMapMesh extends Mesh {
         this.fbScene = new Scene();
         this.fbRenderer = new WebGLRenderTarget(width, height);
 
-        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture);
+        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0,1.0,0.5]);
         this.geometry = new PlaneBufferGeometry(width, height, 1, 1);
 
     }

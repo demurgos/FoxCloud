@@ -24,7 +24,7 @@ const COLOR_FUNC_GRADIANT = `uniform sampler2D gradientTexture;
  * @see https://github.com/pyalot/webgl-heatmap
  */
 export class HeatColorMaterial extends ShaderMaterial {
-    constructor(texture: Texture, gradientTexture?: Texture) {
+    constructor(texture: Texture, gradientTexture?: Texture, alphaRange?: [number,number,number]) {
         super({
             vertexShader: `varying vec2 vUv;
             void main() {
@@ -32,7 +32,18 @@ export class HeatColorMaterial extends ShaderMaterial {
                 gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
             }`,            
             uniforms: {
-                source: { value: texture }
+                source: { 
+                    value: texture
+                },                 
+                alphaStart: {
+                    value: alphaRange ? alphaRange[0] : 0.0
+                }, 
+                alphaEnd: {
+                    value: alphaRange ? alphaRange[1]: 1.0 
+                },
+                alphaMax: {
+                    value: alphaRange ? alphaRange[2] : 1.0
+                }
             }
         });
 
@@ -44,10 +55,11 @@ export class HeatColorMaterial extends ShaderMaterial {
         }
 
         this.fragmentShader = `uniform sampler2D source;
+            uniform float alphaStart, alphaEnd, alphaMax;
             varying vec2 vUv;
             vec4 alphaFun(vec3 color, float intensity) {
-                float alpha = smoothstep(0.0, 1.0, intensity);
-                return vec4(color*alpha, alpha);
+                float alpha = smoothstep(alphaStart, alphaEnd, intensity);                
+                return vec4(color*alpha, min(alpha, alphaMax));
             }
             float fade(float low, float high, float value) {
                 float mid = (low+high)*0.5;
@@ -63,6 +75,6 @@ export class HeatColorMaterial extends ShaderMaterial {
             }`;
 
         this.transparent = true;
-        //this.premultipliedAlpha = true;
+        this.premultipliedAlpha = false;
     }
 }
