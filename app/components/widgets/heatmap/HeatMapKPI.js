@@ -25,13 +25,13 @@ angular.module('FSCounterAggregatorApp').
                 function (
                     $scope,
                     WidgetStyleService,
-                    DataService
+                    DataService                
                 ) {
 
                     let textureLoader = new TextureLoader();
 
                     $scope.widgetId = "HeatMapKPIWidget";
-                    $scope.siteSelected = undefined;
+                    $scope.siteSelected = undefined;                    
 
                     $scope.scales = {
                         imgs: [ // gradient images size 128x32
@@ -48,7 +48,7 @@ angular.module('FSCounterAggregatorApp').
                             0.5,
                             0.8
                         ],
-                        selected: 0
+                        selected: 1
                     };
 
                     $scope.$watch("params.sites", function (newSites, oldSites) {
@@ -93,7 +93,7 @@ angular.module('FSCounterAggregatorApp').
                     $scope.switchOpacity = () => {
                         $scope.opacities.selected = ($scope.opacities.selected + 1) % $scope.opacities.values.length;
                         $scope.renderer.setOpacity($scope.opacities.values[$scope.opacities.selected]);
-                    };
+                    };                    
 
                     $scope.zoomIn = () => {
                         $scope.renderer.zoomIn(0.3);
@@ -145,6 +145,9 @@ angular.module('FSCounterAggregatorApp').
                                                     $scope.renderer.addHeatMap(compData, 255, gradientTexture);
                                                     $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);
                                                 }
+
+                                                $scope.renderer.setOpacity($scope.opacities.values[$scope.opacities.selected]);
+
                                             });
                                     });
                             });
