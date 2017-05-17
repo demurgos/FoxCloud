@@ -1,6 +1,8 @@
 import { OrthographicCamera, Box2, Vector2, Vector3, Camera } from 'three';
 import { MouseControlsBase, } from './MouseControlsBase';
 
+const MAX_ZOOM_FACTOR = 0.5;
+
 export class HeatMapControls extends MouseControlsBase {
 
     private scopeMove: boolean;
@@ -39,7 +41,7 @@ export class HeatMapControls extends MouseControlsBase {
     // the ratio between the container and the ortho size and the zoom factor
     doMove(delta: any) {
 
-        if(this.enabled === false) return;
+        if (this.enabled === false) return;
 
         let px = delta.x < 0 ? this.bounds.min.x : this.bounds.max.x;
         let py = delta.y < 0 ? this.bounds.max.y : this.bounds.min.y;
@@ -52,11 +54,11 @@ export class HeatMapControls extends MouseControlsBase {
 
         // a point outside the container means abs(coords) > 1  
         if (Math.abs(this.point.x) > 1) {
-            this.camera.position.x += delta.x * bSize.x * (this.params.scope.offsetWidth/(this.orthoSize.x*this.zoom));
+            this.camera.position.x += delta.x * bSize.x * (this.params.scope.offsetWidth / (this.orthoSize.x * this.zoom));
         }
 
         if (Math.abs(this.point.y) > 1) {
-            this.camera.position.y -= delta.y * bSize.y * (this.params.scope.offsetHeight/(this.orthoSize.y*this.zoom));
+            this.camera.position.y -= delta.y * bSize.y * (this.params.scope.offsetHeight / (this.orthoSize.y * this.zoom));
         }
     }
 
@@ -67,15 +69,33 @@ export class HeatMapControls extends MouseControlsBase {
         if (this.params.zoomWheel) {
             event.preventDefault();
             // move in or out by 10%
-            const newZoom = event.deltaY < 0 ? this.zoom * 1.1 : this.zoom * 0.9;                  
-            if (newZoom < this.params.zoomMax &&
-                newZoom > this.params.zoomMin) {
-                    this.zoom = newZoom;                     
-                } else if(newZoom <= this.params.zoomMin) {                    
-                    this.zoom = this.params.zoomMin;                    
-                }       
-            this.updateBounds();            
+            this.doZoom(event.deltaY < 0 ? 1.1 : 0.9);            
         }
+    }
+
+    private doZoom(factor: number) {
+        const newZoom = this.zoom * factor;
+        if (newZoom < this.params.zoomMax &&
+            newZoom > this.params.zoomMin) {
+            this.zoom = newZoom;
+        } else if (newZoom <= this.params.zoomMin) {
+            this.zoom = this.params.zoomMin;
+        }
+        this.updateBounds();
+    }
+
+    public zoomIn(factor: number): void {
+        this.doZoom(1. + Math.min(MAX_ZOOM_FACTOR, factor));
+    }
+
+    public zoomOut(factor: number): void {
+        // limit zoom factor to %50
+        this.doZoom(1. - Math.min(MAX_ZOOM_FACTOR, factor));
+    }
+
+    public zoomReset(): void {
+        this.zoom = this.params.zoomMin;
+        this.updateBounds();
     }
 
     private updateBounds(): void {
@@ -85,10 +105,10 @@ export class HeatMapControls extends MouseControlsBase {
         this.camera.top = this.orthoSize.y / (2 * this.zoom);
         this.camera.bottom = - this.orthoSize.y / (2 * this.zoom);
         // if we see all the viewport then reset the camera position
-        if(this.camera.right - this.camera.left >= (this.bounds.max.x - this.bounds.min.x)) {
+        if (this.camera.right - this.camera.left >= (this.bounds.max.x - this.bounds.min.x)) {
             this.camera.position.x = 0;
         }
-        if(this.camera.top - this.camera.bottom >= (this.bounds.max.y - this.bounds.min.y)) {
+        if (this.camera.top - this.camera.bottom >= (this.bounds.max.y - this.bounds.min.y)) {
             this.camera.position.y = 0;
         }
         this.camera.updateProjectionMatrix();

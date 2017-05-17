@@ -81,6 +81,18 @@ angular.module('FSCounterAggregatorApp').
                         $scope.update();
                     };
 
+                    $scope.zoomIn = () => {
+                        $scope.renderer.zoomIn(0.3);
+                    };
+
+                    $scope.zoomOut = () => {
+                        $scope.renderer.zoomOut(0.3);
+                    };
+
+                    $scope.zoomReset = () => {
+                        $scope.renderer.zoomReset();
+                    }
+
                     $scope.siteSelectedChanged = () => {
                         $scope.renderer.resetControls();
                         $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected]));
@@ -119,7 +131,7 @@ angular.module('FSCounterAggregatorApp').
                                                     $scope.renderer.addHeatMap(compData, 255, gradientTexture);
                                                     $scope.renderer.setHeatMapVisible(1, $scope.heatmapVisible === 1);
                                                 }
-                                            });                                       
+                                            });
                                     });
                             });
                     };

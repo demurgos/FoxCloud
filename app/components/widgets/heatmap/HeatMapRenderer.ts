@@ -128,6 +128,18 @@ export class HeatMapRenderer {
         this.renderer.render(this.scene, this.heatmapCamera);                
     }
 
+    public zoomIn(factor: number): void {
+        this.controls.zoomIn(factor);
+    }
+
+    public zoomOut(factor: number): void {
+        this.controls.zoomOut(factor);
+    }
+
+    public zoomReset(): void {
+        this.controls.zoomReset();
+    }
+
     private updateSizeFromContainer(): void {
         this.width = this.getContainerWidth();
         this.height = this.getContainerHeight();

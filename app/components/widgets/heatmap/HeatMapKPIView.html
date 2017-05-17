@@ -13,8 +13,8 @@
                 <button type="button" class="btn-sm radio-button" ng-model="heatmapVisible" ng-disabled="!periodComparisonSelected" uib-btn-radio="0">
                 {{params.period.startDate.format('MMM DD, YYYY')}} - {{params.period.endDate.format('MMM DD,YYYY')}}
                 </button>
-                <button ng-show="periodComparisonSelected" type="button" class="btn-sm radio-button" ng-model="heatmapVisible" 
-                        ng-disabled="!periodComparisonSelected" uib-btn-radio="1">
+                <button ng-show="periodComparisonSelected" type="button" class="btn-sm radio-button" ng-model="heatmapVisible" ng-disabled="!periodComparisonSelected"
+                    uib-btn-radio="1">
                 {{params.comparedPeriod.startDate.format('MMM DD, YYYY')}} - {{params.comparedPeriod.endDate.format('MMM DD,YYYY')}}
                 </button>
             </div>
@@ -22,10 +22,17 @@
     </div>
     <div class="box-body box-heatmap">
         <div id="heatmap-renderer" tabindex="-1"></div>
+        <div class="heatmap-nav-controls">
+            <div class="heatmap-nav-control" ng-click="zoomIn()">+</div>
+            <div class="heatmap-nav-control" ng-click="zoomReset()">
+                <span class="fa fa-undo" aria-hidden="true"></span>
+            </div>
+            <div class="heatmap-nav-control" ng-click="zoomOut()">-</div>
+        </div>
         <div class="heatmap-legend" ng-click="switchScale()">
             <span class="heatmap-legend-label-low">Low activity</span>
             <span class="heatmap-legend-label-high">High activity</span>
-            <img class="heatmap-legend-scale-bar" ng-src="{{scales.imgs[scales.selected]}}"/>
+            <img class="heatmap-legend-scale-bar" ng-src="{{scales.imgs[scales.selected]}}" />
         </div>
     </div>
 </div>
