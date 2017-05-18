@@ -13,7 +13,7 @@
 	.controller('SettingsPerUser', [
 	    '$scope',
 	    '$compile',
-	    '$routeParams',
+	    '$stateParams',
 	    '$q',
 	    'UserService',
 	    'SiteService',
@@ -22,7 +22,7 @@
 	    function(
 		$scope,
 		$compile,
-		$routeParams,
+		$stateParams,
 		$q,
 		UserService,
 		SiteService,
@@ -112,11 +112,11 @@
 			    $scope.users = res[1];
 
 			    if($scope.users.length > 0) {
-				if($routeParams.userId === undefined) {
+				if($stateParams.userId === undefined) {
 				    $scope.selectedElt = $scope.users[0];
 				} else {
 				    for(var i = 0; i < $scope.users.length; ++i) {
-					if($scope.users[i]._id === $routeParams.userId) {
+					if($scope.users[i]._id === $stateParams.userId) {
 					    $scope.selectedElt = $scope.users[i];
 					    break;
 					}				    

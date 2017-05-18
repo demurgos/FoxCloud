@@ -40,15 +40,15 @@ angular.module('FSCounterAggregatorApp').directive('fcaTableKpi', function() {
                     // See http://datatables.net/manual/api#Accessing-the-API
                     loadedDT.dataTable.rowGrouping();
                 });
-
+                
                 $scope.$watch('params.data', function(newData, oldData) {
-                    if (newData !== undefined && newData.length) {
+                    if (newData !== undefined && newData.length && newData !== oldData) {                        
                         $scope.update();
                     }
                 });
 
                 $scope.$watch('params.comparedData', function(newData, oldData) {
-                    if (newData !== undefined && newData.length) {
+                    if (newData !== undefined && newData.length && newData !== oldData) {
                         $scope.periodComparisonSelected = true;
                     } else if ($scope.periodComparisonSelected) {
                         $scope.periodComparisonSelected = false;
