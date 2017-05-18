@@ -149,7 +149,10 @@ export class HeatMapRenderer {
         this.width = this.getContainerWidth();
         this.height = this.getContainerHeight();
         this.renderer.setSize(this.getWidth(), this.getHeight());
-        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setSize(this.getWidth(), this.getHeight()));                   
+        this.heatmaps.forEach((heatmap: HeatMapMesh) => heatmap.setSize(this.getWidth(), this.getHeight()));   
+        // the heatmap controls manage the camera parameters so we need to tell to recompute the fov in order 
+        // to correctly view the entire heatmap todo: create a setSize method to explicitly pass the container size
+        this.controls.setViewport(-this.params.width / 2, -this.params.height / 2, this.params.width / 2, this.params.height / 2);               
     }
 
     private getContainer(): any {

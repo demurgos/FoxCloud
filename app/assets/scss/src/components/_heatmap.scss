@@ -5,8 +5,9 @@
     cursor: grab;
 }
 
-.box-heatmap-fs {
+.box-heatmap-fs, .fullscreen {
     height: 100%;
+    width: 100%;
 }
 
 #heatmap-renderer {   

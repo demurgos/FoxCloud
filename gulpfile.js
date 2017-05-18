@@ -91,7 +91,9 @@ var externalJSSources = [ 'node_modules/moment/moment.js',
 			  'node_modules/d3/d3.js',
 			  'node_modules/nvd3/build/nv.d3.js',
 			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
-			  'node_modules/fastclick/lib/fastclick.js'
+			  'node_modules/fastclick/lib/fastclick.js',
+			  'node_modules/angular-screenfull/dist/angular-screenfull.js',
+			  'node_modules/screenfull/dist/screenfull.js'
 			  //'node_modules/three/build/three.js'
 			  //'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
 			  ];

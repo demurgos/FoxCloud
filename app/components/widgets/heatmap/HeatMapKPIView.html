@@ -20,9 +20,10 @@
             </div>
         </div>
     </div>
-    <div class="box-body box-heatmap">
+    <div class="box-body box-heatmap" ngsf-fullscreen>
         <div id="heatmap-renderer" tabindex="-1"></div>
-        <div class="heatmap-nav-controls">            
+        <div class="heatmap-nav-controls">  
+            <div class="heatmap-nav-control" ngsf-toggle-fullscreen>F</div>          
             <div class="heatmap-nav-control" ng-click="zoomIn()">+</div>
             <div class="heatmap-nav-control" ng-click="zoomReset()">
                 <svg width="12" height="12" viewBox="0 0 15 15">

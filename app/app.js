@@ -20,7 +20,8 @@
     'datatables.bootstrap',
     'ui.codemirror',
     'adminLTE',
-    'ngReallyClickModule'
+    'ngReallyClickModule',
+    'angularScreenfull'
   ]);
 
   // controllers
