@@ -3,8 +3,9 @@
     "_id": "568a495b78af992414ef675b",
     "name": "Foxstream France",
     "siteInfo": {
-	"timezone": "Europe/Paris",
-	"occupancyTimeReset": "1500"
+      "timezone": "Europe/Paris",
+      "occupancyTimeReset": "1500",
+      "background": "assets/img/map_01.jpg"
     },
     "usersadmin": [
       "admin@foxstream.fr",

@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteRule ^/users/(.*)$ http://195.132.122.186/users/$1 [NC,L]
+
+RewriteRule ^/items/(.*)$ http://195.132.122.186/items/$1 [NC,L]
+
+RewriteRule ^/sites/(.*)$ http://195.132.122.186/sites/$1 [NC,L]
+
