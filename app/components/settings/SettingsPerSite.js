@@ -12,14 +12,14 @@
 	.controller('SettingsPerSite', [
 	    '$scope',
 	    '$compile',
-	    '$routeParams',
+	    '$stateParams',
 	    'SiteService',
 	    'DTOptionsBuilder',
 	    'DTColumnDefBuilder',
 	    function(
 		$scope,
 		$compile,
-		$routeParams,
+		$stateParams,
 		SiteService,
 		DTOptionsBuilder,
 		DTColumnDefBuilder
@@ -146,11 +146,11 @@
 		    // optionally initial site selection could be choosen from the $route
 		    $scope.sites = SiteResources.query(function () {
 			if($scope.sites.length > 0) {
-			    if($routeParams.siteId === undefined) {
+			    if($stateParams.siteId === undefined) {
 				$scope.selectedElt = $scope.sites[0];
 			    } else {
 				for(var i = 0; i < $scope.sites.length; ++i) {
-				    if($scope.sites[i]._id === $routeParams.siteId) {
+				    if($scope.sites[i]._id === $stateParams.siteId) {
 					$scope.selectedElt = $scope.sites[i];
 					break;
 				    }

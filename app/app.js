@@ -2,7 +2,7 @@
 * @namespace FSCounterAggregatorApp
 */
 
-(function() {
+(function () {
 
   // module main declaration
   //require('angular');
@@ -10,8 +10,8 @@
   require('./components/modules/ngReallyClickModule');
   require('./components/services/LayoutService');
 
-  angular.module('FSCounterAggregatorApp',[
-    'ngRoute',
+  angular.module('FSCounterAggregatorApp', [
+    'ui.router',
     'ngResource',
     'ui.bootstrap',
     'daterangepicker',
@@ -59,95 +59,114 @@
   require('./components/kpis/KPISum');
 
   angular.module('FSCounterAggregatorApp')
-  .controller('KPISumGeneric', require('./components/kpis/KPISumGeneric'))
-  .controller('KPISumMax', require('./components/kpis/KPISumMax'))
-  .controller('KPIPeriodGeneric', require('./components/kpis/KPIPeriodGeneric'))
-  .controller('KPISitesPeriod', require('./components/kpis/KPISitesPeriod'))
-  .controller('KPITypicalDay', require('./components/kpis/KPITypicalDay'));
+    .controller('KPISumGeneric', require('./components/kpis/KPISumGeneric'))
+    .controller('KPISumMax', require('./components/kpis/KPISumMax'))
+    .controller('KPIPeriodGeneric', require('./components/kpis/KPIPeriodGeneric'))
+    .controller('KPISitesPeriod', require('./components/kpis/KPISitesPeriod'))
+    .controller('KPITypicalDay', require('./components/kpis/KPITypicalDay'));
 
   // filters
   require('./components/pipes/HourFormatPipe');
   require('./components/pipes/SiteNamePipe');
 
   // Configure routes
-  angular.module('FSCounterAggregatorApp').config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-    when('/dashboard', {
-      templateUrl: 'build/html/DashboardView.html',
-      controller: 'DashboardController',
-      pageName: 'Counters / Sites Overview',
-      category: 'Counters'
-    }).
-    when('/generic', {
-      templateUrl: 'build/html/GenericView.html',
-      controller: 'DashboardController',
-      pageName: 'Counters / Generic',
-      category: 'Counters'
-    }).
-	  when('/mydashboard', {
-	      templateUrl: 'build/html/MyDashboardView.html',
-	      controller: 'DashboardController',
-	      pageName: 'Counters / MyDashboard',
-	      category: 'Counters'
-	  }).
-    when('/monitoring', {
-      templateUrl: 'build/html/MonitoringView.html',
-      controller: 'MonitoringController',
-      pageName: 'Monitoring / Sites Overview',
-      category: 'Monitoring'
-    }).
-    when('/current_user', {
-      templateUrl: 'build/html/CurrentUserView.html',
-      pageName : "My account",
-      controller: 'CurrentUser',
-      category : "Settings"
-    }).
-    when('/settings_site_items', {
-      templateUrl: 'build/html/SettingsSiteItemsView.html',
-      controller: 'SettingsSiteItems',
-      pageName : "Site cameras",
-      category : "Settings"
-    }).
-    when('/settings_site_members/:siteId?', {
-      templateUrl: 'build/html/SettingsSiteMembersView.html',
-      controller: 'SettingsSiteMembers',
-      pageName : "Site Members",
-      category : "Settings"
-    }).
-    when('/settings_users', {
-      templateUrl: 'build/html/SettingsUsersView.html',
-      controller: 'SettingsUsers',
-      pageName : "Users management",
-      category : "Settings"
-    }).
-    when('/settings_sites', {
-      templateUrl: 'build/html/SettingsSitesView.html',
-      controller: 'SettingsSites',
-      pageName : "Sites - Users management",
-      category : "Settings"
-    }).
-    when('/settings_per_site/:siteId?', {
-      templateUrl: 'build/html/SettingsPerSiteView.html',
-      controller: 'SettingsPerSite',
-      pageName : "Per Site management",
-      category : "Settings"
-    }).
-    when('/settings_users_sites', {
-      templateUrl: 'build/html/SettingsUsersSitesView.html',
-      controller: 'SettingsUsersSites',
-      pageName : "Users - Sites management",
-      category : "Settings"
-    }).
-    when('/settings_per_user/:userId?', {
-      templateUrl: 'build/html/SettingsPerUserView.html',
-      controller: 'SettingsPerUser',
-      pageName : "Per User management",
-      category : "Settings"
-    }).
-    otherwise({
-      redirectTo: '/dashboard'
-    });
-  }
-]);
+  angular.module('FSCounterAggregatorApp').config(['$urlRouterProvider', '$stateProvider',
+    function ($urlRouterProvider, $stateProvider) {
+
+      // For any unmatched url, redirect to main page
+      $urlRouterProvider.otherwise("/dashboard");
+
+      $stateProvider.
+        state('dashboard', {
+          url: '/dashboard', 
+          templateUrl: 'build/html/DashboardView.html',
+          controller: 'DashboardController',
+          pageName: 'Counters / Sites Overview',
+          category: 'Counters'
+        }).
+        state('generic', {
+          url: '/generic', 
+          templateUrl: 'build/html/GenericView.html',
+          controller: 'DashboardController',
+          pageName: 'Counters / Generic',
+          category: 'Counters'
+        }).
+        state('mydashboard', {
+          url: '/mydashboard', 
+          templateUrl: 'build/html/MyDashboardView.html',
+          controller: 'DashboardController',
+          pageName: 'Counters / MyDashboard',
+          category: 'Counters'
+        }).
+        state('monitoring', {
+          url: '/monitoring', 
+          templateUrl: 'build/html/MonitoringView.html',
+          controller: 'MonitoringController',
+          pageName: 'Monitoring / Sites Overview',
+          category: 'Monitoring'
+        }).
+        state('current_user', {
+          url: '/current_user', 
+          templateUrl: 'build/html/CurrentUserView.html',
+          pageName: "My account",
+          controller: 'CurrentUser',
+          category: "Settings"
+        }).
+        state('settings_site_items', {
+          url: '/settings_site_items',
+          templateUrl: 'build/html/SettingsSiteItemsView.html',
+          controller: 'SettingsSiteItems',
+          pageName: "Site cameras",
+          category: "Settings"
+        }).
+        state('settings_site_members', {
+          url: '/settings_site_members', 
+          templateUrl: 'build/html/SettingsSiteMembersView.html',
+          controller: 'SettingsSiteMembers',
+          pageName: "Site Members",
+          category: "Settings"
+        }).
+        state('settings_site_members.id', {
+          url: ':siteId'
+        }).
+        state('settings_users', {
+          url: '/settings_users', 
+          templateUrl: 'build/html/SettingsUsersView.html',
+          controller: 'SettingsUsers',
+          pageName: "Users management",
+          category: "Settings"
+        }).
+        state('settings_sites', {
+          url: '/settings_sites', 
+          templateUrl: 'build/html/SettingsSitesView.html',
+          controller: 'SettingsSites',
+          pageName: "Sites - Users management",
+          category: "Settings"
+        }).
+        state('settings_per_site', {
+          url: '/settings_per_site', 
+          templateUrl: 'build/html/SettingsPerSiteView.html',
+          controller: 'SettingsPerSite',
+          pageName: "Per Site management",
+          category: "Settings"
+        }).
+        state('settings_per_site.id', {
+          url: ':siteId'
+        }).
+        state('settings_users_sites', {
+          url: '/settings_users_sites', 
+          templateUrl: 'build/html/SettingsUsersSitesView.html',
+          controller: 'SettingsUsersSites',
+          pageName: "Users - Sites management",
+          category: "Settings"
+        }).
+        state('settings_per_user', {
+          url: '/settings_per_user/:userId?', 
+          templateUrl: 'build/html/SettingsPerUserView.html',
+          controller: 'SettingsPerUser',
+          pageName: "Per User management",
+          category: "Settings"
+        });
+    }
+  ]);
 }());

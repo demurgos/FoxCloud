@@ -14,7 +14,7 @@
 	    '$scope',
 	    '$compile',
 	    '$q',
-	    '$routeParams',
+	    '$stateParams',
 	    'UserService',
 	    'SiteService',
 	    'DTOptionsBuilder',
@@ -23,7 +23,7 @@
 		$scope,
 		$compile,
 		$q,
-		$routeParams,
+		$stateParams,
 		UserService,
 		SiteService,
 		DTOptionsBuilder,
@@ -155,9 +155,9 @@
 		    // optionally initial site selection could be choosen from the $route
 		    UserService.getSettings()
 			.then(function(userData) {
-			    if($routeParams.siteId !== undefined) {
+			    if($stateParams.siteId !== undefined) {
 				var site = UserService.getSiteFromId(userData.sites,
-								     $routeParams.siteId);
+								     $stateParams.siteId);
 				if(site !== undefined && site.isadmin) {
 				    $scope.selectedElt = site;
 				}
