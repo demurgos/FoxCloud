@@ -87,7 +87,8 @@ angular.module('FSCounterAggregatorApp').
 
                     $scope.switchScale = () => {
                         $scope.scales.selected = ($scope.scales.selected + 1) % $scope.scales.imgs.length;
-                        $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected]));                        
+                        $scope.renderer.setGradient(textureLoader.load($scope.scales.imgs[$scope.scales.selected])); 
+                        $scope.renderer.setOpacity($scope.opacities.values[$scope.opacities.selected]);                       
                     };
 
                     $scope.switchOpacity = () => {
