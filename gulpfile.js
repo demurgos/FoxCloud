@@ -16,6 +16,7 @@ var adminlteRoot = 'node_modules/admin-lte/';
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 var sass = require('gulp-sass');
 var rename = require('gulp-rename');
+var filesExist = require('files-exist');
 //
 var browserify = require('browserify');
 var sourcemaps = require('gulp-sourcemaps');
@@ -181,7 +182,7 @@ function buildCSS(cssFiles, scssFiles, minify) {
 }
 
 function buildJS(files, destName, destDir, minify) {
-    var g = gulp.src(files)
+    var g = gulp.src(filesExist(files))
         .pipe(concat_js(destName));
     if (minify) {
         g = g.pipe(minify_js());
