@@ -37,16 +37,17 @@ var argv = require('yargs')
     .usage(usageCmd)
     .argv;
 
-var cssSources = [ "node_modules/ionicons/dist/css/ionicons.css",
-		   "node_modules/font-awesome/css/font-awesome.css",
-		   "node_modules/codemirror/lib/codemirror.css",
-		   "node_modules/codemirror/addon/lint/lint.css",
-		   "node_modules/bootstrap/dist/css/bootstrap.css",
-		   "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css",
-		   "node_modules/bootstrap-daterangepicker/daterangepicker.css",
-		   "node_modules/nvd3/build/nv.d3.css",
-		   "node_modules/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css",
-		   "lib/Styles/*.css"];
+var cssSources = ["node_modules/ionicons/dist/css/ionicons.css",
+    "node_modules/font-awesome/css/font-awesome.css",
+    "node_modules/codemirror/lib/codemirror.css",
+    "node_modules/codemirror/addon/lint/lint.css",
+    "node_modules/bootstrap/dist/css/bootstrap.css",
+    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css",
+    "node_modules/bootstrap-daterangepicker/daterangepicker.css",
+    "node_modules/nvd3/build/nv.d3.css",
+    "node_modules/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css",
+    "lib/Styles/*.css"
+];
 
 var scssSources = ["app/assets/scss/src/**/*.scss"];
 
@@ -54,49 +55,50 @@ var localJSSources = [];
 
 var browserEntries = [
     './app/app.js',
-    argv.local ? "./app/components/configuration/conf_debug.js"
-	: "./app/components/configuration/conf.js" ];
+    argv.local ? "./app/components/configuration/conf_debug.js" :
+    "./app/components/configuration/conf.js"
+];
 
 var lintSources = browserEntries.concat([
-  'app/components/**/*.js'
+    'app/components/**/*.js'
 ]);
 
-var externalJSSources = [ 'node_modules/moment/moment.js',
-			  'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
-			  'node_modules/lodash/lodash.js',
-			  'node_modules/jquery/dist/jquery.js',
-			  'node_modules/datatables.net/js/jquery.dataTables.js',
-			  'node_modules/jshint/dist/jshint.js',
-			  'node_modules/codemirror/lib/codemirror.js',
-			  'node_modules/codemirror/mode/javascript/javascript.js',
-			  'node_modules/codemirror/mode/xml/xml.js',
-			  //'node_modules/codemirror/addon/hint/show-hint.js',
-			  'node_modules/codemirror/addon/edit/matchbrackets.js',
-			  'node_modules/codemirror/addon/edit/closebrackets.js',
-			  'node_modules/codemirror/addon/lint/lint.js',
-			  'node_modules/jsonlint/lib/jsonlint.js',
-			  'node_modules/codemirror/addon/lint/javascript-lint.js',
-			  'node_modules/codemirror/addon/lint/json-lint.js',
-			  'node_modules/codemirror/addon/lint/html-lint.js',
-			  'node_modules/angular/angular.js',
-			  'node_modules/angular-ui-router/release/angular-ui-router.js',			  
-			  'node_modules/angular-resource/angular-resource.js',
-			  'node_modules/angular-datatables/dist/angular-datatables.js',
-			  'node_modules/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',
-			  'node_modules/bootstrap/dist/js/bootstrap.js',
-			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
-			  'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
-			  'node_modules/bootstrap-daterangepicker/daterangepicker.js',
-			  'node_modules/angular-daterangepicker/js/angular-daterangepicker.js',
-			  'node_modules/d3/d3.js',
-			  'node_modules/nvd3/build/nv.d3.js',
-			  'node_modules/angular-nvd3/dist/angular-nvd3.js',
-			  'node_modules/fastclick/lib/fastclick.js',
-			  'node_modules/angular-screenfull/dist/angular-screenfull.js',
-			  'node_modules/screenfull/dist/screenfull.js'
-			  //'node_modules/three/build/three.js'
-			  //'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
-			  ];
+var externalJSSources = ['node_modules/moment/moment.js',
+    'node_modules/moment-timezone/builds/moment-timezone-with-data.js',
+    'node_modules/lodash/lodash.js',
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/datatables.net/js/jquery.dataTables.js',
+    'node_modules/jshint/dist/jshint.js',
+    'node_modules/codemirror/lib/codemirror.js',
+    'node_modules/codemirror/mode/javascript/javascript.js',
+    'node_modules/codemirror/mode/xml/xml.js',
+    //'node_modules/codemirror/addon/hint/show-hint.js',
+    'node_modules/codemirror/addon/edit/matchbrackets.js',
+    'node_modules/codemirror/addon/edit/closebrackets.js',
+    'node_modules/codemirror/addon/lint/lint.js',
+    'node_modules/jsonlint/lib/jsonlint.js',
+    'node_modules/codemirror/addon/lint/javascript-lint.js',
+    'node_modules/codemirror/addon/lint/json-lint.js',
+    'node_modules/codemirror/addon/lint/html-lint.js',
+    'node_modules/angular/angular.js',
+    'node_modules/@uirouter/angularjs/release/angular-ui-router.js',
+    'node_modules/angular-resource/angular-resource.js',
+    'node_modules/angular-datatables/dist/angular-datatables.js',
+    'node_modules/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js',
+    'node_modules/bootstrap/dist/js/bootstrap.js',
+    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
+    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+    'node_modules/bootstrap-daterangepicker/daterangepicker.js',
+    'node_modules/angular-daterangepicker/js/angular-daterangepicker.js',
+    'node_modules/d3/d3.js',
+    'node_modules/nvd3/build/nv.d3.js',
+    'node_modules/angular-nvd3/dist/angular-nvd3.js',
+    'node_modules/fastclick/lib/fastclick.js',
+    'node_modules/angular-screenfull/dist/angular-screenfull.js',
+    'node_modules/screenfull/dist/screenfull.js'
+    //'node_modules/three/build/three.js'
+    //'node_modules/angular-ui-codemirror/src/ui-codemirror.js'
+];
 
 var jsSources = externalJSSources.concat(localJSSources);
 
@@ -115,50 +117,52 @@ gulp.task('installdebug', gulpSequence('build', 'copy-files'));
 
 gulp.task('install', gulpSequence('release', 'copy-files'));
 
-gulp.task('build', [ 'common', 'prepare-css', 'prepare-js', 'browser-js']);
+gulp.task('build', ['common', 'prepare-css', 'prepare-js', 'browser-js']);
 
 gulp.task('release', ['common', 'prepare-css-release',
-		      'prepare-js-release', 'browser-js-release',
-		      'extract-git-revision' ]);
+    'prepare-js-release', 'browser-js-release',
+    'extract-git-revision'
+]);
 
-gulp.task('common', [ /*'lint'*/ 'prepare-assets', 'prepare-html' ]);
+gulp.task('common', [ /*'lint'*/ 'prepare-assets', 'prepare-html']);
 
 gulp.task('docs', function() {
     return gulp.src(localJSSources.concat(['README.md']))
-	.pipe(jsdoc('./docs'));
+        .pipe(jsdoc('./docs'));
 });
 
 gulp.task('lint', function() {
     return gulp.src(lintSources)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+        .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('prepare-html', function() {
-    return gulp.src([ "app/components/dashboard/*.html",
-              "app/components/monitoring/*.html",
-		      "app/components/topbar/*.html",
-		      "app/components/settings/*.html",
-		      "app/components/widgets/*.html",
-			  "app/components/widgets/**/*.html"
-		    ])
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/html/'));
+    return gulp.src(["app/components/dashboard/*.html",
+            "app/components/monitoring/*.html",
+            "app/components/topbar/*.html",
+            "app/components/settings/*.html",
+            "app/components/widgets/*.html",
+            "app/components/widgets/**/*.html"
+        ])
+        .pipe(duration('Execution Time: '))
+        .pipe(gulp.dest('wwwroot/build/html/'));
 });
 
 gulp.task('prepare-assets', function() {
-    return gulp.src([ "node_modules/ionicons/dist/fonts/ionicons*",
-		      "node_modules/bootstrap/dist/fonts/glyphicons*",
-		      "node_modules/font-awesome/fonts/fontawesome*" ])
-	.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/fonts/'));
+    return gulp.src(["node_modules/ionicons/dist/fonts/ionicons*",
+            "node_modules/bootstrap/dist/fonts/glyphicons*",
+            "node_modules/font-awesome/fonts/fontawesome*"
+        ])
+        .pipe(duration('Execution Time: '))
+        .pipe(gulp.dest('wwwroot/build/fonts/'));
 });
 
 function buildCSS(cssFiles, scssFiles, minify) {
 
     // Compile scss sources first
-   gulp.src(scssFiles)
+    gulp.src(scssFiles)
         .pipe(sass().on('error', sass.logError))
         .pipe(rename("compiled_main.css"))
         .pipe(gulp.dest('app/assets/scss/build'))
@@ -167,42 +171,41 @@ function buildCSS(cssFiles, scssFiles, minify) {
     // Merge with external css sources
     var sources = cssFiles.concat(["app/assets/scss/build/compiled_main.css"]);
     var g = gulp.src(sources)
-	.pipe(concat_css('style.min.css',
-			 { rebaseUrls: false }));
-    if(minify) {
-	g = g.pipe(minify_css({zindex: false}));
+        .pipe(concat_css('style.min.css', { rebaseUrls: false }));
+    if (minify) {
+        g = g.pipe(minify_css({ zindex: false }));
     }
 
-    return  g.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest('wwwroot/build/css/'));
+    return g.pipe(duration('Execution Time: '))
+        .pipe(gulp.dest('wwwroot/build/css/'));
 }
 
 function buildJS(files, destName, destDir, minify) {
     var g = gulp.src(files)
-	.pipe(concat_js(destName));
-    if(minify) {
-	g = g.pipe(minify_js());
+        .pipe(concat_js(destName));
+    if (minify) {
+        g = g.pipe(minify_js());
     }
     return g.pipe(duration('Execution Time: '))
-	.pipe(gulp.dest(destDir));
+        .pipe(gulp.dest(destDir));
 }
 
 function buildBrowser(main, name, dst, minify) {
-    var g = browserify({entries: main, extensions: ['.js', '.ts'], debug: false})
-		.plugin(tsify, { noImplicitAny: true, target: "es5" })
-    	.plugin(collapse)
+    var g = browserify({ entries: main, extensions: ['.js', '.ts'], debug: false })
+        .plugin(tsify, { noImplicitAny: true, target: "es5" })
+        .plugin(collapse)
         .bundle()
-		.on('error', function(err) {
+        .on('error', function(err) {
             console.error(err);
         })
         .pipe(source(name))
-		.pipe(buffer());
+        .pipe(buffer());
 
-    if(minify) {
-	g = g.pipe(minify_js());
+    if (minify) {
+        g = g.pipe(minify_js());
     } else {
-	g = g.pipe(sourcemaps.init({loadMaps: true}))
-	    .pipe(sourcemaps.write('./'));
+        g = g.pipe(sourcemaps.init({ loadMaps: true }))
+            .pipe(sourcemaps.write('./'));
     }
 
     return g.pipe(gulp.dest(dst));
@@ -233,35 +236,33 @@ gulp.task('prepare-css-release', function() {
 });
 
 gulp.task('extract-git-revision', function() {
-	function errFnct(err)
-	{
-		console.error("Unable to get git revision, reason: " + err);
-	}
+    function errFnct(err) {
+        console.error("Unable to get git revision, reason: " + err);
+    }
 
-	function fillRevision(revision)
-	{
-		fs.writeFile("wwwroot/ClientVersion.json", '{"ClientRevision" : "' + revision + '" }', function(err) {
-			if (err)return errFnct(err);
+    function fillRevision(revision) {
+        fs.writeFile("wwwroot/ClientVersion.json", '{"ClientRevision" : "' + revision + '" }', function(err) {
+            if (err) return errFnct(err);
 
-			console.log("Building revision : " + revision);
-		});
-	}
+            console.log("Building revision : " + revision);
+        });
+    }
 
-	git.status({args: '--porcelain'}, function (err, changeList) {
-		if(changeList)
-			fillRevision("unknown");
-		else
-			git.exec({args : 'log -n 1 --format=%H'}, function (err, revision) {
-				if (err)return errFnct(err);
-				fillRevision(revision.trim());
-			});
-	});
+    git.status({ args: '--porcelain' }, function(err, changeList) {
+        if (changeList)
+            fillRevision("unknown");
+        else
+            git.exec({ args: 'log -n 1 --format=%H' }, function(err, revision) {
+                if (err) return errFnct(err);
+                fillRevision(revision.trim());
+            });
+    });
 });
 
 gulp.task('copy-files', function() {
-	if(!argv.dest)
-		throw "Missing destination path; use --dest parameter to indicate the destination folder";
+    if (!argv.dest)
+        throw "Missing destination path; use --dest parameter to indicate the destination folder";
 
-	return gulp.src("wwwroot/**/*")
-		.pipe(gulp.dest(argv.dest));
+    return gulp.src("wwwroot/**/*")
+        .pipe(gulp.dest(argv.dest));
 });
