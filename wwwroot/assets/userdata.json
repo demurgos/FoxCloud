@@ -19,8 +19,31 @@
         "occupancyTimeReset": "1500",
         "heatmap": { 
           "map": "assets/img/map_01.jpg",
-          "data": "assets/heatmap_01.json"
-        }
+          "data": "assets/heatmap_01.json"        
+        },
+        "transforms": [
+          {
+            "_id": "568a49ae78af992414ef675d",
+            "matrix": [ 1, 0, 0, 0, 
+                        0, 1, 0, 0, 
+                        0, 0, 1, 0, 
+                        0, 0, 0, 1 ]
+          },
+          {
+            "_id": "568a49b078af992414ef675e",
+            "matrix": [ 1, 0, 0, 0, 
+                        0, 1, 0, 0, 
+                        0, 0, 1, 0, 
+                        -100, -300, 0, 1 ]
+          },
+          {
+            "_id": "568a49b178af992414ef675f",
+            "matrix": [ 1, 0, 0, 0, 
+                        0, 1, 0, 0, 
+                        0, 0, 1, 0, 
+                        0, 0, 0, 1 ]
+          }
+        ]
       },
       "isadmin": true,
       "items": [
@@ -45,7 +68,23 @@
         "heatmap": {
           "map": "assets/img/map_02.jpg",
           "data": "assets/heatmap_02.json"
-        }
+        },
+        "transforms": [
+          {
+            "_id": "568a49b378af992414ef6760",
+            "matrix": [ 1, 0, 0, 0, 
+                        0, 1, 0, 0, 
+                        0, 0, 1, 0, 
+                        0, 0, 0, 1 ]
+          },
+          {
+            "_id": "568a49b678af992414ef6761",
+            "matrix": [ 1, 0, 0, 0, 
+                        0, 1, 0, 0, 
+                        0, 0, 1, 0, 
+                        0, -300, 0, 1 ]
+          }          
+        ]
       },
       "isadmin": true,
       "items": [

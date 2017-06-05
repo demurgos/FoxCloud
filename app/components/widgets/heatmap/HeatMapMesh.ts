@@ -1,6 +1,6 @@
 import {
     PerspectiveCamera, LinearFilter, WebGLRenderer,
-    OrthographicCamera,
+    OrthographicCamera, Matrix4,
     Mesh, Scene, WebGLRenderTarget,
     Texture, PlaneBufferGeometry,
     NearestFilter, ClampToEdgeWrapping
@@ -18,6 +18,7 @@ export class HeatMapMesh extends Mesh {
     private fbScene: Scene;
     private fbRenderer: WebGLRenderTarget;
     private intensityNorm: number;
+    private intensityMaterial: HeatIntensityMaterial;
 
     constructor(width: number, height: number, intensityNorm?: number, gradientTexture?: Texture) {
         super();
@@ -26,14 +27,15 @@ export class HeatMapMesh extends Mesh {
 
         this.intensityNorm = intensityNorm || 1;
 
-        this.fbCamera = new OrthographicCamera(-width/2, width/2, height/2, -height/2, 0, 1);
+        this.fbCamera = new OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 0, 1);
 
         this.fbScene = new Scene();
         this.fbRenderer = new WebGLRenderTarget(width, height);
 
-        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0,1.0,0.5]);
+        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0, 1.0, 0.5]);
         this.geometry = new PlaneBufferGeometry(width, height, 1, 1);
 
+        this.intensityMaterial = new HeatIntensityMaterial(this.intensityNorm);
     }
 
     public clear(): void {
@@ -46,31 +48,44 @@ export class HeatMapMesh extends Mesh {
     }
 
     public setOpacity(opacity: number): void {
-        (<HeatColorMaterial> this.material).setOpacity(opacity);
+        (<HeatColorMaterial>this.material).setOpacity(opacity);
     }
 
-    public setHeatMapData(data: any[]): void {
+    public setHeatMapData(data: any[], transform?: number[]): void {
         this.clear();
-        let intensityMaterial = new HeatIntensityMaterial(this.intensityNorm);
-        this.fbScene.add(new Mesh(new HeatMapBufferGeometry(data), intensityMaterial));
+        this.addHeatMapData(data, transform);
+    }
+
+    public addHeatMapData(data: any[], transform?: number[]): void {
+        let mesh = new Mesh(new HeatMapBufferGeometry(data), this.intensityMaterial);
+        if(transform) {
+            let mat = new Matrix4().fromArray(transform);
+            mesh.applyMatrix(mat);            
+        }
+        this.fbScene.add(mesh);
+        this.needsUpdate = true;
+    }
+
+    public setVisible(v: boolean): void {
+        this.visible = v;
         this.needsUpdate = true;
     }
 
     public setGradient(gradientTexture?: Texture) {
-        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0,1.0,0.5]);
+        this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0, 1.0, 0.5]);
     }
 
-    public update(renderer: WebGLRenderer): void {            
+    public update(renderer: WebGLRenderer): void {
         if (this.needsUpdate) {
-            if(this.fbRenderer.width === 0) {
+            if (this.fbRenderer.width === 0) {
                 this.setSize(renderer.getSize().width, renderer.getSize().height);
-            }                           
-            renderer.render(this.fbScene, this.fbCamera, this.fbRenderer, true);                                  
+            }
+            renderer.render(this.fbScene, this.fbCamera, this.fbRenderer, true);
             this.needsUpdate = false;
         }
     }
 
-    public setSize(width: number, height: number) {        
+    public setSize(width: number, height: number) {
         this.needsUpdate = true;
     }
 }

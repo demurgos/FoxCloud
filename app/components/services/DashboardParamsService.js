@@ -10,7 +10,7 @@
 	require('./UserService');
 	require('./SiteService');
 	require('./ComputeService');
-	require('../indicators/OccupancyIndicator');	
+	require('../indicators/OccupancyIndicator');
 
 	angular.module('FSCounterAggregatorApp').
 		service('DashboardParamsService',
@@ -59,18 +59,17 @@
 					return UserService.getSettings().
 						then(function (data) {
 
-							var sites = [];
-							var i;
+							let sites = [];
 
-							if (myconfig.debug) {
-								for (i = 0; i < data.sites.length; ++i) {
-									sites.push({
-										id: data.sites[i]._id,
-										name: data.sites[i].name,
-										siteInfo: data.sites[i].siteInfo
-									});
-								}
-								that.sites = sites;
+							if (myconfig.debug) {								
+								that.sites = data.sites.map((site) => {
+									return {
+										id: site._id,
+										name: site.name,
+										siteInfo: site.siteInfo,
+										items: site.items
+									};
+								});
 								return that;
 							} else {
 
@@ -81,7 +80,8 @@
 									sites.push({
 										id: site._id,
 										name: site.name,
-										siteInfo: site.siteInfo
+										siteInfo: site.siteInfo,
+										items: site.items
 									});
 								};
 
@@ -89,7 +89,7 @@
 									console.log(reason);
 								};
 
-								for (i = 0; i < data.sites.length; ++i) {
+								for (let i = 0; i < data.sites.length; ++i) {
 									promises.push(SiteResources.get({ siteId: data.sites[i]._id }).$promise
 										.then(funcAddSite.bind(undefined, sites),
 										funcError));
@@ -123,11 +123,11 @@
 				function loadDataOnPeriod(sites, period) {
 					if (!that.useTimeZone) {
 						return DataService.getRawDataForSitesInInterval(
-							_.compact(sites.map(_.property("id"))),
+							sites,
 							period).
 							then(function (data) {
 								addSiteInfo(sites, data);
-								OccupancyIndicator.compute(data);								
+								OccupancyIndicator.compute(data);
 								return data;
 							});
 					} else {
@@ -149,11 +149,11 @@
 							}
 						});
 						return DataService.getRawDataForSitesInIntervals(
-							_.compact(sites.map(_.property("id"))),
+							sites,
 							periods).
 							then(function (data) {
 								addSiteInfo(sites, data);
-								OccupancyIndicator.compute(data);								
+								OccupancyIndicator.compute(data);
 								convertSiteTimezone(data);
 								return data;
 							});
@@ -189,18 +189,6 @@
 				// must be called in order to remove comparison on widget sides
 				this.disableDataCompared = function () {
 					this.comparedData = undefined;
-				};
-
-				// fab: deprecated use loadData instead
-				this.getSiteData = function (siteId) {
-					return DataService.getRawDataForSiteInInterval(siteId,
-						this.period);
-				};
-
-				// fab: deprecated use loadData instead
-				this.getSitesData = function (sitesId) {
-					return DataService.getRawDataForSitesInInterval(sitesId,
-						this.period);
 				};
 
 			}]);

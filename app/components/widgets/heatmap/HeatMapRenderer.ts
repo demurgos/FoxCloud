@@ -103,9 +103,16 @@ export class HeatMapRenderer {
         this.heatmaps = [];
     }
 
-    public addHeatMap(data: any[], intensityNorm?: number, gradientTexture?: Texture): number {
+    public createHeatMap(intensityNorm?: number, gradientTexture?: Texture): HeatMapMesh {
         let heatmap = new HeatMapMesh(this.params.width, this.params.height, intensityNorm, gradientTexture);
-        heatmap.setHeatMapData(data);
+        this.heatmaps.push(heatmap);
+        this.scene.add(heatmap);
+        return heatmap;
+    }
+
+    public addHeatMap(data: any[], transform?: number[], intensityNorm?: number, gradientTexture?: Texture): number {
+        let heatmap = new HeatMapMesh(this.params.width, this.params.height, intensityNorm, gradientTexture);
+        heatmap.setHeatMapData(data, transform);
         this.heatmaps.push(heatmap);
         this.scene.add(heatmap);
         return this.heatmaps.length - 1;
@@ -113,8 +120,7 @@ export class HeatMapRenderer {
 
     public setHeatMapVisible(id: number, v: boolean): void {
         if (this.heatmaps[id]) {
-            this.heatmaps[id].visible = v;
-            this.heatmaps[id].needsUpdate = true;
+            this.heatmaps[id].setVisible(v);            
         }
     }   
 
