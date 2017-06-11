@@ -17,15 +17,16 @@ export class HeatMapMesh extends Mesh {
     private fbCamera: OrthographicCamera;
     private fbScene: Scene;
     private fbRenderer: WebGLRenderTarget;
-    private intensityNorm: number;
+    private hmComputeOptions: any;
+    private computeFunction: string;
     private intensityMaterial: HeatIntensityMaterial;
 
-    constructor(width: number, height: number, intensityNorm?: number, gradientTexture?: Texture) {
+    constructor(width: number, height: number, hmComputeOptions?: any, gradientTexture?: Texture) {
         super();
 
         this.needsUpdate = true;
 
-        this.intensityNorm = intensityNorm || 1;
+        this.hmComputeOptions = hmComputeOptions;
 
         this.fbCamera = new OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 0, 1);
 
@@ -35,7 +36,7 @@ export class HeatMapMesh extends Mesh {
         this.material = new HeatColorMaterial(this.fbRenderer.texture, gradientTexture, [0.0, 1.0, 0.5]);
         this.geometry = new PlaneBufferGeometry(width, height, 1, 1);
 
-        this.intensityMaterial = new HeatIntensityMaterial(this.intensityNorm);
+        this.intensityMaterial = new HeatIntensityMaterial(hmComputeOptions);
     }
 
     public clear(): void {

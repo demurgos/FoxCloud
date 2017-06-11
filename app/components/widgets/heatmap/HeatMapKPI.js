@@ -30,6 +30,12 @@ angular.module('FSCounterAggregatorApp').
 
                     let textureLoader = new TextureLoader();
 
+                    $scope.kpiOptions = {
+                        function: "Mean",
+                        intensityNorm: 255,
+                        factor: 1
+                    };
+
                     $scope.widgetId = "HeatMapKPIWidget";
                     $scope.siteSelected = undefined;
 
@@ -113,15 +119,28 @@ angular.module('FSCounterAggregatorApp').
                         $scope.update();
                     };
 
-                    function createHeatMap(site, data, renderer, intensityNorm, gradientTexture) {
-                        let heatmap = renderer.createHeatMap(intensityNorm, gradientTexture);
+                    function createHeatMap(site, data, renderer, kpiOptions, gradientTexture) {
+                        let heatmap = renderer.createHeatMap(kpiOptions, gradientTexture);
                         let idx = _.findIndex(data, { id: site.id });
                         site.items.forEach(item => {
                             let trIdx = _.findIndex(site.siteInfo.transforms, { _id: item._id });
                             let hmIdx = _.findIndex(data[idx].heatmap, { id: item._id });
-                            heatmap.addHeatMapData(data[idx].heatmap[hmIdx].data, site.siteInfo.transforms[trIdx].matrix);
+
+                            data[idx].heatmap[hmIdx].data.forEach((heatmapDataElt) => {
+                                heatmap.addHeatMapData(heatmapDataElt.data, site.siteInfo.transforms[trIdx].matrix);
+                            });
+                                                        
                         });
                         return heatmap;
+                    }
+
+                    function updateKPIOptions() {
+                        if($scope.kpiOptions.function === "Mean") {
+                            let ndays = moment.duration($scope.params.period.endDate.diff($scope.params.period.startDate)).asDays();
+                            $scope.kpiOptions.factor = ndays;
+                        } else {
+                            $scope.kpiOptions.factor = 1;
+                        }
                     }
 
                     $scope.update = function () {
@@ -130,7 +149,9 @@ angular.module('FSCounterAggregatorApp').
 
                         if (!$scope.siteSelected || !$scope.siteSelected.siteInfo || !$scope.siteSelected.siteInfo.heatmap) {
                             return false;
-                        }
+                        }                        
+
+                        updateKPIOptions();                    
 
                         textureLoader.load($scope.siteSelected.siteInfo.heatmap.map,
                             (texture) => {
@@ -141,13 +162,13 @@ angular.module('FSCounterAggregatorApp').
                                     (gradientTexture) => {
 
                                         let heatmap = createHeatMap($scope.siteSelected, $scope.params.data,
-                                            $scope.renderer, 255, gradientTexture);
+                                            $scope.renderer, $scope.kpiOptions, gradientTexture);
                                         heatmap.setVisible($scope.heatmapVisible === 0);
 
                                         if ($scope.periodComparisonSelected) {
 
                                             let heatmapComp = createHeatMap($scope.siteSelected, $scope.params.comparedData,
-                                                $scope.renderer, 255, gradientTexture);
+                                                $scope.renderer, $scope.kpiOptions, gradientTexture);
                                             heatmapComp.setVisible($scope.heatmapVisible === 1);
                                         }
 

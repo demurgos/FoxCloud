@@ -1,14 +1,16 @@
-import { ShaderMaterial, VertexColors, 
-         CustomBlending, AdditiveBlending, OneFactor, 
-         AddEquation, MinEquation, MaxEquation } from 'three';
+import {
+    ShaderMaterial, VertexColors,
+    CustomBlending, AdditiveBlending, OneFactor,
+    AddEquation, MinEquation, MaxEquation
+} from 'three';
 
 /**
  * @see https://github.com/pyalot/webgl-heatmap
  */
 export class HeatIntensityMaterial extends ShaderMaterial {
 
-    constructor(intensityNorm?: number) {
-        super({            
+    constructor(hmComputeOptions?: any) {
+        super({
             vertexShader: "attribute vec2 offset;\n" +
             "attribute float height;\n" +
             "uniform float intensityNorm;\n" +
@@ -25,12 +27,34 @@ export class HeatIntensityMaterial extends ShaderMaterial {
             "\tfloat falloff = (1.0 - smoothstep(0.0, 1.0, length(off/dim)));\n" +
             "\tfloat intensity = falloff*vIntensity;\n" +
             "\tgl_FragColor = vec4(intensity);\n}",
-            uniforms: { intensityNorm: { value: intensityNorm || 1.0 } }
+            uniforms: { intensityNorm: { value: 1.0 } }
         });
         this.transparent = true;
+
+        this.setComputeOptions(hmComputeOptions);
+    }
+
+    private setComputeOptions(hmComputeOptions?: any): void {
+
+        const EquationsAssoc: any = {
+            "Mean": AddEquation,
+            "Min": MinEquation,
+            "Max": MaxEquation
+        };
+
+        if (!hmComputeOptions) {
+            hmComputeOptions = {
+                function: "Sum",
+                intensityNorm: 1,
+                factor: 1
+            };
+        }
+
+        this.uniforms.intensityNorm.value = hmComputeOptions.intensityNorm * hmComputeOptions.factor;
+
         this.blending = CustomBlending;
         this.blendSrc = OneFactor;
         this.blendDst = OneFactor;
-        this.blendEquation = AddEquation;        
+        this.blendEquation = EquationsAssoc[hmComputeOptions.function];
     }
 }

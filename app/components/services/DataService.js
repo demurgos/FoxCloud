@@ -71,11 +71,20 @@
           return $http.get("assets/heatmap_01.json")
             .then(function (ret) {
 
-              return {
-                id: itemId,
-                data: ret.data.map((elt) => {
+              var retData = [];
+              for (var ts = period.startDate.clone(); ts.unix() < period.endDate.unix(); ts.add(1, "days")) {
+                retData.push({                 
+                  "time": ts.unix(),
+                  "duration": 86400,
+                  data: ret.data.map((elt) => {
                   return elt.map(e => e + 0.2 * e * Math.random());
                 })
+                })
+              }
+
+              return {
+                id: itemId,
+                data: retData
               }
             });
         } else {
