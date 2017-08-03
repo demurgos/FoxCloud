@@ -5,7 +5,7 @@ tmp
 PhantomJS_*/
 node_modules
 .DS_Store
-dist
+# dist
 npm-debug.log
 .idea
 *#
