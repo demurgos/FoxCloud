@@ -5,6 +5,38 @@
  */
 (function () {
 
+  /**
+   * Converts a "self" resource of the v1 API (ie. `/api/v1/self`) to the legacy format (`/users/current`).
+   *
+   * @param self Self resource in the API v1 format
+   * @return User data in the legacy format used by the application.
+   */
+  function mapApiSelfToLegacyUser(self) {
+    if (self.type !== "user") {
+      throw new Error("Unsupported actor type, expected `user` but received: " + self.type);
+    }
+    var user = {
+      _id: self.id,
+      admin: self.is_global_administrator,
+      email: self.email,
+      enabled: self.is_enabled,
+      name: self.display_name,
+      userInfo: self.app_data
+    };
+    var sites = [];
+    for (var i = 0; i < self.data_nodes.length; i++) {
+      var dataNode = self.data_nodes[i];
+      console.warn("Assuming `isadmin`");
+      sites.push({
+        _id: dataNode.id,
+        isadmin: true,
+        items: []
+      });
+    }
+
+    return {user: user, sites: sites};
+  }
+
 	angular.module('FSCounterAggregatorApp').service('UserService', [
 		"$http",
 		"$resource",
@@ -25,11 +57,12 @@
 			 */
 			this.getSettings = function () {
 				var that = this;
-				var url = myconfig.debug ? "assets/userdata.json" : "/users/current";
+				var url = myconfig.debug ? "assets/userdata.json" : "/api/v1/self";
 				return $http.get(url).
 					then(function (ret) {
-						that.currentUserData = ret.data;
-						return ret.data;
+					  var mapped = mapApiSelfToLegacyUser(ret.data);
+						that.currentUserData = mapped;
+						return mapped;
 					});
 			};
 
